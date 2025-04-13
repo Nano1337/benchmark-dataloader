@@ -1,0 +1,3 @@
+[submodule "litData"]
+	path = litData
+	url = https://github.com/Lightning-AI/litData.git
