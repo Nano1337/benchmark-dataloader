@@ -52,7 +52,7 @@ Through `nproc`, my machine has 16 cpus. To reproduce this table below, simply r
 | WebDataset (WDS) | 17.00 | 9.77 | 1.82 | 14 |
 | MosaicML Dataset (MDS) | 19.00 | 10.35 | 1.67 | 28 |
 
-WDS and MDS results roughly line up with what's reported in the original blogpost. I'm not quite sure why LitData is so much slower than reported...
+WDS and MDS results roughly line up with what's reported in the original blogpost. I'm not quite sure why LitData is so much slower than reported. My hypothesis is that LitData has a lot of startup overhead that might amortize as we scale data. 
 
 ### Streaming
 
