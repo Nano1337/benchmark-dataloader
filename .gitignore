@@ -1,12 +1,18 @@
+# IDE and editor files
 .idea/
-.lightning_studio/
-lightning_data/
 .vscode/
-.env
+.lightning_studio/
 
-# uv
+# Environment files
+.env
 .venv/
 
-# folders
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data directories
 data/
 shards/
+lightning_data/
