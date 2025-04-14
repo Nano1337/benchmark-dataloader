@@ -1,7 +1,0 @@
-kornia
-jsonargparse        
-kaggle
-mosaicml-streaming
-argparse
-torchvision
-webdataset

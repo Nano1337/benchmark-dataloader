@@ -2,3 +2,7 @@
 .lightning_studio/
 lightning_data/
 .vscode/
+.env
+
+# uv
+.venv/
