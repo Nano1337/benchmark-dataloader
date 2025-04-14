@@ -15,3 +15,13 @@ uv sync
 source .venv/bin/activate
 ```
 
+## Data
+
+We will be using a random 42k sample shard from DataComp (~3GB). We will get it from the s3 path stored in a `.env` file in a environment variable called `BENCHMARK_SHARD_PATH`.
+
+Please make sure to set this environment variable before running the benchmark.
+
+This benchmark shard will be downloaded locally into the folder `./data` to be used in the various output format datasets for benchmarking. Please run the following: 
+```bash
+./scripts/download_shard.sh
+```

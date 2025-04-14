@@ -6,3 +6,6 @@ lightning_data/
 
 # uv
 .venv/
+
+# folders
+data/
