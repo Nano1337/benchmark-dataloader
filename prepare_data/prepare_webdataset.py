@@ -43,7 +43,7 @@ def main():
     
     cmd = [
         python_executable,
-        "optimize/webdataset_converter.py",  
+        "prepare_data/webdataset_converter.py",  
         "--data", args.data, 
         "--shards", args.output_dir,
         "--prefix", args.prefix

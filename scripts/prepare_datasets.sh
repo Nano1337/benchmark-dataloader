@@ -62,9 +62,22 @@ check_prerequisites
 # Log outputs to results
 exec > >(tee -a "$RESULTS_FILE") 2>&1
 
+# Clean up or create shards directory
+SHARDS_DIR="./shards"
+if [ -d "$SHARDS_DIR" ]; then
+    echo "Cleaning up existing shards directory..."
+    rm -rf "$SHARDS_DIR"
+fi
+
+# Create fresh shards directory and subdirectories
+echo "Creating fresh shards directory..."
+mkdir -p "$SHARDS_DIR/webdataset"
+mkdir -p "$SHARDS_DIR/mds"
+mkdir -p "$SHARDS_DIR/litdata"
+
 echo "Starting benchmark at $(date)"
 echo "CPU count: $(nproc)"
-echo "" 
+echo ""
 
 # Start the overall timer
 TOTAL_START_TIME=$(date +%s)

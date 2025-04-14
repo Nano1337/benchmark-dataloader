@@ -29,6 +29,18 @@ def parse_args():
         help="Use document_id as key (default: index)"
     )
     parser.add_argument(
+        "--chunk_size",
+        type=int,
+        default=1000,
+        help="Maximum number of samples per chunk"
+    )
+    parser.add_argument(
+        "--chunk_bytes",
+        type=str,
+        default="64MB",
+        help="Maximum chunk size in bytes (e.g. '64MB', '1GB')"
+    )
+    parser.add_argument(
         "--compression",
         default=None,
         help="Compression algorithm to use (e.g. 'zstd')"

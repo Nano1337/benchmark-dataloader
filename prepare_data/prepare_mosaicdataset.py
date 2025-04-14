@@ -63,7 +63,7 @@ def main():
     
     cmd = [
         python_executable,
-        "optimize/mosaicdataset_converter.py",
+        "prepare_data/mosaicdataset_converter.py",
         "--data", args.data, 
         "--out_dir", args.output_dir
     ]
