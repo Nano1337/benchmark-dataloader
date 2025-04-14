@@ -10,7 +10,6 @@ from lightning import seed_everything
 from PIL import Image
 from tqdm import tqdm
 from multiprocessing import Pool
-from utils import load_imagenet_val_class_names, class_names_to_index_map
 
 
 def parse_args() -> Namespace:

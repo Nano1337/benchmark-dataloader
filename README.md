@@ -15,6 +15,13 @@ uv sync
 source .venv/bin/activate
 ```
 
+3. We will need to install `litData` as a module: 
+```bash
+cd litData
+uv pip install -e .
+cd ..
+```
+
 ## Data
 
 We will be using a random 42858 sample shard from DataComp (~3GB). We will get it from the s3 path stored in a `.env` file in a environment variable called `BENCHMARK_SHARD_PATH`.
