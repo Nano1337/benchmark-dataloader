@@ -1,16 +1,71 @@
 import os
 from time import time
-from lightning_sdk import Studio, Machine
+import subprocess
+import argparse
+import sys
+def parse_args():
+    parser = argparse.ArgumentParser("""Prepare WebDataset from parquet file""")
+    parser.add_argument(
+        "--data", 
+        default="./data/benchmark_shard.parquet",
+        help="Path to the parquet file containing image-text data"
+    )
+    parser.add_argument(
+        "--output_dir", 
+        default="./shards/webdataset",
+        help="Directory to store the output WebDataset shards"
+    )
+    parser.add_argument(
+        "--prefix", 
+        default="benchmark",
+        help="Prefix for the output shard files"
+    )
+    parser.add_argument(
+        "--use_doc_id", 
+        action="store_true", 
+        help="Use document_id as key (default: index)"
+    )
+    return parser.parse_args()
 
-studio = Studio(name="imagenet-1m-01", create_ok=True)
-studio.start(machine=Machine.DATA_PREP)
 
-# Upload files
-studio.upload_file("requirements.txt", "requirements.txt")
-studio.run("pip install -r requirements.txt")
-studio.upload_file("imagenet_class_index.json", "imagenet_class_index.json")
+def main():
+    script_start = time()
+    args = parse_args()
+    
+    # Make sure output directory exists
+    os.makedirs(args.output_dir, exist_ok=True)
+    
+    # Optimize with Webdataset
+    print(f"Converting {args.data} to WebDataset format in {args.output_dir}")
+    
+    # Use the current Python executable
+    python_executable = sys.executable
+    
+    cmd = [
+        python_executable,
+        "optimize/webdataset_converter.py",  
+        "--data", args.data, 
+        "--shards", args.output_dir,
+        "--prefix", args.prefix
+    ]
+    
+    # Add use_doc_id flag if specified
+    if args.use_doc_id:
+        cmd.append("--use_doc_id")
+    
+    print(f"Running: {' '.join(cmd)}")
+    
+    # Execute converter with timing
+    converter_start = time()
+    subprocess.run(cmd, check=True)
+    converter_elapsed = time() - converter_start
+    
+    # Calculate and report total script time
+    script_elapsed = time() - script_start
+    print(f"\nTiming Summary:")
+    print(f"  Converter execution time: {converter_elapsed:.2f} seconds")
+    print(f"  Total script time: {script_elapsed:.2f} seconds")
 
-# Optimize with Webdataset
-t0 = time()
-studio.run("python optimize/prepare_webdataset.py --data ./data/ --shards webdataset_imagenet")
-print(time() - t0)
+
+if __name__ == "__main__":
+    main()

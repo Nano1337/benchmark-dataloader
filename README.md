@@ -17,7 +17,7 @@ source .venv/bin/activate
 
 ## Data
 
-We will be using a random 42k sample shard from DataComp (~3GB). We will get it from the s3 path stored in a `.env` file in a environment variable called `BENCHMARK_SHARD_PATH`.
+We will be using a random 42858 sample shard from DataComp (~3GB). We will get it from the s3 path stored in a `.env` file in a environment variable called `BENCHMARK_SHARD_PATH`.
 
 Please make sure to set this environment variable before running the benchmark.
 
@@ -25,3 +25,44 @@ This benchmark shard will be downloaded locally into the folder `./data` to be u
 ```bash
 ./scripts/download_shard.sh
 ```
+
+The parquet dataset I'm working with has the following columns: 
+```python
+Index(['document_id', 'document_metadata', 'image', 'text', 'audio', 'video', 'raw_data'], dtype='object')
+```
+Of which the most important data cols are `image` and `text`. The `image.content` contains the raw bytes of the image while `text.content` contains the corresponding caption in text characters. The `document_id` is the spark-generated uuid of the data sample. 
+
+### Prepare WebDataset
+
+Please run the following:
+```bash
+python optimize/prepare_webdataset.py
+```
+
+### Prepare MDS
+
+Please run the following:
+```bash
+python optimize/prepare_mds.py
+```
+
+### Prepare LitData Dataset
+
+Please run the following:
+```bash
+python optimize/prepare_litdata.py
+```
+
+## Benchmarking
+
+### Data Preparation
+
+Through `nproc`, my machine has 16 cpus. To reproduce this table below, simply run `./scripts/prepare_datasets.sh`.
+
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
+| --- | --- | --- | --- | --- |
+| WebDataset | 18.00 | 10.33 | 1.82 | 14 |
+| MDS | 19.00 | 10.35 | 1.67 | 28 |
+
+These results roughly line up with what's reported in the original blogpost.
+
