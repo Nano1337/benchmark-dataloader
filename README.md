@@ -32,32 +32,12 @@ Index(['document_id', 'document_metadata', 'image', 'text', 'audio', 'video', 'r
 ```
 Of which the most important data cols are `image` and `text`. The `image.content` contains the raw bytes of the image while `text.content` contains the corresponding caption in text characters. The `document_id` is the spark-generated uuid of the data sample. 
 
-### Prepare WebDataset
-
-Please run the following:
-```bash
-python optimize/prepare_webdataset.py
-```
-
-### Prepare MDS
-
-Please run the following:
-```bash
-python optimize/prepare_mds.py
-```
-
-### Prepare LitData Dataset
-
-Please run the following:
-```bash
-python optimize/prepare_litdata.py
-```
 
 ## Benchmarking
 
 ### Data Preparation
 
-Through `nproc`, my machine has 16 cpus. To reproduce this table below, simply run `./scripts/prepare_datasets.sh`.
+Through `nproc`, my machine has 16 cpus. To reproduce this table below, simply run `./scripts/prepare_datasets.sh`. The resulting datasets can be found in `./shards` and be uploaded to your respective s3 bucket for streaming benchmarking.
 
 | Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
 | --- | --- | --- | --- | --- |
@@ -65,4 +45,8 @@ Through `nproc`, my machine has 16 cpus. To reproduce this table below, simply r
 | MDS | 19.00 | 10.35 | 1.67 | 28 |
 
 These results roughly line up with what's reported in the original blogpost.
+
+### Streaming
+
+TODO: maybe make env var for s3 bucket where datasets are streamed from. 
 
