@@ -48,9 +48,9 @@ Through `nproc`, my machine has 16 cpus. To reproduce this table below, simply r
 
 | Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
 | --- | --- | --- | --- | --- |
-| LitData (PL) | 133.00 | 122.80 | 1.64 | 33 |
-| WebDataset (WDS) | 17.00 | 9.66 | 1.82 | 14 |
-| MosaicML Dataset (MDS) | 19.00 | 10.44 | 1.67 | 28 |
+| LitData (PL) | 130.00 | 119.62 | 1.64 | 33 |
+| WebDataset (WDS) | 17.00 | 9.77 | 1.82 | 14 |
+| MosaicML Dataset (MDS) | 19.00 | 10.35 | 1.67 | 28 |
 
 WDS and MDS results roughly line up with what's reported in the original blogpost. I'm not quite sure why LitData is so much slower than reported...
 

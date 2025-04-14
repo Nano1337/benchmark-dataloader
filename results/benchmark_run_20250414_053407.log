@@ -1,0 +1,157 @@
+Cleaning up existing shards directory...
+Creating fresh shards directory...
+Starting benchmark at Mon Apr 14 05:34:07 UTC 2025
+CPU count: 16
+
+
+
+=========================================
+   WEBDATASET BENCHMARK
+   Mon Apr 14 05:34:07 UTC 2025
+=========================================
+
+Reading parquet file: ./data/benchmark_shard.parquet
+Loaded 42858 samples from parquet file
+Processing all 42858 samples as train split
+Processing dataset:   0%|          | 0/42858 [00:00<?, ?it/s]Processing dataset:   1%|          | 408/42858 [00:00<00:10, 4071.38it/s]Processing dataset:   2%|▏         | 840/42858 [00:00<00:09, 4216.64it/s]Processing dataset:   3%|▎         | 1275/42858 [00:00<00:09, 4277.00it/s]Processing dataset:   4%|▍         | 1713/42858 [00:00<00:09, 4316.86it/s]Processing dataset:   5%|▌         | 2150/42858 [00:00<00:09, 4335.45it/s]Processing dataset:   6%|▌         | 2589/42858 [00:00<00:09, 4352.02it/s]Processing dataset:   7%|▋         | 3025/42858 [00:00<00:09, 4351.62it/s]Processing dataset:   8%|▊         | 3462/42858 [00:00<00:09, 4357.38it/s]Processing dataset:   9%|▉         | 3906/42858 [00:00<00:08, 4381.76it/s]Processing dataset:  10%|█         | 4346/42858 [00:01<00:08, 4387.15it/s]Processing dataset:  11%|█         | 4789/42858 [00:01<00:08, 4397.90it/s]Processing dataset:  12%|█▏        | 5230/42858 [00:01<00:08, 4398.73it/s]Processing dataset:  13%|█▎        | 5675/42858 [00:01<00:08, 4411.68it/s]Processing dataset:  14%|█▍        | 6118/42858 [00:01<00:08, 4414.63it/s]Processing dataset:  15%|█▌        | 6560/42858 [00:01<00:08, 4383.56it/s]Processing dataset:  16%|█▋        | 7007/42858 [00:01<00:08, 4408.41it/s]Processing dataset:  17%|█▋        | 7450/42858 [00:01<00:08, 4414.83it/s]Processing dataset:  18%|█▊        | 7892/42858 [00:01<00:07, 4409.99it/s]Processing dataset:  19%|█▉        | 8334/42858 [00:01<00:07, 4409.53it/s]Processing dataset:  20%|██        | 8778/42858 [00:02<00:07, 4418.52it/s]Processing dataset:  22%|██▏       | 9223/42858 [00:02<00:07, 4427.55it/s]Processing dataset:  23%|██▎       | 9666/42858 [00:02<00:07, 4419.76it/s]Processing dataset:  24%|██▎       | 10108/42858 [00:02<00:07, 4406.60it/s]Processing dataset:  25%|██▍       | 10552/42858 [00:02<00:07, 4415.31it/s]Processing dataset:  26%|██▌       | 10994/42858 [00:02<00:07, 4412.21it/s]Processing dataset:  27%|██▋       | 11442/42858 [00:02<00:07, 4431.96it/s]Processing dataset:  28%|██▊       | 11886/42858 [00:02<00:07, 4418.91it/s]Processing dataset:  29%|██▉       | 12335/42858 [00:02<00:06, 4440.01it/s]Processing dataset:  30%|██▉       | 12780/42858 [00:02<00:06, 4421.84it/s]Processing dataset:  31%|███       | 13223/42858 [00:03<00:06, 4410.94it/s]Processing dataset:  32%|███▏      | 13670/42858 [00:03<00:06, 4426.29it/s]Processing dataset:  33%|███▎      | 14113/42858 [00:03<00:06, 4426.65it/s]Processing dataset:  34%|███▍      | 14558/42858 [00:03<00:06, 4431.72it/s]Processing dataset:  35%|███▌      | 15002/42858 [00:03<00:06, 4433.00it/s]Processing dataset:  36%|███▌      | 15446/42858 [00:03<00:06, 4429.70it/s]Processing dataset:  37%|███▋      | 15889/42858 [00:03<00:06, 4429.30it/s]Processing dataset:  38%|███▊      | 16332/42858 [00:03<00:06, 4419.68it/s]Processing dataset:  39%|███▉      | 16775/42858 [00:03<00:05, 4421.74it/s]Processing dataset:  40%|████      | 17218/42858 [00:03<00:05, 4408.80it/s]Processing dataset:  41%|████      | 17660/42858 [00:04<00:05, 4411.48it/s]Processing dataset:  42%|████▏     | 18104/42858 [00:04<00:05, 4418.09it/s]Processing dataset:  43%|████▎     | 18550/42858 [00:04<00:05, 4429.70it/s]Processing dataset:  44%|████▍     | 18995/42858 [00:04<00:05, 4433.01it/s]Processing dataset:  45%|████▌     | 19439/42858 [00:04<00:05, 4428.79it/s]Processing dataset:  46%|████▋     | 19882/42858 [00:04<00:05, 4408.11it/s]Processing dataset:  47%|████▋     | 20325/42858 [00:04<00:05, 4413.37it/s]Processing dataset:  48%|████▊     | 20772/42858 [00:04<00:04, 4427.50it/s]Processing dataset:  50%|████▉     | 21215/42858 [00:04<00:04, 4424.69it/s]Processing dataset:  51%|█████     | 21661/42858 [00:04<00:04, 4433.68it/s]Processing dataset:  52%|█████▏    | 22105/42858 [00:05<00:04, 4425.59it/s]Processing dataset:  53%|█████▎    | 22548/42858 [00:05<00:04, 4417.81it/s]Processing dataset:  54%|█████▎    | 22990/42858 [00:05<00:04, 4414.75it/s]Processing dataset:  55%|█████▍    | 23436/42858 [00:05<00:04, 4426.57it/s]Processing dataset:  56%|█████▌    | 23884/42858 [00:05<00:04, 4440.61it/s]Processing dataset:  57%|█████▋    | 24329/42858 [00:05<00:04, 4431.93it/s]Processing dataset:  58%|█████▊    | 24776/42858 [00:05<00:04, 4441.35it/s]Processing dataset:  59%|█████▉    | 25223/42858 [00:05<00:03, 4448.24it/s]Processing dataset:  60%|█████▉    | 25668/42858 [00:05<00:03, 4379.23it/s]Processing dataset:  61%|██████    | 26107/42858 [00:05<00:03, 4381.51it/s]Processing dataset:  62%|██████▏   | 26546/42858 [00:06<00:03, 4372.14it/s]Processing dataset:  63%|██████▎   | 26992/42858 [00:06<00:03, 4396.54it/s]Processing dataset:  64%|██████▍   | 27433/42858 [00:06<00:03, 4399.74it/s]Processing dataset:  65%|██████▌   | 27876/42858 [00:06<00:03, 4408.30it/s]Processing dataset:  66%|██████▌   | 28317/42858 [00:06<00:03, 4403.51it/s]Processing dataset:  67%|██████▋   | 28758/42858 [00:06<00:03, 4404.46it/s]Processing dataset:  68%|██████▊   | 29199/42858 [00:06<00:03, 4374.97it/s]Processing dataset:  69%|██████▉   | 29643/42858 [00:06<00:03, 4393.16it/s]Processing dataset:  70%|███████   | 30083/42858 [00:06<00:02, 4384.63it/s]Processing dataset:  71%|███████   | 30527/42858 [00:06<00:02, 4400.67it/s]Processing dataset:  72%|███████▏  | 30968/42858 [00:07<00:02, 4394.34it/s]Processing dataset:  73%|███████▎  | 31408/42858 [00:07<00:02, 4395.94it/s]Processing dataset:  74%|███████▍  | 31848/42858 [00:07<00:02, 4394.90it/s]Processing dataset:  75%|███████▌  | 32288/42858 [00:07<00:02, 4365.33it/s]Processing dataset:  76%|███████▋  | 32728/42858 [00:07<00:02, 4375.37it/s]Processing dataset:  77%|███████▋  | 33172/42858 [00:07<00:02, 4394.63it/s]Processing dataset:  78%|███████▊  | 33612/42858 [00:07<00:02, 4348.56it/s]Processing dataset:  79%|███████▉  | 34050/42858 [00:07<00:02, 4357.56it/s]Processing dataset:  80%|████████  | 34489/42858 [00:07<00:01, 4366.14it/s]Processing dataset:  82%|████████▏ | 34933/42858 [00:07<00:01, 4384.98it/s]Processing dataset:  83%|████████▎ | 35372/42858 [00:08<00:01, 4372.47it/s]Processing dataset:  84%|████████▎ | 35810/42858 [00:08<00:01, 4370.75it/s]Processing dataset:  85%|████████▍ | 36251/42858 [00:08<00:01, 4381.92it/s]Processing dataset:  86%|████████▌ | 36691/42858 [00:08<00:01, 4386.12it/s]Processing dataset:  87%|████████▋ | 37130/42858 [00:08<00:01, 4387.24it/s]Processing dataset:  88%|████████▊ | 37569/42858 [00:08<00:01, 4386.57it/s]Processing dataset:  89%|████████▊ | 38008/42858 [00:08<00:01, 4375.94it/s]Processing dataset:  90%|████████▉ | 38446/42858 [00:08<00:01, 4368.57it/s]Processing dataset:  91%|█████████ | 38883/42858 [00:08<00:00, 4346.00it/s]Processing dataset:  92%|█████████▏| 39325/42858 [00:08<00:00, 4367.52it/s]Processing dataset:  93%|█████████▎| 39769/42858 [00:09<00:00, 4387.92it/s]Processing dataset:  94%|█████████▍| 40210/42858 [00:09<00:00, 4391.62it/s]Processing dataset:  95%|█████████▍| 40655/42858 [00:09<00:00, 4407.38it/s]Processing dataset:  96%|█████████▌| 41102/42858 [00:09<00:00, 4424.68it/s]Processing dataset:  97%|█████████▋| 41545/42858 [00:09<00:00, 4410.30it/s]Processing dataset:  98%|█████████▊| 41987/42858 [00:09<00:00, 4365.35it/s]Processing dataset:  99%|█████████▉| 42424/42858 [00:09<00:00, 4329.09it/s]Processing dataset: 100%|██████████| 42858/42858 [00:09<00:00, 4395.57it/s]
+Dataset processed. Output in ./shards/webdataset/
+Dataset write time: 9.77 seconds
+Total script execution time: 15.14 seconds
+Converting ./data/benchmark_shard.parquet to WebDataset format in ./shards/webdataset
+Running: /home/ec2-user/benchmark-dataloader/.venv/bin/python prepare_data/webdataset_converter.py --data ./data/benchmark_shard.parquet --shards ./shards/webdataset --prefix benchmark
+
+Timing Summary:
+  Converter execution time: 17.35 seconds
+  Total script time: 17.35 seconds
+
+
+=========================================
+   MOSAICML MDS BENCHMARK
+   Mon Apr 14 05:34:24 UTC 2025
+=========================================
+
+Reading parquet file: ./data/benchmark_shard.parquet
+Loaded 42858 samples from parquet file
+Using 16 worker processes
+Writing 42858 samples to MDS format at: ./shards/mds
+  0%|          | 0/42858 [00:00<?, ?it/s]  4%|▎         | 1592/42858 [00:00<00:02, 15911.90it/s]  7%|▋         | 3184/42858 [00:00<00:03, 10493.80it/s] 10%|█         | 4338/42858 [00:00<00:04, 8772.77it/s]  12%|█▏        | 5281/42858 [00:00<00:04, 7688.31it/s] 15%|█▍        | 6419/42858 [00:00<00:04, 7401.14it/s] 19%|█▊        | 7995/42858 [00:00<00:04, 7819.10it/s] 22%|██▏       | 9534/42858 [00:01<00:04, 8018.94it/s] 26%|██▌       | 11113/42858 [00:01<00:03, 8213.58it/s] 30%|██▉       | 12709/42858 [00:01<00:03, 8362.93it/s] 33%|███▎      | 14337/42858 [00:01<00:03, 8499.73it/s] 37%|███▋      | 15940/42858 [00:01<00:03, 8566.61it/s] 41%|████      | 17543/42858 [00:02<00:02, 8611.64it/s] 45%|████▍     | 19178/42858 [00:02<00:02, 8681.54it/s] 48%|████▊     | 20772/42858 [00:02<00:02, 8675.34it/s] 52%|█████▏    | 22364/42858 [00:02<00:02, 8672.63it/s] 56%|█████▌    | 24000/42858 [00:02<00:02, 8712.98it/s] 60%|█████▉    | 25599/42858 [00:02<00:01, 8710.47it/s] 64%|██████▎   | 27222/42858 [00:03<00:01, 8742.15it/s] 67%|██████▋   | 28782/42858 [00:03<00:01, 8686.68it/s] 71%|███████   | 30390/42858 [00:03<00:01, 8710.37it/s] 75%|███████▍  | 32037/42858 [00:03<00:01, 8774.13it/s] 79%|███████▊  | 33668/42858 [00:03<00:01, 8794.84it/s] 82%|████████▏ | 35224/42858 [00:04<00:00, 8725.15it/s] 86%|████████▌ | 36831/42858 [00:04<00:00, 8738.71it/s] 90%|████████▉ | 38455/42858 [00:04<00:00, 8754.42it/s] 93%|█████████▎| 40043/42858 [00:04<00:00, 8735.30it/s] 97%|█████████▋| 41665/42858 [00:04<00:00, 8762.49it/s]100%|██████████| 42858/42858 [00:04<00:00, 8790.11it/s]
+Successfully wrote MDS dataset to ./shards/mds
+Conversion completed in 10.35 seconds
+Converting ./data/benchmark_shard.parquet to MDS format in ./shards/mds
+Running: /home/ec2-user/benchmark-dataloader/.venv/bin/python prepare_data/mosaicdataset_converter.py --data ./data/benchmark_shard.parquet --out_dir ./shards/mds
+MDS conversion completed in 14.50 seconds
+
+
+=========================================
+   LITDATA BENCHMARK
+   Mon Apr 14 05:34:43 UTC 2025
+=========================================
+
+Seed set to 42
+Reading parquet file: ./data/benchmark_shard.parquet
+Loaded 42858 samples from parquet file
+Preparing data samples...
+  0%|          | 0/42858 [00:00<?, ?it/s]  7%|▋         | 2932/42858 [00:00<00:01, 29311.08it/s] 14%|█▎        | 5864/42858 [00:00<00:01, 28919.37it/s] 21%|██        | 8814/42858 [00:00<00:01, 29178.49it/s] 27%|██▋       | 11774/42858 [00:00<00:01, 29340.13it/s] 34%|███▍      | 14726/42858 [00:00<00:00, 29402.06it/s] 41%|████▏     | 17687/42858 [00:00<00:00, 29470.40it/s] 48%|████▊     | 20637/42858 [00:00<00:00, 29477.87it/s] 55%|█████▌    | 23605/42858 [00:00<00:00, 29540.44it/s] 62%|██████▏   | 26563/42858 [00:00<00:00, 29552.28it/s] 69%|██████▉   | 29527/42858 [00:01<00:00, 29578.50it/s] 76%|███████▌  | 32485/42858 [00:01<00:00, 29555.30it/s] 83%|████████▎ | 35448/42858 [00:01<00:00, 29576.66it/s] 90%|████████▉ | 38406/42858 [00:01<00:00, 29561.62it/s] 97%|█████████▋| 41363/42858 [00:01<00:00, 29408.45it/s]100%|██████████| 42858/42858 [00:01<00:00, 29443.39it/s]
+Converting 42858 samples to LitData format...
+Create an account on https://lightning.ai/ to optimize your data faster using multiple nodes and large machines.
+Setting multiprocessing start_method to spawn. 
+Storing the files under /home/ec2-user/benchmark-dataloader/shards/litdata
+Setup started with fast_dev_run=False.
+Setup finished in 0.001 seconds. Found 42858 items to process.
+Starting 16 workers with 42858 items. The progress bar is only updated when a worker finishes.
+/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (67.0 MB). The current chunk will be 67.0 MB in size.
+  warnings.warn(
+Rank 0 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 0 is terminating.
+Worker 0 is done.
+Rank 1 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 1 is terminating.
+Worker 1 is done.
+Rank 2 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 2 is terminating.
+Worker 2 is done.
+Rank 3 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 3 is terminating.
+Worker 3 is done.
+/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (67.0 MB). The current chunk will be 67.0 MB in size.
+  warnings.warn(
+Rank 4 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 4 is terminating.
+Worker 4 is done.
+/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (67.0 MB). The current chunk will be 67.0 MB in size.
+  warnings.warn(
+Rank 5 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 5 is terminating.
+Worker 5 is done.
+Rank 6 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 6 is terminating.
+Worker 6 is done.
+Rank 7 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 7 is terminating.
+Worker 7 is done.
+Rank 8 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 8 is terminating.
+Worker 8 is done.
+Rank 9 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 9 is terminating.
+Worker 9 is done.
+Rank 10 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 10 is terminating.
+Worker 10 is done.
+Rank 11 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 11 is terminating.
+Worker 11 is done.
+Rank 12 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 12 is terminating.
+Worker 12 is done.
+Rank 13 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 13 is terminating.
+Worker 13 is done.
+Rank 14 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 14 is terminating.
+Worker 14 is done.
+Workers are ready ! Starting data processing...
+
+Progress:   0%|          | 0/42858 [00:00<?, ?it/s][A
+Progress:  98%|█████████▊| 41839/42858 [00:02<00:00, 20329.78it/s][ARank 15 inferred the following `['str', 'bytes', 'str']` data format.
+Worker 15 is terminating.
+Worker 15 is done.
+Progress: 100%|██████████| 42858/42858 [00:06<00:00, 6368.94it/s] 
+Workers are finished.
+Finished data processing!
+
+LitData statistics:
+  Output directory: ./shards/litdata
+  Number of samples: 42858
+  Number of files created: 33
+
+Timing Summary:
+  Dataset write time: 119.62 seconds
+  Total script time: 125.19 seconds
+Converting ./data/benchmark_shard.parquet to LitData format in ./shards/litdata
+Running: /home/ec2-user/benchmark-dataloader/.venv/bin/python prepare_data/litdata_converter.py --data ./data/benchmark_shard.parquet --out_dir ./shards/litdata --prefix benchmark
+
+Timing Summary:
+  Dataset write time: 130.20 seconds
+  Total script time: 130.21 seconds
+
+
+=========================================
+   BENCHMARK SUMMARY
+   Mon Apr 14 05:36:53 UTC 2025
+=========================================
+
+BENCHMARK SUMMARY
+Date: Mon Apr 14 05:36:53 UTC 2025
+CPU Count: 16
+
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
+| --- | --- | --- | --- | --- |
+| LitData (PL) | 130.00 | 119.62 | 1.64 | 33 |
+| WebDataset (WDS) | 17.00 | 9.77 | 1.82 | 14 |
+| MosaicML Dataset (MDS) | 19.00 | 10.35 | 1.67 | 28 |
+
+Total benchmark time: 166.00 seconds
+
+Benchmark complete! Summary saved to results/summary_20250414_053407.txt
+Full logs available at results/benchmark_run_20250414_053407.log

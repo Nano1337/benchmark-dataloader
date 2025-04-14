@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # Start dataset write timing
     dataset_write_start = time()
     
-    # NOTE: Must call optimize directly in __main__ otherwise we get multiprocessing errors
+    # NOTE: Must call optimize() directly in __main__ otherwise we get multiprocessing errors
     # related issue: https://github.com/Lightning-AI/litData/issues/305
     optimize(
         fn=optimize_fn,
@@ -164,8 +164,6 @@ if __name__ == '__main__':
         num_workers=num_workers,
         reorder_files=False,
         fast_dev_run=False,
-        num_downloaders=4,  # Optimize I/O
-        num_uploaders=4     # Optimize I/O
     )
     
     # End dataset write timing
