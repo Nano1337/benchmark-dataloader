@@ -66,5 +66,13 @@ My hypothesis after running the benchmark and watching active RAM utilization me
 
 ### Streaming
 
-TODO: maybe make env var for s3 bucket where datasets are streamed from. 
+To run streaming benchmarks, please set the env var `S3_BENCHMARK_DATA_PATH` to the s3 path of the dataset you want to benchmark containing directories `webdataset`, `mds`, and `litdata`. Then run `./scripts/stream_datasets.sh`.
 
+CPU Count: 16
+Configuration: Batch Size = 256, Workers = 8
+
+| Dataset | Throughput (img/s) | Samples | Epoch 1 (s) | Epoch 2 (s) | Processing Time (s) | Wall Time (s) |
+| --- | --- | --- | --- | --- | --- | --- |
+| WebDataset | 2048.81 | 85716 | 23.10 | 18.73 | 41.84 | 46.34 |
+| MosaicML MDS | 2066.48 | 85716 | 25.14 | 16.34 | 41.48 | 45.98 |
+| LitData | 2495.73 | 85716 | 18.89 | 15.45 | 34.35 | 39.57 |
