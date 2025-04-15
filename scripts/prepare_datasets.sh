@@ -26,7 +26,7 @@ print_header() {
 
 # Check if data file exists
 check_prerequisites() {
-    if [ ! -f "./data/benchmark_shard.parquet" ]; then
+    if [ ! -f "./data/benchmark_shard.parquet" ] && [ ! -d "./data/benchmark_shard.parquet/" ]; then
         echo "Error: Benchmark data not found. Please run ./scripts/download_shard.sh first."
         exit 1
     fi
@@ -35,6 +35,7 @@ check_prerequisites() {
     mkdir -p results
     mkdir -p shards/webdataset
     mkdir -p shards/mds
+    mkdir -p shards/litdata
 }
 
 # Calculate directory size in MB and count files

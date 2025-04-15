@@ -54,6 +54,16 @@ Through `nproc`, my machine has 16 cpus. To reproduce this table below, simply r
 
 WDS and MDS results roughly line up with what's reported in the original blogpost. I'm not quite sure why LitData is so much slower than reported. My hypothesis is that LitData has a lot of startup overhead that might amortize as we scale data. 
 
+Scaling this up and running on 6GB of parquet data (with machine RAM limited to 40GB, noting that uncompressed data can grow substantially) yields these results:
+
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
+| --- | --- | --- | --- | --- |
+| LitData (PL) | 269.00 | 243.87 | 5.54 | 97 |
+| WebDataset (WDS) | 95.00 | 39.07 | 6.32 | 46 |
+| MosaicML Dataset (MDS) | 39.00 | 29.32 | 5.71 | 93 |
+
+My hypothesis after running the benchmark and watching active RAM utilization metrics using `watch free -h`, LitData is using a lot more RAM, especially when the workers start to write out the .bin files. I assume this happens bc each worker is decompressing and making a copy (via writing out the raw byte sequences) of the data to put in the .bin file. This might also be the reason why the workers are slow and seem to run in sequence rather than parallel, as they are RAM-aware and need to wait for the previous worker to finish before they can start. If we use a larger resource cluster with much more RAM, I wonder if LitData would run faster? 
+
 ### Streaming
 
 TODO: maybe make env var for s3 bucket where datasets are streamed from. 

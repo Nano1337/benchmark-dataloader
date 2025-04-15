@@ -13,6 +13,7 @@ __pycache__/
 *$py.class
 
 # Data directories
+data_unit_test/
 data/
 shards/
 lightning_data/
