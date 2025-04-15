@@ -2,9 +2,10 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-RESULTS_FILE="results/benchmark_run_${TIMESTAMP}.log"
-SUMMARY_FILE="results/summary_${TIMESTAMP}.txt"
-TMP_LOG="results/tmp_$TIMESTAMP.log"
+LOG_DIR="results/processing"
+RESULTS_FILE="${LOG_DIR}/benchmark_run_${TIMESTAMP}.log"
+SUMMARY_FILE="${LOG_DIR}/summary_${TIMESTAMP}.txt"
+TMP_LOG="${LOG_DIR}/tmp_$TIMESTAMP.log"
 
 # Format numbers according to specifications
 format_time() {
@@ -33,6 +34,7 @@ check_prerequisites() {
 
     # Create output directories
     mkdir -p results
+    mkdir -p ${LOG_DIR}
     mkdir -p shards/webdataset
     mkdir -p shards/mds
     mkdir -p shards/litdata
@@ -171,6 +173,9 @@ cat "$SUMMARY_FILE"
 echo ""
 echo "Benchmark complete! Summary saved to $SUMMARY_FILE"
 echo "Full logs available at $RESULTS_FILE"
+
+# Also save a copy to the main results directory for convenience
+cp "$SUMMARY_FILE" "results/latest_summary.txt"
 
 # Clean up temp file
 rm -f "$TMP_LOG"

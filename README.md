@@ -48,21 +48,19 @@ Through `nproc`, my machine has 16 cpus. To reproduce this table below, simply r
 
 | Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
 | --- | --- | --- | --- | --- |
-| LitData (PL) | 130.00 | 119.62 | 1.64 | 33 |
-| WebDataset (WDS) | 17.00 | 9.77 | 1.82 | 14 |
-| MosaicML Dataset (MDS) | 19.00 | 10.35 | 1.67 | 28 |
-
-WDS and MDS results roughly line up with what's reported in the original blogpost. I'm not quite sure why LitData is so much slower than reported. My hypothesis is that LitData has a lot of startup overhead that might amortize as we scale data. 
+| LitData (PL) | 22.00 | 17.24 | 1.64 | 28 |
+| WebDataset (WDS) | 42.00 | 9.72 | 1.82 | 14 |
+| MosaicML Dataset (MDS) | 18.00 | 10.45 | 1.67 | 28 |
 
 Scaling this up and running on 6GB of parquet data (with machine RAM limited to 40GB, noting that uncompressed data can grow substantially) yields these results:
 
 | Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
 | --- | --- | --- | --- | --- |
-| LitData (PL) | 269.00 | 243.87 | 5.54 | 97 |
-| WebDataset (WDS) | 95.00 | 39.07 | 6.32 | 46 |
-| MosaicML Dataset (MDS) | 39.00 | 29.32 | 5.71 | 93 |
+| LitData (PL) | 48.00 | 43.77 | 5.54 | 105 |
+| WebDataset (WDS) | 51.00 | 38.73 | 6.32 | 46 |
+| MosaicML Dataset (MDS) | 42.00 | 34.04 | 5.71 | 93 |
 
-My hypothesis after running the benchmark and watching active RAM utilization metrics using `watch free -h`, LitData is using a lot more RAM, especially when the workers start to write out the .bin files. I assume this happens bc each worker is decompressing and making a copy (via writing out the raw byte sequences) of the data to put in the .bin file. This might also be the reason why the workers are slow and seem to run in sequence rather than parallel, as they are RAM-aware and need to wait for the previous worker to finish before they can start. If we use a larger resource cluster with much more RAM, I wonder if LitData would run faster? 
+My hypothesis after running the benchmark and watching active RAM utilization metrics using `watch free -h`, LitData is using a lot more RAM, especially when the workers start to write out the .bin files. I assume this happens bc each worker is decompressing and making a copy (via writing out the raw byte sequences) of the data to put in the .bin file. What happens if we run this on a machine with much more RAM?
 
 ### Streaming
 

@@ -23,7 +23,7 @@ def parse_args():
         '--data',
         type=str,
         default='./data/benchmark_shard.parquet',
-        help='Path to the parquet file containing image-text data',
+        help='Path to the parquet file or directory containing image-text data',
     )
     parser.add_argument(
         '--out_dir',
@@ -69,55 +69,74 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_parquet_data(parquet_file):
-    """Load data from parquet file and prepare for conversion."""
-    print(f"Reading parquet file: {parquet_file}")
-    table = pq.read_table(parquet_file)
-    df = table.to_pandas()
-    print(f"Loaded {len(df)} samples from parquet file")
-    return df
+def get_parquet_files(data_path):
+    """Get list of parquet files from the provided path.
+    If data_path is a directory, finds all parquet files within it.
+    If data_path is a file, returns it as a single-item list.
+    """
+    if os.path.isdir(data_path):
+        # Find all parquet files in directory
+        files = []
+        for root, _, filenames in os.walk(data_path):
+            for filename in filenames:
+                if filename.endswith('.parquet'):
+                    files.append(os.path.join(root, filename))
+        print(f"Found {len(files)} parquet files in directory: {data_path}")
+        return sorted(files)
+    elif os.path.isfile(data_path) and data_path.endswith('.parquet'):
+        # Single parquet file
+        print(f"Using single parquet file: {data_path}")
+        return [data_path]
+    else:
+        raise ValueError(f"Invalid data path: {data_path}. Must be a parquet file or directory containing parquet files.")
 
 
-def prepare_input_data(df, use_doc_id=False):
-    """Prepare input data for LitData optimization."""
-    inputs = []
-    print("Preparing data samples...")
-    for idx, row in tqdm(df.iterrows(), total=len(df)):
+def count_samples_in_parquet_files(parquet_files):
+    """Efficiently count total number of samples across all parquet files.
+    Uses PyArrow to get row counts without loading data into memory.
+    """
+    print("Counting total number of samples...")
+    total_samples = 0
+    for file_path in tqdm(parquet_files, desc="Counting samples"):
         try:
-            # Extract image and text content
-            image_bytes = row['image']['content']
-            text = row['text']['content']
-            doc_id = row['document_id'] if 'document_id' in row and use_doc_id else f"sample_{idx}"
-            
-            # Add to inputs list
-            inputs.append({
-                "idx": idx,
-                "doc_id": doc_id,
-                "image_bytes": image_bytes,
-                "text": text
-            })
+            # Get metadata only to efficiently count rows
+            metadata = pq.read_metadata(file_path)
+            total_samples += metadata.num_rows
         except Exception as e:
-            print(f"Error processing row {idx}: {e}")
-    
-    return inputs
+            print(f"Error counting samples in {file_path}: {e}")
+    return total_samples
 
 
-def optimize_fn(sample):
+def optimize_fn(parquet_file, use_doc_id=False):
     """Processing function for LitData optimize.
-    Takes a sample dictionary and returns the formatted data.
+    Takes a parquet file path, processes rows, and yields formatted data samples.
     Like WebDataset and MosaicML, we store raw bytes directly instead of PIL objects.
     """
     try:
-        # Store raw image bytes directly - no need to decompress/recompress
-        # This matches how WebDataset and MosaicML store the data
-        return {
-            "id": sample['doc_id'],
-            "image_bytes": sample['image_bytes'],  # Raw bytes, more efficient
-            "text": sample['text']
-        }
+        # Read parquet file within worker process
+        print(f"Worker processing parquet file: {parquet_file}")
+        table = pq.read_table(parquet_file)
+        df = table.to_pandas()
+        
+        # Process each row
+        for idx, row in enumerate(df.itertuples()):
+            try:
+                # Extract image and text content
+                image_bytes = row.image['content']
+                text = row.text['content']
+                doc_id = row.document_id if hasattr(row, 'document_id') and use_doc_id else f"sample_{idx}"
+                
+                # Yield formatted data - no decompression needed
+                yield {
+                    "id": doc_id,
+                    "image_bytes": image_bytes,  # Raw bytes, more efficient
+                    "text": text
+                }
+            except Exception as e:
+                print(f"Error processing sample {idx} in {parquet_file}: {e}")
+                continue
     except Exception as e:
-        print(f"Error in optimize_fn: {e}")
-        return None
+        print(f"Error processing file {parquet_file}: {e}")
 
 
 def count_output_files(output_dir):
@@ -142,25 +161,34 @@ if __name__ == '__main__':
     # Ensure output directory exists
     os.makedirs(args.out_dir, exist_ok=True)
     
-    # Load and prepare data
-    df = load_parquet_data(args.data)
-    inputs = prepare_input_data(df, args.use_doc_id)
-    print(f"Converting {len(inputs)} samples to LitData format...")
+    # Get parquet file paths instead of loading data
+    parquet_files = get_parquet_files(args.data)
+    print(f"Processing {len(parquet_files)} parquet files...")
+    
+    # Efficiently count samples across all parquet files
+    total_samples = count_samples_in_parquet_files(parquet_files)
+    print(f"Found {total_samples} total samples across all parquet files")
     
     # Set number of workers if not specified
     num_workers = args.num_workers if args.num_workers is not None else os.cpu_count()
+    num_workers = min(num_workers, len(parquet_files))  # Don't use more workers than files
+    
+    # Create partial function with use_doc_id parameter
+    from functools import partial
+    process_fn = partial(optimize_fn, use_doc_id=args.use_doc_id)
     
     # Start dataset write timing
     dataset_write_start = time()
     
+    # Pass file paths to optimize() and let workers handle data loading/processing
     # NOTE: Must call optimize() directly in __main__ otherwise we get multiprocessing errors
     # related issue: https://github.com/Lightning-AI/litData/issues/305
     optimize(
-        fn=optimize_fn,
-        inputs=inputs,
+        fn=process_fn,
+        inputs=parquet_files, 
         output_dir=args.out_dir,
-        chunk_bytes=args.chunk_bytes,  # Match WebDataset/MDS chunk size
-        compression=args.compression,  # Enable compression
+        chunk_bytes=args.chunk_bytes, 
+        compression=args.compression, 
         num_workers=num_workers,
         reorder_files=False,
         fast_dev_run=False,
@@ -177,7 +205,7 @@ if __name__ == '__main__':
     
     print(f"\nLitData statistics:")
     print(f"  Output directory: {args.out_dir}")
-    print(f"  Number of samples: {len(inputs)}")
+    print(f"  Number of samples: {total_samples}")
     print(f"  Number of files created: {file_count}")
     
     print(f"\nTiming Summary:")
