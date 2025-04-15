@@ -76,3 +76,11 @@ Configuration: Batch Size = 256, Workers = 8
 | WebDataset | 2048.81 | 85716 | 23.10 | 18.73 | 41.84 | 46.34 |
 | MosaicML MDS | 2066.48 | 85716 | 25.14 | 16.34 | 41.48 | 45.98 |
 | LitData | 2495.73 | 85716 | 18.89 | 15.45 | 34.35 | 39.57 |
+
+Using the larger 6GB dataset: 
+
+| Dataset | Throughput (img/s) | Samples | Epoch 1 (s) | Epoch 2 (s) | Processing Time (s) | Wall Time (s) |
+| --- | --- | --- | --- | --- | --- | --- |
+| WebDataset | 2432.81 | 352906 | 79.27 | 65.79 | 145.06 | 149.55 |
+| MosaicML MDS | 2264.01 | 352906 | 91.14 | 64.74 | 155.88 | 160.44 |
+| LitData | 2571.11 | 352906 | 62.64 | 74.62 | 137.26 | 142.53 |
