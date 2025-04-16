@@ -33,13 +33,19 @@ def parse_args():
     parser.add_argument(
         '--chunk_bytes',
         type=str,
-        default='64MB',  # Consistent with example code
+        default='64MB',
         help='Maximum chunk size in bytes (e.g. "64MB", "1GB")',
+    )
+    parser.add_argument(
+        '--chunk_size',
+        type=int,
+        default=1000,
+        help='Maximum number of samples per chunk',
     )
     parser.add_argument(
         '--compression',
         type=str,
-        default=None,  # No compression by default for speed
+        default=None,
         help='Compression algorithm to use (e.g. "zstd", "lz4")',
     )
     parser.add_argument(
@@ -52,6 +58,12 @@ def parse_args():
         '--use_doc_id',
         action='store_true',
         help='Use document_id as key (default: index)',
+    )
+    parser.add_argument(
+        '--prefix',
+        type=str,
+        default='benchmark',
+        help='Prefix for dataset identification',
     )
     parser.add_argument(
         '--resize',
@@ -103,7 +115,7 @@ def optimize_fn(parquet_file, args):
         parquet_object = pq.ParquetFile(parquet_file)
         
         # Process in batches using iter_batches so we don't load the whole shard into RAM
-        batch_size = 1000
+        batch_size = 10000
         row_index = 0
         
         # Iterate through batches directly
@@ -238,8 +250,9 @@ if __name__ == '__main__':
     print(f"  Output directory: {args.out_dir}")
     print(f"  Number of samples in parquet files: {total_samples}")
     print(f"  Number of files created: {file_count}")
+    print(f"  Prefix: {args.prefix}")
     
+    # Format timing exactly as prepare_datasets.sh expects to extract with grep
     print(f"\nTiming Summary:")
     print(f"  Dataset write time: {dataset_write_time:.2f} seconds")
-    print(f"  Sample counting time: {sample_count_time:.2f} seconds")
     print(f"  Total script time: {script_time:.2f} seconds")
