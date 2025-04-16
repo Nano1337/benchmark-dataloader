@@ -62,6 +62,52 @@ Scaling this up and running on 6GB of parquet data (with machine RAM limited to 
 
 My hypothesis after running the benchmark and watching active RAM utilization metrics using `watch free -h`, LitData is using a lot more RAM, especially when the workers start to write out the .bin files. I assume this happens bc each worker is decompressing and making a copy (via writing out the raw byte sequences) of the data to put in the .bin file. What happens if we run this on a machine with much more RAM?
 
+Using CPU Count: 192, RAM: 1TB on small benchmark shard:
+
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
+| --- | --- | --- | --- | --- |
+| LitData (PL) | 31.00 | 18.94 | 1.67 | 28 |
+| WebDataset (WDS) | 33.00 | 9.02 | 1.60 | 14 |
+| MosaicML Dataset (MDS) | 37.00 | 9.12 | 1.73 | 28 |
+
+Turning zstd compression off for LitData:
+20GB shard: each worker reads entire parquet shard
+
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
+| --- | --- | --- | --- | --- |
+| LitData (PL) | 672.00 | 655.19 | 13.11 | 499 |
+| WebDataset (WDS) | 179.00 | 135.39 | 21.72 | 164 |
+| MosaicML Dataset (MDS) | 117.00 | 87.65 | 20.78 | 328 |
+
+20GB shard (test with pyarrow batched reading, batch_size=1k)
+
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
+| --- | --- | --- | --- | --- |
+| LitData (PL) | 508.00 | 498.35 | 15.84 | 508 |
+| WebDataset (WDS) | 175.00 | 145.12 | 21.65 | 164 |
+| MosaicML Dataset (MDS) | 105.00 | 88.41 | 20.49 | 328 |
+
+20GB shard (test with pyarrow batched reading, batch_size=2k/all)
+
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
+| --- | --- | --- | --- | --- |
+| LitData (PL) | 364.00 | 353.99 | 14.17 | 508 |
+| WebDataset (WDS) | 167.00 | 138.86 | 21.58 | 164 |
+| MosaicML Dataset (MDS) | 105.00 | 87.20 | 20.38 | 328 |
+
+Turning zstd compression on for LitData:
+
+20GB shard (test with pyarrow batched reading, batch_size=2k/all)
+
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
+| --- | --- | --- | --- | --- |
+| LitData (PL) | 363.00 | 351.76 | 21.18 | 508 |
+| WebDataset (WDS) | 184.00 | 135.51 | 22.73 | 164 |
+| MosaicML Dataset (MDS) | 114.00 | 88.02 | 21.69 | 328 |
+
+
+We likely won’t need the PyArrow batched reading fallback, as it primarily addresses scenarios where all workers operate on a single machine. In the ideal case, Spark’s distributed processing will naturally distribute the workload across machines, allowing each node to independently handle its assigned Parquet shard rather than processing everything on a single node.
+
 ### Streaming
 
 To run streaming benchmarks, please set the env var `S3_BENCHMARK_DATA_PATH` to the s3 path of the dataset you want to benchmark containing directories `webdataset`, `mds`, and `litdata`. Then run `./scripts/stream_datasets.sh`.

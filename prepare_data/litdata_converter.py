@@ -45,7 +45,7 @@ def parse_args():
     parser.add_argument(
         '--compression',
         type=str,
-        default=None,
+        default='zstd',
         help='Compression algorithm to use (e.g. "zstd", "lz4")',
     )
     parser.add_argument(
@@ -115,7 +115,7 @@ def optimize_fn(parquet_file, args):
         parquet_object = pq.ParquetFile(parquet_file)
         
         # Process in batches using iter_batches so we don't load the whole shard into RAM
-        batch_size = 10000
+        batch_size = 2000
         row_index = 0
         
         # Iterate through batches directly
