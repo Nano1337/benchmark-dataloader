@@ -7,7 +7,7 @@ def parse_args():
     parser = argparse.ArgumentParser("""Prepare WebDataset from parquet file""")
     parser.add_argument(
         "--data", 
-        default="./data/benchmark_shard.parquet",
+        default="./benchmark_dataset/benchmark_shard.parquet",
         help="Path to the parquet file containing image-text data"
     )
     parser.add_argument(

@@ -18,3 +18,8 @@ data/
 shards/
 lightning_data/
 results/
+scripts/clean_dataset.py
+scripts/upload_to_hf.py
+scripts/cut_down_data.sh
+scripts/download_shard.sh
+benchmark_dataset/

@@ -24,20 +24,25 @@ cd ..
 
 ## Data
 
-We will be using a random 42858 sample shard from DataComp (~3GB). We will get it from the s3 path stored in a `.env` file in a environment variable called `BENCHMARK_SHARD_PATH`.
+We will be using a random 88513 sample shard from DataComp (~3GB) that's been uploaded to HuggingFace. To download the data: 
 
-Please make sure to set this environment variable before running the benchmark.
-
-This benchmark shard will be downloaded locally into the folder `./data` to be used in the various output format datasets for benchmarking. Please run the following: 
+1. Install git lfs
 ```bash
-./scripts/download_shard.sh
+sudo apt update 
+sudo apt install git-lfs
+git lfs install
+```
+2. Clone the repository with submodules
+```bash
+git clone https://huggingface.co/datasets/Nano1337/benchmark_dataset
 ```
 
-The parquet dataset I'm working with has the following columns: 
+
+The parquet dataset here has the following columns: 
 ```python
-Index(['document_id', 'document_metadata', 'image', 'text', 'audio', 'video', 'raw_data'], dtype='object')
+Index(['image', 'text'], dtype='object')
 ```
-Of which the most important data cols are `image` and `text`. The `image.content` contains the raw bytes of the image while `text.content` contains the corresponding caption in text characters. The `document_id` is the spark-generated uuid of the data sample. 
+The `image.content` contains the raw bytes of the image while `text.content` contains the corresponding caption in text characters.
 
 
 ## Benchmarking

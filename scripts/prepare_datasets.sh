@@ -27,8 +27,8 @@ print_header() {
 
 # Check if data file exists
 check_prerequisites() {
-    if [ ! -f "./data/benchmark_shard.parquet" ] && [ ! -d "./data/benchmark_shard.parquet/" ]; then
-        echo "Error: Benchmark data not found. Please run ./scripts/download_shard.sh first."
+    if [ ! -f "./benchmark_dataset/benchmark_shard.parquet" ] && [ ! -d "./benchmark_dataset/benchmark_shard.parquet/" ]; then
+        echo "Error: Benchmark data not found. Please see README.md for instructions on how to download the data."
         exit 1
     fi
 

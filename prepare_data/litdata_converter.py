@@ -21,7 +21,7 @@ def parse_args():
     parser.add_argument(
         '--data',
         type=str,
-        default='./data/benchmark_shard.parquet',
+        default='./benchmark_dataset/benchmark_shard.parquet',
         help='Path to the parquet file or directory containing image-text data',
     )
     parser.add_argument(
