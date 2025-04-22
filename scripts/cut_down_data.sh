@@ -5,7 +5,7 @@ set -e  # Exit immediately if a command exits with a non-zero status
 # by removing files from the end of the directory listing
 
 DATA_DIR="./data/benchmark_shard.parquet"
-MAX_SIZE_MB=20000  # 20GB threshold
+MAX_SIZE_MB=3000  # 3GB threshold
 
 # Check if directory exists
 if [ ! -d "$DATA_DIR" ]; then
@@ -19,7 +19,7 @@ echo "Initial directory size: ${initial_size}MB"
 
 # If already under threshold, no need to proceed
 if [ "$initial_size" -lt "$MAX_SIZE_MB" ]; then
-    echo "Directory is already smaller than 20GB (${initial_size}MB), no need to cut down."
+    echo "Directory is already smaller than 3GB (${initial_size}MB), no need to cut down."
     exit 0
 fi
 

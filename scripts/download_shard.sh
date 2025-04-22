@@ -30,41 +30,5 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Check if it's a directory by looking for objects inside it
-echo "Checking for parquet files in the directory..."
-PARQUET_FILES=$(aws s3 ls $CLEAN_PATH/ | grep ".parquet" || true)
-
-if [ -z "$PARQUET_FILES" ]; then
-    # Try downloading as a file directly
-    echo "No parquet files found in directory. Trying to download as a single file..."
-    aws s3 cp $CLEAN_PATH ./data/benchmark_shard.parquet
-    if [ $? -eq 0 ]; then
-        echo "Successfully downloaded benchmark shard from $CLEAN_PATH to ./data/benchmark_shard.parquet"
-        exit 0
-    else
-        echo "Failed to download $CLEAN_PATH directly."
-        echo "Trying to download the entire directory..."
-        aws s3 cp $CLEAN_PATH/ ./data/ --recursive
-        if [ $? -eq 0 ]; then
-            echo "Successfully downloaded all files from $CLEAN_PATH/ to ./data/"
-            exit 0
-        else
-            echo "Failed to download benchmark shard. Please check the S3 path."
-            exit 1
-        fi
-    fi
-else
-    # Extract the first parquet file name
-    FIRST_FILE=$(echo "$PARQUET_FILES" | head -n 1 | awk '{print $NF}')
-    echo "Found parquet file: $FIRST_FILE"
-    
-    # Download the file
-    aws s3 cp $CLEAN_PATH/$FIRST_FILE ./data/benchmark_shard.parquet
-    
-    if [ $? -eq 0 ]; then
-        echo "Successfully downloaded benchmark shard from $CLEAN_PATH/$FIRST_FILE to ./data/benchmark_shard.parquet"
-    else
-        echo "Failed to download the benchmark shard"
-        exit 1
-    fi
-fi
+# download all contents --recursive of path
+aws s3 cp $CLEAN_PATH ./data/ --recursive
