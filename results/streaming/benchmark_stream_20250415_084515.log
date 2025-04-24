@@ -1,142 +1,0 @@
-Starting streaming benchmarks at Tue Apr 15 08:45:15 UTC 2025
-CPU count: 16
-
-
-
-Running WebDataset benchmark...
-
-Seed set to 42
-/home/ec2-user/benchmark-dataloader/.venv/lib/python3.13/site-packages/webdataset/compat.py:389: UserWarning: WebDataset(shardshuffle=...) is None; set explicitly to False or a number
-  warnings.warn(
-Epoch 1/2: 0it [00:00, ?it/s]Epoch 1/2: 1it [00:02,  2.91s/it]Epoch 1/2: 10it [00:04,  2.38it/s]Epoch 1/2: 23it [00:05,  4.41it/s]Epoch 1/2: 36it [00:06,  5.39it/s]Epoch 1/2: 49it [00:07,  6.29it/s]Epoch 1/2: 62it [00:08,  6.96it/s]Epoch 1/2: 75it [00:10,  7.22it/s]Epoch 1/2: 88it [00:12,  6.79it/s]Epoch 1/2: 101it [00:14,  6.93it/s]Epoch 1/2: 114it [00:16,  7.12it/s]Epoch 1/2: 129it [00:17,  7.48it/s]Epoch 1/2: 144it [00:18,  7.87it/s]Epoch 1/2: 159it [00:19,  8.06it/s]Epoch 1/2: 174it [00:21,  8.23it/s]Epoch 1/2: 189it [00:22,  8.29it/s]Epoch 1/2: 204it [00:26,  7.76it/s]Epoch 1/2: 219it [00:27,  7.88it/s]Epoch 1/2: 234it [00:29,  8.01it/s]Epoch 1/2: 249it [00:30,  8.17it/s]Epoch 1/2: 264it [00:31,  8.38it/s]Epoch 1/2: 279it [00:32,  8.48it/s]Epoch 1/2: 294it [00:34,  8.56it/s]Epoch 1/2: 309it [00:35,  8.63it/s]Epoch 1/2: 324it [00:38,  8.31it/s]Epoch 1/2: 339it [00:40,  8.35it/s]Epoch 1/2: 354it [00:42,  8.42it/s]Epoch 1/2: 369it [00:43,  8.49it/s]Epoch 1/2: 385it [00:44,  8.56it/s]Epoch 1/2: 401it [00:46,  8.64it/s]Epoch 1/2: 417it [00:47,  8.71it/s]Epoch 1/2: 433it [00:49,  8.78it/s]Epoch 1/2: 449it [00:52,  8.48it/s]Epoch 1/2: 465it [00:54,  8.55it/s]Epoch 1/2: 481it [00:56,  8.58it/s]Epoch 1/2: 497it [00:57,  8.60it/s]Epoch 1/2: 513it [00:59,  8.66it/s]Epoch 1/2: 529it [01:00,  8.71it/s]Epoch 1/2: 545it [01:02,  8.77it/s]Epoch 1/2: 561it [01:03,  8.82it/s]Epoch 1/2: 577it [01:07,  8.61it/s]Epoch 1/2: 593it [01:08,  8.66it/s]Epoch 1/2: 609it [01:09,  8.71it/s]Epoch 1/2: 625it [01:11,  8.72it/s]Epoch 1/2: 641it [01:13,  8.69it/s]Epoch 1/2: 657it [01:15,  8.71it/s]Epoch 1/2: 673it [01:17,  8.73it/s]Epoch 1/2: 689it [01:18,  8.73it/s]Epoch 1/2: 693it [01:19,  8.74it/s]
-Epoch 2/2: 0it [00:00, ?it/s]Epoch 2/2: 9it [00:01,  5.41it/s]Epoch 2/2: 25it [00:03,  7.77it/s]Epoch 2/2: 41it [00:04,  8.81it/s]Epoch 2/2: 57it [00:06,  9.36it/s]Epoch 2/2: 73it [00:07,  9.72it/s]Epoch 2/2: 89it [00:08,  9.94it/s]Epoch 2/2: 105it [00:10, 10.09it/s]Epoch 2/2: 121it [00:11, 10.20it/s]Epoch 2/2: 137it [00:13, 10.29it/s]Epoch 2/2: 153it [00:14, 10.36it/s]Epoch 2/2: 169it [00:16, 10.42it/s]Epoch 2/2: 185it [00:17, 10.47it/s]Epoch 2/2: 201it [00:19, 10.52it/s]Epoch 2/2: 217it [00:20, 10.55it/s]Epoch 2/2: 233it [00:22, 10.55it/s]Epoch 2/2: 249it [00:23, 10.58it/s]Epoch 2/2: 265it [00:25, 10.58it/s]Epoch 2/2: 281it [00:26, 10.59it/s]Epoch 2/2: 297it [00:28, 10.58it/s]Epoch 2/2: 313it [00:29, 10.61it/s]Epoch 2/2: 329it [00:30, 10.63it/s]Epoch 2/2: 345it [00:32, 10.65it/s]Epoch 2/2: 361it [00:33, 10.67it/s]Epoch 2/2: 377it [00:35, 10.69it/s]Epoch 2/2: 393it [00:36, 10.69it/s]Epoch 2/2: 409it [00:38, 10.71it/s]Epoch 2/2: 425it [00:39, 10.71it/s]Epoch 2/2: 441it [00:41, 10.71it/s]Epoch 2/2: 457it [00:42, 10.71it/s]Epoch 2/2: 473it [00:44, 10.68it/s]Epoch 2/2: 489it [00:45, 10.68it/s]Epoch 2/2: 505it [00:47, 10.71it/s]Epoch 2/2: 521it [00:48, 10.74it/s]Epoch 2/2: 537it [00:49, 10.76it/s]Epoch 2/2: 553it [00:51, 10.77it/s]Epoch 2/2: 569it [00:52, 10.78it/s]Epoch 2/2: 585it [00:54, 10.79it/s]Epoch 2/2: 601it [00:55, 10.78it/s]Epoch 2/2: 617it [00:57, 10.70it/s]Epoch 2/2: 633it [00:59, 10.70it/s]Epoch 2/2: 649it [01:01, 10.64it/s]Epoch 2/2: 665it [01:03, 10.55it/s]Epoch 2/2: 681it [01:04, 10.59it/s]Epoch 2/2: 693it [01:05, 10.53it/s]
-DEBUG: WebDataset result: 
-
-=========================================
-   WebDataset Streaming Benchmark
-   Tue Apr 15 08:45:15 UTC 2025
-=========================================
-
-Configuration: batch_size=256, num_workers=8
-Seed set to 42
-Cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/webdataset_benchmark
-Listing objects...
-Found 46 objects in S3
-Found 46 train tar files
-Using 8 worker threads for data loading
-Starting benchmark with batch size 256
-Epoch 1: Processed 176453 samples in 79.27s (2225.88 images/sec)
-Epoch 2: Processed 176453 samples in 65.79s (2682.15 images/sec)
-
-Benchmark Summary:
-  Total samples: 352906
-  Total time: 145.06s
-  Average throughput: 2432.81 images/sec
-Benchmark complete
-
-Results for WebDataset:
-  Throughput: 2432.81 images/sec
-  Total samples processed: 352906
-  Benchmark time: 145.06 seconds
-  Wall clock time: 149.55 seconds
-WebDataset,2432.81,352906,145.06,149.550403086,79.27,65.79
-Cleaning up cache directory: stream/cache/webdataset_benchmark
-
-
-Running MosaicML Dataset benchmark...
-
-Seed set to 42
-Epoch 1/2:   0%|          | 0/690 [00:00<?, ?it/s]Epoch 1/2:   0%|          | 1/690 [00:26<5:01:07, 26.22s/it]Epoch 1/2:   2%|▏         | 17/690 [00:27<18:21,  1.64s/it] Epoch 1/2:   5%|▍         | 33/690 [00:29<09:46,  1.12it/s]Epoch 1/2:   7%|▋         | 49/690 [00:30<06:45,  1.58it/s]Epoch 1/2:   9%|▉         | 65/690 [00:32<05:13,  2.00it/s]Epoch 1/2:  12%|█▏        | 81/690 [00:34<04:17,  2.37it/s]Epoch 1/2:  14%|█▍        | 97/690 [00:35<03:37,  2.72it/s]Epoch 1/2:  16%|█▋        | 113/690 [00:37<03:09,  3.05it/s]Epoch 1/2:  19%|█▊        | 129/690 [00:38<02:48,  3.34it/s]Epoch 1/2:  21%|██        | 145/690 [00:40<02:30,  3.62it/s]Epoch 1/2:  23%|██▎       | 161/690 [00:41<02:16,  3.88it/s]Epoch 1/2:  26%|██▌       | 177/690 [00:43<02:04,  4.11it/s]Epoch 1/2:  28%|██▊       | 193/690 [00:44<01:55,  4.32it/s]Epoch 1/2:  30%|███       | 209/690 [00:46<01:46,  4.52it/s]Epoch 1/2:  33%|███▎      | 225/690 [00:47<01:39,  4.69it/s]Epoch 1/2:  35%|███▍      | 241/690 [00:49<01:31,  4.88it/s]Epoch 1/2:  37%|███▋      | 257/690 [00:51<01:26,  5.03it/s]Epoch 1/2:  40%|███▉      | 273/690 [00:52<01:20,  5.19it/s]Epoch 1/2:  42%|████▏     | 289/690 [00:54<01:15,  5.33it/s]Epoch 1/2:  44%|████▍     | 305/690 [00:55<01:10,  5.48it/s]Epoch 1/2:  47%|████▋     | 321/690 [00:57<01:05,  5.61it/s]Epoch 1/2:  49%|████▉     | 337/690 [00:58<01:01,  5.74it/s]Epoch 1/2:  51%|█████     | 353/690 [01:00<00:57,  5.87it/s]Epoch 1/2:  53%|█████▎    | 369/690 [01:01<00:53,  5.99it/s]Epoch 1/2:  56%|█████▌    | 385/690 [01:03<00:50,  6.09it/s]Epoch 1/2:  58%|█████▊    | 401/690 [01:04<00:46,  6.20it/s]Epoch 1/2:  60%|██████    | 417/690 [01:06<00:43,  6.29it/s]Epoch 1/2:  63%|██████▎   | 433/690 [01:07<00:40,  6.39it/s]Epoch 1/2:  65%|██████▌   | 449/690 [01:09<00:37,  6.48it/s]Epoch 1/2:  67%|██████▋   | 465/690 [01:10<00:34,  6.56it/s]Epoch 1/2:  70%|██████▉   | 481/690 [01:12<00:31,  6.66it/s]Epoch 1/2:  72%|███████▏  | 497/690 [01:13<00:28,  6.73it/s]Epoch 1/2:  74%|███████▍  | 513/690 [01:15<00:26,  6.80it/s]Epoch 1/2:  77%|███████▋  | 529/690 [01:16<00:23,  6.88it/s]Epoch 1/2:  79%|███████▉  | 545/690 [01:18<00:20,  6.95it/s]Epoch 1/2:  81%|████████▏ | 561/690 [01:19<00:18,  7.02it/s]Epoch 1/2:  84%|████████▎ | 577/690 [01:21<00:15,  7.09it/s]Epoch 1/2:  86%|████████▌ | 593/690 [01:22<00:13,  7.16it/s]Epoch 1/2:  88%|████████▊ | 609/690 [01:24<00:11,  7.23it/s]Epoch 1/2:  91%|█████████ | 625/690 [01:25<00:08,  7.28it/s]Epoch 1/2:  93%|█████████▎| 641/690 [01:27<00:06,  7.36it/s]Epoch 1/2:  95%|█████████▌| 657/690 [01:28<00:04,  7.42it/s]Epoch 1/2:  98%|█████████▊| 673/690 [01:29<00:02,  7.49it/s]Epoch 1/2: 100%|█████████▉| 689/690 [01:31<00:00,  7.56it/s]Epoch 1/2: 100%|██████████| 690/690 [01:31<00:00,  7.57it/s]
-Epoch 2/2:   0%|          | 0/690 [00:00<?, ?it/s]Epoch 2/2:   0%|          | 1/690 [00:01<12:32,  1.09s/it]Epoch 2/2:   1%|▏         | 9/690 [00:02<02:39,  4.27it/s]Epoch 2/2:   4%|▎         | 25/690 [00:03<01:37,  6.81it/s]Epoch 2/2:   6%|▌         | 41/690 [00:05<01:21,  8.00it/s]Epoch 2/2:   8%|▊         | 57/690 [00:06<01:17,  8.18it/s]Epoch 2/2:  11%|█         | 73/690 [00:08<01:10,  8.71it/s]Epoch 2/2:  13%|█▎        | 89/690 [00:09<01:06,  9.06it/s]Epoch 2/2:  15%|█▌        | 105/690 [00:11<01:03,  9.16it/s]Epoch 2/2:  18%|█▊        | 121/690 [00:12<01:00,  9.43it/s]Epoch 2/2:  20%|█▉        | 137/690 [00:14<00:57,  9.54it/s]Epoch 2/2:  22%|██▏       | 153/690 [00:15<00:55,  9.69it/s]Epoch 2/2:  24%|██▍       | 169/690 [00:17<00:53,  9.79it/s]Epoch 2/2:  27%|██▋       | 185/690 [00:18<00:51,  9.76it/s]Epoch 2/2:  29%|██▉       | 201/690 [00:20<00:49,  9.87it/s]Epoch 2/2:  31%|███▏      | 217/690 [00:21<00:47,  9.90it/s]Epoch 2/2:  34%|███▍      | 233/690 [00:23<00:45,  9.98it/s]Epoch 2/2:  36%|███▌      | 249/690 [00:24<00:43, 10.09it/s]Epoch 2/2:  38%|███▊      | 265/690 [00:26<00:42, 10.09it/s]Epoch 2/2:  41%|████      | 281/690 [00:27<00:40, 10.14it/s]Epoch 2/2:  43%|████▎     | 297/690 [00:29<00:38, 10.15it/s]Epoch 2/2:  45%|████▌     | 313/690 [00:30<00:36, 10.21it/s]Epoch 2/2:  48%|████▊     | 329/690 [00:32<00:35, 10.24it/s]Epoch 2/2:  50%|█████     | 345/690 [00:33<00:33, 10.30it/s]Epoch 2/2:  52%|█████▏    | 361/690 [00:34<00:31, 10.34it/s]Epoch 2/2:  55%|█████▍    | 377/690 [00:36<00:30, 10.35it/s]Epoch 2/2:  57%|█████▋    | 393/690 [00:38<00:28, 10.31it/s]Epoch 2/2:  59%|█████▉    | 409/690 [00:39<00:27, 10.33it/s]Epoch 2/2:  62%|██████▏   | 425/690 [00:41<00:25, 10.32it/s]Epoch 2/2:  64%|██████▍   | 441/690 [00:42<00:24, 10.34it/s]Epoch 2/2:  66%|██████▌   | 457/690 [00:44<00:22, 10.37it/s]Epoch 2/2:  69%|██████▊   | 473/690 [00:45<00:20, 10.39it/s]Epoch 2/2:  71%|███████   | 489/690 [00:47<00:19, 10.38it/s]Epoch 2/2:  73%|███████▎  | 505/690 [00:48<00:17, 10.42it/s]Epoch 2/2:  76%|███████▌  | 521/690 [00:50<00:16, 10.40it/s]Epoch 2/2:  78%|███████▊  | 537/690 [00:51<00:14, 10.42it/s]Epoch 2/2:  80%|████████  | 553/690 [00:52<00:13, 10.44it/s]Epoch 2/2:  82%|████████▏ | 569/690 [00:54<00:11, 10.45it/s]Epoch 2/2:  85%|████████▍ | 585/690 [00:55<00:10, 10.45it/s]Epoch 2/2:  87%|████████▋ | 601/690 [00:57<00:08, 10.46it/s]Epoch 2/2:  89%|████████▉ | 617/690 [00:58<00:06, 10.49it/s]Epoch 2/2:  92%|█████████▏| 633/690 [01:00<00:05, 10.51it/s]Epoch 2/2:  94%|█████████▍| 649/690 [01:01<00:03, 10.55it/s]Epoch 2/2:  96%|█████████▋| 665/690 [01:02<00:02, 10.59it/s]Epoch 2/2:  99%|█████████▊| 681/690 [01:04<00:00, 10.63it/s]Epoch 2/2: 100%|██████████| 690/690 [01:04<00:00, 10.66it/s]
-DEBUG: MosaicML result: 
-
-=========================================
-   MosaicML Dataset Streaming Benchmark
-   Tue Apr 15 08:47:45 UTC 2025
-=========================================
-
-Configuration: batch_size=256, num_workers=8
-Seed set to 42
-Cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/mds_benchmark
-Using 8 worker threads for data loading
-Starting benchmark with batch size 256
-Epoch 1: Processed 176453 samples in 91.14s (1936.16 images/sec)
-Epoch 2: Processed 176453 samples in 64.74s (2725.52 images/sec)
-
-Benchmark Summary:
-  Total samples: 352906
-  Total time: 155.88s
-  Average throughput: 2264.01 images/sec
-Benchmark complete
-
-Results for MosaicML Dataset:
-  Throughput: 2264.01 images/sec
-  Total samples processed: 352906
-  Benchmark time: 155.88 seconds
-  Wall clock time: 160.44 seconds
-MosaicML MDS,2264.01,352906,155.88,160.440349349,91.14,64.74
-Cleaning up cache directory: stream/cache/mds_benchmark
-
-
-Running LitData benchmark...
-
-Seed set to 42
-/home/ec2-user/benchmark-dataloader/stream/lightning_data.py:131: A newer version of litdata is available (0.2.45). Please consider upgrading with `pip install -U litdata`. Not all functionalities of the platform can be guaranteed to work with the current version.
-Epoch 1/2:   0%|          | 0/690 [00:00<?, ?it/s]Epoch 1/2:   0%|          | 1/690 [00:03<36:16,  3.16s/it]Epoch 1/2:   1%|▏         | 10/690 [00:04<04:54,  2.31it/s]Epoch 1/2:   4%|▎         | 25/690 [00:05<02:29,  4.46it/s]Epoch 1/2:   6%|▌         | 40/690 [00:06<01:47,  6.05it/s]Epoch 1/2:   8%|▊         | 55/690 [00:07<01:31,  6.97it/s]Epoch 1/2:  10%|█         | 70/690 [00:09<01:22,  7.50it/s]Epoch 1/2:  12%|█▏        | 85/690 [00:10<01:15,  7.96it/s]Epoch 1/2:  14%|█▍        | 100/690 [00:11<01:10,  8.37it/s]Epoch 1/2:  17%|█▋        | 115/690 [00:13<01:06,  8.69it/s]Epoch 1/2:  19%|█▉        | 130/690 [00:14<01:02,  8.90it/s]Epoch 1/2:  21%|██        | 145/690 [00:15<00:59,  9.16it/s]Epoch 1/2:  23%|██▎       | 160/690 [00:16<00:56,  9.45it/s]Epoch 1/2:  25%|██▌       | 175/690 [00:18<00:53,  9.61it/s]Epoch 1/2:  28%|██▊       | 190/690 [00:19<00:51,  9.67it/s]Epoch 1/2:  30%|██▉       | 205/690 [00:20<00:49,  9.78it/s]Epoch 1/2:  32%|███▏      | 220/690 [00:22<00:47,  9.90it/s]Epoch 1/2:  34%|███▍      | 235/690 [00:23<00:45,  9.99it/s]Epoch 1/2:  36%|███▌      | 250/690 [00:24<00:43, 10.10it/s]Epoch 1/2:  38%|███▊      | 265/690 [00:26<00:41, 10.17it/s]Epoch 1/2:  41%|████      | 280/690 [00:27<00:40, 10.21it/s]Epoch 1/2:  43%|████▎     | 295/690 [00:28<00:38, 10.28it/s]Epoch 1/2:  45%|████▍     | 310/690 [00:30<00:36, 10.29it/s]Epoch 1/2:  47%|████▋     | 325/690 [00:31<00:35, 10.37it/s]Epoch 1/2:  49%|████▉     | 340/690 [00:32<00:33, 10.40it/s]Epoch 1/2:  51%|█████▏    | 355/690 [00:34<00:32, 10.38it/s]Epoch 1/2:  54%|█████▍    | 371/690 [00:35<00:30, 10.42it/s]Epoch 1/2:  56%|█████▌    | 387/690 [00:36<00:28, 10.51it/s]Epoch 1/2:  58%|█████▊    | 403/690 [00:38<00:27, 10.54it/s]Epoch 1/2:  61%|██████    | 419/690 [00:39<00:25, 10.54it/s]Epoch 1/2:  63%|██████▎   | 435/690 [00:40<00:24, 10.61it/s]Epoch 1/2:  65%|██████▌   | 451/690 [00:42<00:22, 10.65it/s]Epoch 1/2:  68%|██████▊   | 467/690 [00:43<00:20, 10.66it/s]Epoch 1/2:  70%|███████   | 483/690 [00:45<00:19, 10.69it/s]Epoch 1/2:  72%|███████▏  | 499/690 [00:46<00:17, 10.72it/s]Epoch 1/2:  75%|███████▍  | 515/690 [00:47<00:16, 10.77it/s]Epoch 1/2:  77%|███████▋  | 531/690 [00:49<00:14, 10.76it/s]Epoch 1/2:  79%|███████▉  | 547/690 [00:50<00:13, 10.77it/s]Epoch 1/2:  82%|████████▏ | 563/690 [00:52<00:11, 10.81it/s]Epoch 1/2:  84%|████████▍ | 579/690 [00:53<00:10, 10.83it/s]Epoch 1/2:  86%|████████▌ | 595/690 [00:55<00:08, 10.82it/s]Epoch 1/2:  89%|████████▊ | 611/690 [00:56<00:07, 10.86it/s]Epoch 1/2:  91%|█████████ | 627/690 [00:57<00:05, 10.90it/s]Epoch 1/2:  93%|█████████▎| 643/690 [00:59<00:04, 10.89it/s]Epoch 1/2:  96%|█████████▌| 659/690 [01:00<00:02, 10.90it/s]Epoch 1/2:  98%|█████████▊| 675/690 [01:01<00:01, 10.93it/s]Epoch 1/2: 100%|██████████| 690/690 [01:02<00:00, 11.02it/s]
-Epoch 2/2:   0%|          | 0/690 [00:00<?, ?it/s]Epoch 2/2:   0%|          | 1/690 [00:01<12:03,  1.05s/it]Epoch 2/2:   2%|▏         | 17/690 [00:02<01:37,  6.94it/s]Epoch 2/2:   5%|▍         | 33/690 [00:03<01:15,  8.75it/s]Epoch 2/2:   7%|▋         | 49/690 [00:05<01:06,  9.63it/s]Epoch 2/2:   9%|▉         | 65/690 [00:06<01:03,  9.82it/s]Epoch 2/2:  12%|█▏        | 81/690 [00:07<01:00, 10.14it/s]Epoch 2/2:  14%|█▍        | 97/690 [00:09<00:56, 10.43it/s]Epoch 2/2:  16%|█▋        | 113/690 [00:10<00:54, 10.58it/s]Epoch 2/2:  19%|█▊        | 129/690 [00:12<00:53, 10.58it/s]Epoch 2/2:  21%|██        | 145/690 [00:13<00:50, 10.75it/s]Epoch 2/2:  23%|██▎       | 161/690 [00:14<00:48, 10.89it/s]Epoch 2/2:  26%|██▌       | 177/690 [00:16<00:46, 10.99it/s]Epoch 2/2:  28%|██▊       | 193/690 [00:17<00:45, 10.92it/s]Epoch 2/2:  30%|███       | 209/690 [00:18<00:43, 11.01it/s]Epoch 2/2:  33%|███▎      | 225/690 [00:20<00:41, 11.09it/s]Epoch 2/2:  35%|███▍      | 241/690 [00:21<00:40, 11.10it/s]Epoch 2/2:  37%|███▋      | 257/690 [00:23<00:38, 11.14it/s]Epoch 2/2:  40%|███▉      | 273/690 [00:24<00:37, 11.22it/s]Epoch 2/2:  42%|████▏     | 289/690 [00:25<00:35, 11.29it/s]Epoch 2/2:  44%|████▍     | 305/690 [00:27<00:34, 11.27it/s]Epoch 2/2:  47%|████▋     | 321/690 [00:28<00:32, 11.31it/s]Epoch 2/2:  49%|████▉     | 337/690 [00:29<00:31, 11.34it/s]Epoch 2/2:  51%|█████     | 353/690 [00:31<00:29, 11.32it/s]Epoch 2/2:  53%|█████▎    | 369/690 [00:32<00:28, 11.37it/s]Epoch 2/2:  56%|█████▌    | 385/690 [00:33<00:26, 11.42it/s]Epoch 2/2:  58%|█████▊    | 401/690 [00:35<00:25, 11.45it/s]Epoch 2/2:  60%|██████    | 417/690 [00:36<00:23, 11.45it/s]Epoch 2/2:  63%|██████▎   | 433/690 [00:37<00:22, 11.49it/s]Epoch 2/2:  65%|██████▌   | 449/690 [00:38<00:20, 11.52it/s]Epoch 2/2:  67%|██████▋   | 465/690 [00:40<00:19, 11.54it/s]Epoch 2/2:  70%|██████▉   | 481/690 [00:42<00:18, 11.41it/s]Epoch 2/2:  72%|███████▏  | 497/690 [00:44<00:17, 11.13it/s]Epoch 2/2:  74%|███████▍  | 513/690 [00:47<00:16, 10.87it/s]Epoch 2/2:  77%|███████▋  | 529/690 [00:49<00:15, 10.66it/s]Epoch 2/2:  79%|███████▉  | 545/690 [00:52<00:13, 10.46it/s]Epoch 2/2:  81%|████████▏ | 561/690 [00:54<00:12, 10.26it/s]Epoch 2/2:  84%|████████▎ | 577/690 [00:57<00:11, 10.10it/s]Epoch 2/2:  86%|████████▌ | 593/690 [00:59<00:09,  9.92it/s]Epoch 2/2:  88%|████████▊ | 609/690 [01:02<00:08,  9.78it/s]Epoch 2/2:  91%|█████████ | 625/690 [01:04<00:06,  9.66it/s]Epoch 2/2:  93%|█████████▎| 641/690 [01:06<00:05,  9.58it/s]Epoch 2/2:  95%|█████████▌| 657/690 [01:09<00:03,  9.46it/s]Epoch 2/2:  98%|█████████▊| 673/690 [01:12<00:01,  9.34it/s]Epoch 2/2: 100%|█████████▉| 689/690 [01:14<00:00,  9.28it/s]Epoch 2/2: 100%|██████████| 690/690 [01:14<00:00,  9.25it/s]
-DEBUG: LitData result: 
-
-=========================================
-   LitData Streaming Benchmark
-   Tue Apr 15 08:50:26 UTC 2025
-=========================================
-
-Configuration: batch_size=256, num_workers=8
-Seed set to 42
-Cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/litdata_benchmark
-Using S3 path from environment...
-Using remote path: s3://datology-assets-dev/users/haoli/benchmark_dataloader_shards_scale/litdata
-Using 8 worker threads for data loading
-Starting benchmark with batch size 256
-Epoch 1: Processed 176453 samples in 62.64s (2816.84 images/sec)
-Epoch 2: Processed 176453 samples in 74.62s (2364.81 images/sec)
-
-Benchmark Summary:
-  Total samples: 352906
-  Total time: 137.26s
-  Average throughput: 2571.11 images/sec
-Benchmark complete
-
-Results for LitData:
-  Throughput: 2571.11 images/sec
-  Total samples processed: 352906
-  Benchmark time: 137.26 seconds
-  Wall clock time: 142.53 seconds
-LitData,2571.11,352906,137.26,142.532028911,62.64,74.62
-Cleaning up cache directory: stream/cache/litdata_benchmark
-DEBUG: Results array length: 3
-DEBUG: CSV line: WebDataset,2432.81,352906,145.06,149.550403086,79.27,65.79
-DEBUG: CSV line: MosaicML MDS,2264.01,352906,155.88,160.440349349,91.14,64.74
-DEBUG: CSV line: LitData,2571.11,352906,137.26,142.532028911,62.64,74.62
-
-
-=========================================
-   DATASET STREAMING BENCHMARK SUMMARY
-   Tue Apr 15 08:52:50 UTC 2025
-=========================================
-
-DATASET STREAMING BENCHMARK SUMMARY
-Date: Tue Apr 15 08:52:50 UTC 2025
-CPU Count: 16
-Configuration: Batch Size = 256, Workers = 8
-
-| Dataset | Throughput (img/s) | Samples | Epoch 1 (s) | Epoch 2 (s) | Processing Time (s) | Wall Time (s) |
-| --- | --- | --- | --- | --- | --- | --- |
-| WebDataset | 2432.81 | 352906 | 79.27 | 65.79 | 145.06 | 149.55 |
-| MosaicML MDS | 2264.01 | 352906 | 91.14 | 64.74 | 155.88 | 160.44 |
-| LitData | 2571.11 | 352906 | 62.64 | 74.62 | 137.26 | 142.53 |
-
-Total benchmark time: 455.00 seconds
-
-Streaming benchmarks complete! Summary saved to results/streaming/summary_stream_20250415_084515.txt
-Full logs available at results/streaming/benchmark_stream_20250415_084515.log

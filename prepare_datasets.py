@@ -7,7 +7,79 @@ import subprocess
 import argparse
 import glob
 import shutil
+import threading
+import psutil
+import matplotlib.pyplot as plt
 from datetime import datetime
+
+
+class ResourceMonitor:
+    """Monitor system resource usage over time"""
+    def __init__(self, name):
+        self.name = name
+        self.monitoring = False
+        self.data = {"timestamps": [], "ram_mb": [], "ram_percent": [], "cpu_percent": []}
+        self.start_time = None
+        self.peak_ram = 0  # in MB
+        self.monitoring_thread = None
+        
+        # Initialize process CPU tracking
+        self.process = psutil.Process(os.getpid())
+        # Call once to initialize CPU measurement
+        self.process.cpu_percent()
+    
+    def _monitor_resources(self):
+        """Continuously monitor system resources"""
+        self.start_time = time.time()
+        
+        while self.monitoring:
+            try:
+                # Record timestamp relative to start
+                current_time = time.time() - self.start_time
+                
+                # Get all child processes too
+                all_processes = [self.process] + self.process.children(recursive=True)
+                
+                # Get memory usage in MB (sum across all related processes)
+                total_ram_mb = sum(p.memory_info().rss for p in all_processes) / (1024 * 1024)
+                ram_percent = (total_ram_mb / psutil.virtual_memory().total) * 100 * 1024
+                
+                # Update peak RAM
+                self.peak_ram = max(self.peak_ram, total_ram_mb)
+                
+                # Get CPU usage (percent of all CPUs)
+                # Interval=None gets usage since last call
+                total_cpu_percent = sum(p.cpu_percent(interval=None) for p in all_processes)
+                # Cap at 100% per CPU
+                cpu_count = psutil.cpu_count()
+                total_cpu_percent = min(total_cpu_percent, 100 * cpu_count)
+                
+                # Store the data
+                self.data["timestamps"].append(current_time)
+                self.data["ram_mb"].append(total_ram_mb)
+                self.data["ram_percent"].append(ram_percent)
+                self.data["cpu_percent"].append(total_cpu_percent)
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                # Handle process termination gracefully
+                pass
+            
+            # Sample every 500ms for smoother curves and less overhead
+            time.sleep(0.5)
+    
+    def start(self):
+        """Start resource monitoring"""
+        self.monitoring = True
+        self.monitoring_thread = threading.Thread(target=self._monitor_resources)
+        self.monitoring_thread.daemon = True
+        self.monitoring_thread.start()
+        print(f"Started resource monitoring for {self.name}")
+    
+    def stop(self):
+        """Stop resource monitoring"""
+        self.monitoring = False
+        if self.monitoring_thread:
+            self.monitoring_thread.join(timeout=1.0)
+        print(f"Resource monitoring for {self.name} complete. Peak RAM: {self.peak_ram:.1f} MB")
 
 
 def format_time(seconds):
@@ -125,8 +197,16 @@ def run_webdataset_benchmark(num_workers):
     if num_workers > 0:
         cmd.extend(["--num_workers", str(num_workers)])
     
+    # Start resource monitoring
+    monitor = ResourceMonitor("webdataset")
+    monitor.start()
+    
+    # Run the benchmark
     log_file = "results/processing/webdataset_benchmark.log"
     webdataset_time, log_output = run_benchmark(cmd, log_file)
+    
+    # Stop resource monitoring
+    monitor.stop()
     
     # Extract specific timing values
     webdataset_write_time = extract_timing(log_output, "Dataset write time:")
@@ -138,7 +218,9 @@ def run_webdataset_benchmark(num_workers):
         "write_time": webdataset_write_time,
         "total_time": webdataset_total_time,
         "converter_time": webdataset_converter_time,
-        "log_output": log_output
+        "log_output": log_output,
+        "peak_ram_mb": monitor.peak_ram,
+        "monitor": monitor
     }
 
 
@@ -151,8 +233,16 @@ def run_mds_benchmark(num_workers):
     if num_workers > 0:
         cmd.extend(["--num_workers", str(num_workers)])
     
+    # Start resource monitoring
+    monitor = ResourceMonitor("mds")
+    monitor.start()
+    
+    # Run the benchmark
     log_file = "results/processing/mds_benchmark.log"
     mds_time, log_output = run_benchmark(cmd, log_file)
+    
+    # Stop resource monitoring
+    monitor.stop()
     
     # Extract specific timing values
     mds_write_time = extract_timing(log_output, "Conversion completed in")
@@ -162,7 +252,9 @@ def run_mds_benchmark(num_workers):
         "time": mds_time,
         "write_time": mds_write_time,
         "converter_time": mds_converter_time,
-        "log_output": log_output
+        "log_output": log_output,
+        "peak_ram_mb": monitor.peak_ram,
+        "monitor": monitor
     }
 
 
@@ -175,8 +267,16 @@ def run_litdata_benchmark(num_workers):
     if num_workers > 0:
         cmd.extend(["--num_workers", str(num_workers)])
     
+    # Start resource monitoring
+    monitor = ResourceMonitor("litdata")
+    monitor.start()
+    
+    # Run the benchmark
     log_file = "results/processing/litdata_benchmark.log"
     litdata_time, log_output = run_benchmark(cmd, log_file)
+    
+    # Stop resource monitoring
+    monitor.stop()
     
     # Extract specific timing values
     litdata_write_time = extract_timing(log_output, "Dataset write time:")
@@ -186,7 +286,9 @@ def run_litdata_benchmark(num_workers):
         "time": litdata_time,
         "write_time": litdata_write_time,
         "total_time": litdata_total_time,
-        "log_output": log_output
+        "log_output": log_output,
+        "peak_ram_mb": monitor.peak_ram,
+        "monitor": monitor
     }
 
 
@@ -204,8 +306,16 @@ def run_energon_benchmark(webdataset_results, num_workers):
     if num_workers > 0:
         cmd.extend(["--num_workers", str(num_workers)])
     
+    # Start resource monitoring
+    monitor = ResourceMonitor("energon")
+    monitor.start()
+    
+    # Run the benchmark
     log_file = "results/processing/energon_benchmark.log"
     energon_time, log_output = run_benchmark(cmd, log_file)
+    
+    # Stop resource monitoring
+    monitor.stop()
     
     # Extract specific timing values
     energon_write_time = extract_timing(log_output, "Dataset write time:")
@@ -217,8 +327,82 @@ def run_energon_benchmark(webdataset_results, num_workers):
         "write_time": energon_write_time,
         "total_time": energon_total_time,
         "converter_time": energon_converter_time,
-        "log_output": log_output
+        "log_output": log_output,
+        "peak_ram_mb": monitor.peak_ram,
+        "monitor": monitor
     }
+
+
+def generate_resource_plots(results, timestamp):
+    """Generate plots for RAM and CPU utilization"""
+    # Set a nice style for plots
+    plt.style.use('ggplot')
+    
+    # Create a figure with two subplots
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8))
+    
+    # Define colors for each dataset format
+    colors = {
+        'webdataset': '#1f77b4',  # blue
+        'mds': '#ff7f0e',         # orange
+        'litdata': '#2ca02c',      # green
+        'energon': '#d62728'       # red
+    }
+    
+    # RAM utilization plot (in MB)
+    for name, result in results.items():
+        if 'monitor' in result:
+            monitor = result['monitor']
+            if monitor.data['timestamps'] and monitor.data['ram_mb']:
+                ax1.plot(
+                    monitor.data['timestamps'], 
+                    monitor.data['ram_mb'],
+                    label=name,
+                    color=colors.get(name, None),
+                    linewidth=2
+                )
+    
+    ax1.set_title('RAM Usage Over Time', fontsize=14, fontweight='bold')
+    ax1.set_xlabel('Time (seconds)', fontsize=12)
+    ax1.set_ylabel('RAM Usage (MB)', fontsize=12)
+    ax1.grid(True, linestyle='--', alpha=0.7)
+    ax1.legend(fontsize=10)
+    
+    # Ensure y-axis starts at 0 for better comparison
+    ax1.set_ylim(bottom=0)
+    
+    # CPU utilization plot
+    for name, result in results.items():
+        if 'monitor' in result:
+            monitor = result['monitor']
+            if monitor.data['timestamps'] and monitor.data['cpu_percent']:
+                ax2.plot(
+                    monitor.data['timestamps'], 
+                    monitor.data['cpu_percent'],
+                    label=name,
+                    color=colors.get(name, None),
+                    linewidth=2
+                )
+    
+    ax2.set_title('CPU Utilization Over Time', fontsize=14, fontweight='bold')
+    ax2.set_xlabel('Time (seconds)', fontsize=12)
+    ax2.set_ylabel('CPU Usage (%)', fontsize=12)
+    ax2.grid(True, linestyle='--', alpha=0.7)
+    ax2.legend(fontsize=10)
+    
+    # Ensure y-axis starts at 0 and has a reasonable upper limit
+    ax2.set_ylim(bottom=0)
+    
+    plt.tight_layout()
+    
+    # Save the plots
+    plots_dir = "results/processing/plots"
+    os.makedirs(plots_dir, exist_ok=True)
+    plot_file = f"{plots_dir}/resource_usage_{timestamp}.png"
+    plt.savefig(plot_file, dpi=120, bbox_inches='tight')
+    print(f"\nResource usage plots saved to: {plot_file}")
+    
+    return plot_file
 
 
 def generate_summary(results, total_time):
@@ -236,24 +420,29 @@ def generate_summary(results, total_time):
     webdataset_time_fmt = format_time(results["webdataset"]["time"])
     webdataset_write_time_fmt = format_time(results["webdataset"]["write_time"])
     webdataset_size_gb = format_size_gb(webdataset_size)
+    webdataset_ram_mb = results["webdataset"]["peak_ram_mb"]
     
     mds_time_fmt = format_time(results["mds"]["time"])
     mds_write_time_fmt = format_time(results["mds"]["write_time"])
     mds_size_gb = format_size_gb(mds_size)
+    mds_ram_mb = results["mds"]["peak_ram_mb"]
     
     litdata_time_fmt = format_time(results["litdata"]["time"])
     litdata_write_time_fmt = format_time(results["litdata"]["write_time"])
     litdata_size_gb = format_size_gb(litdata_size)
+    litdata_ram_mb = results["litdata"]["peak_ram_mb"]
     
     energon_time_fmt = format_time(results["energon"]["time"])
     energon_write_time_fmt = format_time(results["energon"]["write_time"])
     energon_size_gb = format_size_gb(energon_size)
+    energon_ram_mb = results["energon"]["peak_ram_mb"]
     
     # Combine WDS and Energon metrics
     combined_energon_time_raw = results["webdataset"]["time"] + results["energon"]["time"]
     combined_energon_write_raw = results["webdataset"]["write_time"] + results["energon"]["write_time"]
     combined_energon_time_fmt = format_time(combined_energon_time_raw)
     combined_energon_write_fmt = format_time(combined_energon_write_raw)
+    combined_energon_ram_mb = max(webdataset_ram_mb, energon_ram_mb)
     
     # Generate summary content
     summary_content = [
@@ -261,12 +450,12 @@ def generate_summary(results, total_time):
         f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         f"CPU Count: {os.cpu_count()}",
         "",
-        "| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |",
-        "| --- | --- | --- | --- | --- |",
-        f"| LitData (PL) | {litdata_time_fmt} | {litdata_write_time_fmt} | {litdata_size_gb} | {litdata_files} |",
-        f"| WebDataset (WDS) | {webdataset_time_fmt} | {webdataset_write_time_fmt} | {webdataset_size_gb} | {webdataset_files} |",
-        f"| MosaicML Dataset (MDS) | {mds_time_fmt} | {mds_write_time_fmt} | {mds_size_gb} | {mds_files} |",
-        f"| Energon (WDS+) | {combined_energon_time_fmt} | {combined_energon_write_fmt} | {energon_size_gb} | {energon_files} |",
+        "| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files | Peak RAM (MB) |",
+        "| --- | --- | --- | --- | --- | --- |",
+        f"| LitData (PL) | {litdata_time_fmt} | {litdata_write_time_fmt} | {litdata_size_gb} | {litdata_files} | {litdata_ram_mb:.1f} |",
+        f"| WebDataset (WDS) | {webdataset_time_fmt} | {webdataset_write_time_fmt} | {webdataset_size_gb} | {webdataset_files} | {webdataset_ram_mb:.1f} |",
+        f"| MosaicML Dataset (MDS) | {mds_time_fmt} | {mds_write_time_fmt} | {mds_size_gb} | {mds_files} | {mds_ram_mb:.1f} |",
+        f"| Energon (WDS+) | {combined_energon_time_fmt} | {combined_energon_write_fmt} | {energon_size_gb} | {energon_files} | {combined_energon_ram_mb:.1f} |",
         "",
         f"Total benchmark time: {format_time(total_time)} seconds"
     ]
@@ -277,6 +466,9 @@ def generate_summary(results, total_time):
     
     print_header("BENCHMARK SUMMARY")
     print('\n'.join(summary_content))
+    
+    # Generate resource usage plots
+    generate_resource_plots(results, timestamp)
     
     return summary_file
 

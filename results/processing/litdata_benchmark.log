@@ -1,0 +1,120 @@
+Seed set to 42
+<sys>:0: UserWarning: A newer version of litdata is available (0.2.45). Please consider upgrading with `pip install -U litdata`. Not all functionalities of the platform can be guaranteed to work with the current version.
+Using 16 worker processes
+Found 15 parquet files in directory: ./data/benchmark_dataset.parquet
+Processing 15 parquet files with 16 workers...
+Create an account on https://lightning.ai/ to optimize your data faster using multiple nodes and large machines.
+Setting multiprocessing start_method to spawn. 
+Storing the files under /home/ec2-user/benchmark-dataloader/shards/litdata
+Setup started with fast_dev_run=False.
+Setup finished in 0.001 seconds. Found 15 items to process.
+Starting 16 workers with 15 items. The progress bar is only updated when a worker finishes.
+Workers are ready ! Starting data processing...
+
+
+Progress:   0%|          | 0/15 [00:00<?, ?it/s][A/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (64.0 MB). The current chunk will be 64.0 MB in size.
+  warnings.warn(
+/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (64.0 MB). The current chunk will be 64.0 MB in size.
+  warnings.warn(
+/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (64.0 MB). The current chunk will be 64.0 MB in size.
+  warnings.warn(
+/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (64.0 MB). The current chunk will be 64.0 MB in size.
+  warnings.warn(
+/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (64.0 MB). The current chunk will be 64.0 MB in size.
+  warnings.warn(
+/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (64.0 MB). The current chunk will be 64.0 MB in size.
+  warnings.warn(
+/home/ec2-user/benchmark-dataloader/litData/src/litdata/streaming/writer.py:275: UserWarning: An item was larger than the target chunk size (64.0 MB). The current chunk will be 64.0 MB in size.
+  warnings.warn(
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00007-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20429-1-c000.snappy.parquet (6056 rows)
+Rank 8 inferred the following `['bytes', 'str']` data format.
+Worker 8 is terminating.
+Worker 8 is done.
+
+
+Progress:   7%|▋         | 1/15 [00:25<05:56, 25.46s/it][AWorker processing parquet file: ./data/benchmark_dataset.parquet/part-00010-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20432-1-c000.snappy.parquet (5898 rows)
+Rank 11 inferred the following `['bytes', 'str']` data format.
+Worker 11 is terminating.
+Worker 11 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00011-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20433-1-c000.snappy.parquet (5964 rows)
+Rank 12 inferred the following `['bytes', 'str']` data format.
+Worker 12 is terminating.
+Worker 12 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00004-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20426-1-c000.snappy.parquet (6158 rows)
+Rank 5 inferred the following `['bytes', 'str']` data format.
+Worker 5 is terminating.
+Worker 5 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00000-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20422-1-c000.snappy.parquet (6309 rows)
+Rank 1 inferred the following `['bytes', 'str']` data format.
+Worker 1 is terminating.
+Worker 1 is done.
+
+
+Progress:  33%|███▎      | 5/15 [00:26<00:53,  5.31s/it][AWorker processing parquet file: ./data/benchmark_dataset.parquet/part-00001-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20423-1-c000.snappy.parquet (6218 rows)
+Rank 2 inferred the following `['bytes', 'str']` data format.
+Worker 2 is terminating.
+Worker 2 is done.
+Worker 0 is terminating.
+Worker 0 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00014-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20436-1-c000.snappy.parquet (3904 rows)
+Rank 15 inferred the following `['bytes', 'str']` data format.
+Worker 15 is terminating.
+Worker 15 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00002-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20424-1-c000.snappy.parquet (6173 rows)
+Rank 3 inferred the following `['bytes', 'str']` data format.
+Worker 3 is terminating.
+Worker 3 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00006-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20428-1-c000.snappy.parquet (6067 rows)
+Rank 7 inferred the following `['bytes', 'str']` data format.
+Worker 7 is terminating.
+Worker 7 is done.
+
+
+Progress:  60%|██████    | 9/15 [00:27<00:18,  3.08s/it][AWorker processing parquet file: ./data/benchmark_dataset.parquet/part-00012-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20434-1-c000.snappy.parquet (5944 rows)
+Rank 13 inferred the following `['bytes', 'str']` data format.
+Worker 13 is terminating.
+Worker 13 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00013-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20435-1-c000.snappy.parquet (5826 rows)
+Rank 14 inferred the following `['bytes', 'str']` data format.
+Worker 14 is terminating.
+Worker 14 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00009-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20431-1-c000.snappy.parquet (5986 rows)
+Rank 10 inferred the following `['bytes', 'str']` data format.
+Worker 10 is terminating.
+Worker 10 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00005-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20427-1-c000.snappy.parquet (6030 rows)
+Rank 6 inferred the following `['bytes', 'str']` data format.
+Worker 6 is terminating.
+Worker 6 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00008-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20430-1-c000.snappy.parquet (5921 rows)
+Rank 9 inferred the following `['bytes', 'str']` data format.
+Worker 9 is terminating.
+Worker 9 is done.
+Worker processing parquet file: ./data/benchmark_dataset.parquet/part-00003-tid-322500825160024747-799a60dc-6a6f-4117-804f-d1ad8b30f831-20425-1-c000.snappy.parquet (6060 rows)
+Rank 4 inferred the following `['bytes', 'str']` data format.
+Worker 4 is terminating.
+Worker 4 is done.
+
+Progress: 100%|██████████| 15/15 [00:29<00:00,  1.98s/it]
+Workers are finished.
+Finished data processing!
+Counting total samples in parquet files...
+
+Counting samples:   0%|          | 0/15 [00:00<?, ?it/s]
+Counting samples: 100%|██████████| 15/15 [00:00<00:00, 7264.12it/s]
+
+LitData statistics:
+  Output directory: ./shards/litdata
+  Number of samples in parquet files: 88514
+  Number of files created: 60
+  Prefix: benchmark
+
+Timing Summary:
+  Dataset write time: 30.14 seconds
+  Total script time: 30.15 seconds
+Converting ./data/benchmark_dataset.parquet to LitData format in ./shards/litdata
+Running: /home/ec2-user/benchmark-dataloader/.venv/bin/python prepare_data/litdata_converter.py --data ./data/benchmark_dataset.parquet --out_dir ./shards/litdata --prefix benchmark
+
+Timing Summary:
+  Dataset write time: 34.65 seconds
+  Total script time: 34.65 seconds

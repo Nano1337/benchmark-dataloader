@@ -17,7 +17,6 @@ data_unit_test/
 data/
 shards/
 lightning_data/
-results/
 scripts/clean_dataset.py
 scripts/upload_to_hf.py
 scripts/cut_down_data.sh

@@ -1,142 +1,0 @@
-Starting streaming benchmarks at Tue Apr 15 08:41:32 UTC 2025
-CPU count: 16
-
-
-
-Running WebDataset benchmark...
-
-Seed set to 42
-/home/ec2-user/benchmark-dataloader/.venv/lib/python3.13/site-packages/webdataset/compat.py:389: UserWarning: WebDataset(shardshuffle=...) is None; set explicitly to False or a number
-  warnings.warn(
-Epoch 1/2: 0it [00:00, ?it/s]Epoch 1/2: 1it [00:02,  2.78s/it]Epoch 1/2: 10it [00:04,  2.45it/s]Epoch 1/2: 19it [00:05,  3.65it/s]Epoch 1/2: 34it [00:06,  5.06it/s]Epoch 1/2: 50it [00:08,  6.10it/s]Epoch 1/2: 66it [00:11,  5.68it/s]Epoch 1/2: 82it [00:13,  6.19it/s]Epoch 1/2: 98it [00:14,  6.65it/s]Epoch 1/2: 114it [00:16,  7.03it/s]Epoch 1/2: 130it [00:18,  7.05it/s]Epoch 1/2: 146it [00:20,  7.11it/s]Epoch 1/2: 162it [00:22,  7.20it/s]Epoch 1/2: 171it [00:23,  7.40it/s]
-Epoch 2/2: 0it [00:00, ?it/s]Epoch 2/2: 8it [00:01,  7.99it/s]Epoch 2/2: 17it [00:02,  6.45it/s]Epoch 2/2: 33it [00:04,  7.89it/s]Epoch 2/2: 49it [00:05,  8.62it/s]Epoch 2/2: 65it [00:07,  9.08it/s]Epoch 2/2: 81it [00:08,  9.33it/s]Epoch 2/2: 97it [00:10,  9.54it/s]Epoch 2/2: 113it [00:11,  9.72it/s]Epoch 2/2: 129it [00:13,  9.39it/s]Epoch 2/2: 145it [00:15,  9.11it/s]Epoch 2/2: 161it [00:17,  9.02it/s]Epoch 2/2: 171it [00:18,  9.13it/s]
-DEBUG: WebDataset result: 
-
-=========================================
-   WebDataset Streaming Benchmark
-   Tue Apr 15 08:41:32 UTC 2025
-=========================================
-
-Configuration: batch_size=256, num_workers=8
-Seed set to 42
-Cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/webdataset_benchmark
-Listing objects...
-Found 14 objects in S3
-Found 14 train tar files
-Using 8 worker threads for data loading
-Starting benchmark with batch size 256
-Epoch 1: Processed 42858 samples in 23.10s (1854.97 images/sec)
-Epoch 2: Processed 42858 samples in 18.73s (2287.89 images/sec)
-
-Benchmark Summary:
-  Total samples: 85716
-  Total time: 41.84s
-  Average throughput: 2048.81 images/sec
-Benchmark complete
-
-Results for WebDataset:
-  Throughput: 2048.81 images/sec
-  Total samples processed: 85716
-  Benchmark time: 41.84 seconds
-  Wall clock time: 46.34 seconds
-WebDataset,2048.81,85716,41.84,46.341080986,23.10,18.73
-Cleaning up cache directory: stream/cache/webdataset_benchmark
-
-
-Running MosaicML Dataset benchmark...
-
-Seed set to 42
-Epoch 1/2:   0%|          | 0/168 [00:00<?, ?it/s]Epoch 1/2:   1%|          | 1/168 [00:10<28:02, 10.07s/it]Epoch 1/2:  10%|█         | 17/168 [00:11<01:43,  1.46it/s]Epoch 1/2:  20%|█▉        | 33/168 [00:13<00:53,  2.51it/s]Epoch 1/2:  29%|██▉       | 49/168 [00:14<00:35,  3.35it/s]Epoch 1/2:  39%|███▊      | 65/168 [00:16<00:25,  4.04it/s]Epoch 1/2:  48%|████▊     | 81/168 [00:17<00:19,  4.56it/s]Epoch 1/2:  58%|█████▊    | 97/168 [00:19<00:14,  4.99it/s]Epoch 1/2:  67%|██████▋   | 113/168 [00:20<00:10,  5.44it/s]Epoch 1/2:  77%|███████▋  | 129/168 [00:22<00:06,  5.84it/s]Epoch 1/2:  86%|████████▋ | 145/168 [00:23<00:03,  6.18it/s]Epoch 1/2:  96%|█████████▌| 161/168 [00:24<00:01,  6.50it/s]Epoch 1/2: 100%|██████████| 168/168 [00:25<00:00,  6.68it/s]
-Epoch 2/2:   0%|          | 0/168 [00:00<?, ?it/s]Epoch 2/2:   1%|          | 1/168 [00:01<02:50,  1.02s/it]Epoch 2/2:   6%|▌         | 10/168 [00:02<00:32,  4.89it/s]Epoch 2/2:  15%|█▍        | 25/168 [00:03<00:20,  6.95it/s]Epoch 2/2:  24%|██▍       | 40/168 [00:04<00:15,  8.48it/s]Epoch 2/2:  33%|███▎      | 55/168 [00:06<00:12,  8.81it/s]Epoch 2/2:  42%|████▏     | 70/168 [00:07<00:11,  8.78it/s]Epoch 2/2:  51%|█████     | 85/168 [00:09<00:09,  8.90it/s]Epoch 2/2:  60%|█████▉    | 100/168 [00:11<00:07,  9.08it/s]Epoch 2/2:  68%|██████▊   | 115/168 [00:12<00:05,  9.31it/s]Epoch 2/2:  77%|███████▋  | 130/168 [00:13<00:03,  9.51it/s]Epoch 2/2:  86%|████████▋ | 145/168 [00:14<00:02,  9.68it/s]Epoch 2/2:  96%|█████████▌| 161/168 [00:16<00:00,  9.89it/s]Epoch 2/2: 100%|██████████| 168/168 [00:16<00:00, 10.28it/s]
-DEBUG: MosaicML result: 
-
-=========================================
-   MosaicML Dataset Streaming Benchmark
-   Tue Apr 15 08:42:18 UTC 2025
-=========================================
-
-Configuration: batch_size=256, num_workers=8
-Seed set to 42
-Cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/mds_benchmark
-Using 8 worker threads for data loading
-Starting benchmark with batch size 256
-Epoch 1: Processed 42858 samples in 25.14s (1704.58 images/sec)
-Epoch 2: Processed 42858 samples in 16.34s (2623.46 images/sec)
-
-Benchmark Summary:
-  Total samples: 85716
-  Total time: 41.48s
-  Average throughput: 2066.48 images/sec
-Benchmark complete
-
-Results for MosaicML Dataset:
-  Throughput: 2066.48 images/sec
-  Total samples processed: 85716
-  Benchmark time: 41.48 seconds
-  Wall clock time: 45.98 seconds
-MosaicML MDS,2066.48,85716,41.48,45.980398000,25.14,16.34
-Cleaning up cache directory: stream/cache/mds_benchmark
-
-
-Running LitData benchmark...
-
-Seed set to 42
-/home/ec2-user/benchmark-dataloader/stream/lightning_data.py:131: A newer version of litdata is available (0.2.45). Please consider upgrading with `pip install -U litdata`. Not all functionalities of the platform can be guaranteed to work with the current version.
-Epoch 1/2:   0%|          | 0/168 [00:00<?, ?it/s]Epoch 1/2:   1%|          | 1/168 [00:02<08:14,  2.96s/it]Epoch 1/2:   4%|▍         | 7/168 [00:04<01:36,  1.67it/s]Epoch 1/2:  14%|█▎        | 23/168 [00:05<00:36,  4.01it/s]Epoch 1/2:  23%|██▎       | 39/168 [00:07<00:23,  5.47it/s]Epoch 1/2:  33%|███▎      | 55/168 [00:08<00:17,  6.38it/s]Epoch 1/2:  42%|████▏     | 71/168 [00:10<00:13,  6.98it/s]Epoch 1/2:  52%|█████▏    | 87/168 [00:11<00:10,  7.37it/s]Epoch 1/2:  61%|██████▏   | 103/168 [00:13<00:08,  7.82it/s]Epoch 1/2:  71%|███████   | 119/168 [00:14<00:05,  8.20it/s]Epoch 1/2:  80%|████████  | 135/168 [00:15<00:03,  8.46it/s]Epoch 1/2:  90%|████████▉ | 151/168 [00:17<00:01,  8.70it/s]Epoch 1/2:  99%|█████████▉| 167/168 [00:18<00:00,  8.85it/s]Epoch 1/2: 100%|██████████| 168/168 [00:18<00:00,  8.90it/s]
-Epoch 2/2:   0%|          | 0/168 [00:00<?, ?it/s]Epoch 2/2:   1%|          | 1/168 [00:01<03:10,  1.14s/it]Epoch 2/2:  10%|█         | 17/168 [00:02<00:22,  6.68it/s]Epoch 2/2:  20%|█▉        | 33/168 [00:03<00:15,  8.52it/s]Epoch 2/2:  29%|██▉       | 49/168 [00:05<00:13,  9.07it/s]Epoch 2/2:  39%|███▊      | 65/168 [00:06<00:10,  9.62it/s]Epoch 2/2:  48%|████▊     | 81/168 [00:08<00:08,  9.90it/s]Epoch 2/2:  58%|█████▊    | 97/168 [00:09<00:06, 10.15it/s]Epoch 2/2:  67%|██████▋   | 113/168 [00:10<00:05, 10.34it/s]Epoch 2/2:  77%|███████▋  | 129/168 [00:12<00:03, 10.52it/s]Epoch 2/2:  86%|████████▋ | 145/168 [00:13<00:02, 10.68it/s]Epoch 2/2:  96%|█████████▌| 161/168 [00:14<00:00, 10.75it/s]Epoch 2/2: 100%|██████████| 168/168 [00:15<00:00, 10.87it/s]
-DEBUG: LitData result: 
-
-=========================================
-   LitData Streaming Benchmark
-   Tue Apr 15 08:43:04 UTC 2025
-=========================================
-
-Configuration: batch_size=256, num_workers=8
-Seed set to 42
-Cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/litdata_benchmark
-Using S3 path from environment...
-Using remote path: s3://datology-assets-dev/users/haoli/benchmark_dataloader_shards/litdata
-Using 8 worker threads for data loading
-Starting benchmark with batch size 256
-Epoch 1: Processed 42858 samples in 18.89s (2268.69 images/sec)
-Epoch 2: Processed 42858 samples in 15.45s (2773.28 images/sec)
-
-Benchmark Summary:
-  Total samples: 85716
-  Total time: 34.35s
-  Average throughput: 2495.73 images/sec
-Benchmark complete
-
-Results for LitData:
-  Throughput: 2495.73 images/sec
-  Total samples processed: 85716
-  Benchmark time: 34.35 seconds
-  Wall clock time: 39.57 seconds
-LitData,2495.73,85716,34.35,39.572746899,18.89,15.45
-Cleaning up cache directory: stream/cache/litdata_benchmark
-DEBUG: Results array length: 3
-DEBUG: CSV line: WebDataset,2048.81,85716,41.84,46.341080986,23.10,18.73
-DEBUG: CSV line: MosaicML MDS,2066.48,85716,41.48,45.980398000,25.14,16.34
-DEBUG: CSV line: LitData,2495.73,85716,34.35,39.572746899,18.89,15.45
-
-
-=========================================
-   DATASET STREAMING BENCHMARK SUMMARY
-   Tue Apr 15 08:43:47 UTC 2025
-=========================================
-
-DATASET STREAMING BENCHMARK SUMMARY
-Date: Tue Apr 15 08:43:47 UTC 2025
-CPU Count: 16
-Configuration: Batch Size = 256, Workers = 8
-
-| Dataset | Throughput (img/s) | Samples | Epoch 1 (s) | Epoch 2 (s) | Processing Time (s) | Wall Time (s) |
-| --- | --- | --- | --- | --- | --- | --- |
-| WebDataset | 2048.81 | 85716 | 23.10 | 18.73 | 41.84 | 46.34 |
-| MosaicML MDS | 2066.48 | 85716 | 25.14 | 16.34 | 41.48 | 45.98 |
-| LitData | 2495.73 | 85716 | 18.89 | 15.45 | 34.35 | 39.57 |
-
-Total benchmark time: 135.00 seconds
-
-Streaming benchmarks complete! Summary saved to results/streaming/summary_stream_20250415_084132.txt
-Full logs available at results/streaming/benchmark_stream_20250415_084132.log

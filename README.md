@@ -52,7 +52,7 @@ The `image.content` contains the raw bytes of the image while `text.content` con
 
 ### Data Preparation
 
-1. Run `./scripts/prepare_datasets.sh` to run the dataset preparation benchmarking. The output will be found in `./shards`
+1. Run `python prepare_datasets.py` to run the dataset preparation benchmarking. The output datasets will be found in `./shards`. You can view the resource usage plots in `./results/processing/plots`.
 
 2. Please upload `./shards` to your respective cloud storage provider. Here's an example for s3: 
 ```bash
@@ -65,17 +65,16 @@ Note that we benchmark only using 3GB worth of data for dataset preparation (rep
 
 The results can be found here: 
 
-BENCHMARK SUMMARY
-Date: 2025-04-24 05:34:09
 CPU Count: 16
 
-| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
-| --- | --- | --- | --- | --- |
-| LitData (PL) | 34.64 | 30.10 | 2.78 | 60 |
-| WebDataset (WDS) | 30.96 | 24.50 | 3.17 | 23 |
-| MosaicML Dataset (MDS) | 20.90 | 12.79 | 2.86 | 47 |
-| Energon (WDS+) | 37.64 | 49.00 | 3.18 | 51 |
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files | Peak RAM (MB) |
+| --- | --- | --- | --- | --- | --- |
+| LitData (PL) | 34.69 | 30.14 | 2.78 | 60 | 33225.6 |
+| WebDataset (WDS) | 30.91 | 24.43 | 3.17 | 23 | 72140.9 |
+| MosaicML Dataset (MDS) | 21.07 | 12.82 | 2.86 | 47 | 7745.4 |
+| Energon (WDS+) | 37.60 | 48.86 | 3.18 | 51 | 72140.9 |
 
+Total benchmark time: 94.56 seconds
 
 ### Streaming
 
