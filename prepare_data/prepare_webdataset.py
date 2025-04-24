@@ -7,7 +7,7 @@ def parse_args():
     parser = argparse.ArgumentParser("""Prepare WebDataset from parquet file""")
     parser.add_argument(
         "--data", 
-        default="./benchmark_dataset/benchmark_shard.parquet",
+        default="./data/benchmark_dataset.parquet",
         help="Path to the parquet file containing image-text data"
     )
     parser.add_argument(
@@ -19,11 +19,6 @@ def parse_args():
         "--prefix", 
         default="benchmark",
         help="Prefix for the output shard files"
-    )
-    parser.add_argument(
-        "--use_doc_id", 
-        action="store_true", 
-        help="Use document_id as key (default: index)"
     )
     return parser.parse_args()
 
@@ -48,10 +43,6 @@ def main():
         "--shards", args.output_dir,
         "--prefix", args.prefix
     ]
-    
-    # Add use_doc_id flag if specified
-    if args.use_doc_id:
-        cmd.append("--use_doc_id")
     
     print(f"Running: {' '.join(cmd)}")
     

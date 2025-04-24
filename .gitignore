@@ -23,3 +23,4 @@ scripts/upload_to_hf.py
 scripts/cut_down_data.sh
 scripts/download_shard.sh
 benchmark_dataset/
+.msc_config.yaml

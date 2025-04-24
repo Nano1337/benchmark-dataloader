@@ -10,7 +10,7 @@ def parse_args():
     parser = argparse.ArgumentParser("""Prepare LitData dataset from parquet file""")
     parser.add_argument(
         "--data", 
-        default="./benchmark_dataset/benchmark_shard.parquet",
+        default="./data/benchmark_dataset.parquet",
         help="Path to the parquet file containing image-text data"
     )
     parser.add_argument(
@@ -22,11 +22,6 @@ def parse_args():
         "--prefix", 
         default="benchmark",
         help="Prefix for the output dataset"
-    )
-    parser.add_argument(
-        "--use_doc_id", 
-        action="store_true", 
-        help="Use document_id as key (default: index)"
     )
     parser.add_argument(
         "--chunk_size",
@@ -69,10 +64,6 @@ def main():
         "--out_dir", args.output_dir,
         "--prefix", args.prefix
     ]
-    
-    # Add optional arguments if specified
-    if args.use_doc_id:
-        cmd.append("--use_doc_id")
     
     if args.compression:
         cmd.extend(["--compression", args.compression])

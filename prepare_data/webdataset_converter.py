@@ -25,11 +25,6 @@ except ImportError:
 
 parser = argparse.ArgumentParser("""Generate sharded WebDataset from parquet data.""")
 parser.add_argument(
-    "--use_doc_id", 
-    action="store_true", 
-    help="Use document_id as key (default: index)"
-)
-parser.add_argument(
     "--maxsize", 
     type=float, 
     default=2 << 26,
@@ -48,7 +43,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--data",
-    default="./benchmark_dataset/benchmark_shard.parquet",
+    default="./data/benchmark_dataset.parquet",
     help="Path to the parquet file containing image-text data",
 )
 parser.add_argument(
@@ -111,15 +106,12 @@ def write_dataset(df, base="./shards"):
             
             row = df.iloc[i]
             
-            # Get document_id for the key
-            doc_id = str(row['document_id'])
-            
             # Get image bytes and text content
             image_bytes = row['image']['content']
             text = row['text']['content']
             
             # Generate a unique key
-            key = doc_id if args.use_doc_id else f"train_{i:07d}"
+            key = f"train_{i:07d}"
             
             # Ensure key uniqueness
             if key in all_keys:

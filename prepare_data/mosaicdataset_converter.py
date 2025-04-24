@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument(
         '--data',
         type=str,
-        default='./benchmark_dataset/benchmark_shard.parquet',
+        default='./data/benchmark_dataset.parquet',
         help='Path to the parquet file containing image-text data',
     )
     parser.add_argument(
@@ -91,9 +91,8 @@ def main(args):
     indices = np.random.permutation(len(df))
     
     # Set up the columns for the MDS dataset
-    # We'll store image bytes, text content, and document ID
+    # We'll store image bytes, text content
     columns = {
-        'doc_id': 'str',      # document ID 
         'image': 'jpeg',      # image bytes
         'text': 'str',        # caption text
         'idx': 'int'          # sample index
@@ -120,14 +119,12 @@ def main(args):
         for i in tqdm(indices):
             row = df.iloc[i]
             
-            # Get document_id, image bytes and text
-            doc_id = str(row['document_id'])
+            # Get image bytes and text
             image_bytes = row['image']['content']
             text = row['text']['content']
             
             # Write the sample
             out.write({
-                'doc_id': doc_id,
                 'image': image_bytes,
                 'text': text,
                 'idx': int(i)  # Cast to int to avoid numpy type issues

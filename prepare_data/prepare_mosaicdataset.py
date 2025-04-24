@@ -8,7 +8,7 @@ def parse_args():
     parser = argparse.ArgumentParser("""Prepare MosaicML Streaming Dataset from parquet file""")
     parser.add_argument(
         "--data", 
-        default="./benchmark_dataset/benchmark_shard.parquet",
+        default="./data/benchmark_dataset.parquet",
         help="Path to the parquet file containing image-text data"
     )
     parser.add_argument(

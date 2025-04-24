@@ -236,6 +236,44 @@ run_litdata_benchmark() {
     echo "LitData,$throughput,$samples,$benchmark_time,$total_time,$epoch_times"
 }
 
+# Run Energon streaming benchmark
+run_energon_benchmark() {
+    local batch_size=$1
+    local num_workers=$2
+    
+    print_header "Energon Streaming Benchmark"
+    echo "Configuration: batch_size=$batch_size, num_workers=$num_workers"
+    
+    local start_time=$(date +%s.%N)
+    
+    # Run the benchmark with standard parameters
+    python stream/energon.py \
+        --batch_size $batch_size \
+        --num_workers $num_workers \
+        --epochs 2 \
+        | tee "$TMP_LOG"
+    
+    local end_time=$(date +%s.%N)
+    local total_time=$(echo "$end_time - $start_time" | bc)
+    
+    # Extract metrics from the logs
+    local throughput=$(extract_throughput "$TMP_LOG")
+    local samples=$(extract_samples "$TMP_LOG")
+    local benchmark_time=$(extract_time "$TMP_LOG")
+    local epoch_times=$(extract_epoch_times "$TMP_LOG")
+    
+    # Print a summary
+    echo ""
+    echo "Results for Energon:"
+    echo "  Throughput: $throughput images/sec"
+    echo "  Total samples processed: $samples"
+    echo "  Benchmark time: $benchmark_time seconds"
+    echo "  Wall clock time: $(format_number $total_time) seconds"
+    
+    # Return the metrics for the summary table
+    echo "Energon,$throughput,$samples,$benchmark_time,$total_time,$epoch_times"
+}
+
 # Start main script
 print_header "DATASET STREAMING BENCHMARKS"
 
@@ -285,6 +323,15 @@ lit_result=$(run_litdata_benchmark $BATCH_SIZE $NUM_WORKERS)
 echo "DEBUG: LitData result: $lit_result"
 results+=("$lit_result")
 cleanup_cache "stream/cache/litdata_benchmark"
+
+# Print announcement before running Energon benchmark
+echo -e "\n\nRunning Energon benchmark...\n"
+
+# Run Energon streaming benchmark
+energon_result=$(run_energon_benchmark $BATCH_SIZE $NUM_WORKERS)
+echo "DEBUG: Energon result: $energon_result"
+results+=("$energon_result")
+cleanup_cache "stream/cache/energon_benchmark"
 
 # Calculate total benchmark time
 TOTAL_END_TIME=$(date +%s)

@@ -21,7 +21,7 @@ def parse_args():
     parser.add_argument(
         '--data',
         type=str,
-        default='./benchmark_dataset/benchmark_shard.parquet',
+        default='./data/benchmark_dataset.parquet',
         help='Path to the parquet file or directory containing image-text data',
     )
     parser.add_argument(
@@ -53,11 +53,6 @@ def parse_args():
         type=int,
         default=None,  # Default to all available CPUs
         help='Number of worker processes',
-    )
-    parser.add_argument(
-        '--use_doc_id',
-        action='store_true',
-        help='Use document_id as key (default: index)',
     )
     parser.add_argument(
         '--prefix',
@@ -130,13 +125,6 @@ def optimize_fn(parquet_file, args):
                     image_bytes = row['image']['content']
                     text = row['text']['content'] if 'text' in row else None
                     
-                    # Use document_id if available and requested
-                    doc_id = None
-                    if args.use_doc_id and 'document_id' in row:
-                        doc_id = row['document_id']
-                    else:
-                        doc_id = f"sample_{row_index}"
-                    
                     # Process image if resizing is enabled
                     if args.resize:
                         # Convert bytes to PIL image, resize, and back to bytes
@@ -151,10 +139,6 @@ def optimize_fn(parquet_file, args):
                         "image_bytes": image_bytes,
                         "text": text
                     }
-                    
-                    # Add ID if using document_id
-                    if args.use_doc_id:
-                        sample_data["id"] = doc_id
                     
                     yield sample_data
                     row_index += 1
