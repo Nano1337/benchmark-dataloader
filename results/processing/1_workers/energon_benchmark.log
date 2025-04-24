@@ -1,9 +1,9 @@
-Starting Energon conversion at 1745474118.112592
+Starting Energon conversion at 1745478370.1925187
 CPU count: 16
 
 ==========================================
    ENERGON BENCHMARK
-   1745474118.1126468
+   1745478370.1925712
 ==========================================
 
 Converting ./shards/webdataset to Energon format in ./shards/energon
@@ -50,13 +50,13 @@ Done
 
 
 Timing Summary:
-WebDataset preparation time: 30.91 seconds
-WebDataset write time: 24.43 seconds
-Energon converter execution time: 5.31 seconds
-Energon dataset write time: 5.31 seconds
-Energon script time: 6.65 seconds
+WebDataset preparation time: 22.97 seconds
+WebDataset write time: 16.66 seconds
+Energon converter execution time: 5.17 seconds
+Energon dataset write time: 5.17 seconds
+Energon script time: 6.53 seconds
 
 Combined Metrics:
-Converter execution time: 5.31 seconds
-Dataset write time: 29.74 seconds
-Total script time: 37.56 seconds
+Converter execution time: 5.17 seconds
+Dataset write time: 21.83 seconds
+Total script time: 29.50 seconds

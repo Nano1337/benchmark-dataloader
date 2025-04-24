@@ -1,0 +1,169 @@
+Reading parquet file: ./data/benchmark_dataset.parquet
+Loaded 88514 samples from parquet file
+Processing all 88514 samples as train split
+Using 1 worker process
+Total samples: 88514, divided into 886 batches
+# writing ./shards/webdataset/benchmark-train-000000.tar 0 0.0 GB 0
+
+Processing batches:   0%|          | 0/886 [00:00<?, ?it/s]
+Processing batches:   1%|          | 6/886 [00:00<00:14, 59.88it/s]
+Processing batches:   1%|▏         | 12/886 [00:00<00:14, 59.83it/s]
+Processing batches:   2%|▏         | 18/886 [00:00<00:14, 59.23it/s]
+Processing batches:   3%|▎         | 25/886 [00:00<00:14, 59.56it/s]
+Processing batches:   3%|▎         | 31/886 [00:00<00:14, 59.50it/s]
+Processing batches:   4%|▍         | 37/886 [00:00<00:14, 59.62it/s]
+Processing batches:   5%|▍         | 44/886 [00:00<00:14, 59.81it/s]
+Processing batches:   6%|▌         | 51/886 [00:00<00:13, 60.05it/s]
+Processing batches:   7%|▋         | 58/886 [00:00<00:13, 60.36it/s]
+Processing batches:   7%|▋         | 65/886 [00:01<00:13, 60.56it/s]
+Processing batches:   8%|▊         | 72/886 [00:01<00:13, 60.33it/s]
+Processing batches:   9%|▉         | 79/886 [00:01<00:13, 60.14it/s]
+Processing batches:  10%|▉         | 86/886 [00:01<00:13, 60.37it/s]
+Processing batches:  10%|█         | 93/886 [00:01<00:13, 60.45it/s]
+Processing batches:  11%|█▏        | 100/886 [00:01<00:12, 60.57it/s]
+Processing batches:  12%|█▏        | 107/886 [00:01<00:12, 60.55it/s]
+Processing batches:  13%|█▎        | 114/886 [00:01<00:12, 60.45it/s]
+Processing batches:  14%|█▎        | 121/886 [00:02<00:12, 60.13it/s]
+Processing batches:  14%|█▍        | 128/886 [00:02<00:12, 59.84it/s]
+Processing batches:  15%|█▌        | 134/886 [00:02<00:12, 59.39it/s]
+Processing batches:  16%|█▌        | 141/886 [00:02<00:12, 59.63it/s]
+Processing batches:  17%|█▋        | 148/886 [00:02<00:12, 59.91it/s]
+Processing batches:  17%|█▋        | 155/886 [00:02<00:12, 60.09it/s]
+Processing batches:  18%|█▊        | 162/886 [00:02<00:12, 59.97it/s]
+Processing batches:  19%|█▉        | 169/886 [00:02<00:11, 60.21it/s]
+Processing batches:  20%|█▉        | 176/886 [00:02<00:11, 60.17it/s]
+Processing batches:  21%|██        | 183/886 [00:03<00:11, 60.20it/s]
+Processing batches:  21%|██▏       | 190/886 [00:03<00:11, 60.38it/s]
+Processing batches:  22%|██▏       | 197/886 [00:03<00:11, 60.03it/s]
+Processing batches:  23%|██▎       | 204/886 [00:03<00:11, 60.20it/s]
+Processing batches:  24%|██▍       | 211/886 [00:03<00:11, 60.20it/s]
+Processing batches:  25%|██▍       | 218/886 [00:03<00:11, 60.22it/s]
+Processing batches:  25%|██▌       | 225/886 [00:03<00:11, 59.96it/s]
+Processing batches:  26%|██▌       | 232/886 [00:03<00:10, 59.83it/s]
+Processing batches:  27%|██▋       | 239/886 [00:03<00:10, 60.03it/s]
+Processing batches:  28%|██▊       | 246/886 [00:04<00:10, 60.16it/s]
+Processing batches:  29%|██▊       | 253/886 [00:04<00:10, 60.31it/s]
+Processing batches:  29%|██▉       | 260/886 [00:04<00:10, 60.39it/s]
+Processing batches:  30%|███       | 267/886 [00:04<00:10, 60.43it/s]
+Processing batches:  31%|███       | 274/886 [00:04<00:10, 60.21it/s]
+Processing batches:  32%|███▏      | 281/886 [00:04<00:10, 60.39it/s]
+Processing batches:  33%|███▎      | 288/886 [00:04<00:09, 60.44it/s]
+Processing batches:  33%|███▎      | 295/886 [00:04<00:09, 60.59it/s]
+Processing batches:  34%|███▍      | 302/886 [00:05<00:09, 60.43it/s]
+Processing batches:  35%|███▍      | 309/886 [00:05<00:09, 60.26it/s]
+Processing batches:  36%|███▌      | 316/886 [00:05<00:09, 60.55it/s]
+Processing batches:  36%|███▋      | 323/886 [00:05<00:09, 60.40it/s]
+Processing batches:  37%|███▋      | 330/886 [00:05<00:09, 60.41it/s]
+Processing batches:  38%|███▊      | 337/886 [00:05<00:09, 60.55it/s]
+Processing batches:  39%|███▉      | 344/886 [00:05<00:08, 60.51it/s]
+Processing batches:  40%|███▉      | 351/886 [00:05<00:08, 60.40it/s]
+Processing batches:  40%|████      | 358/886 [00:05<00:08, 60.53it/s]
+Processing batches:  41%|████      | 365/886 [00:06<00:08, 60.71it/s]
+Processing batches:  42%|████▏     | 372/886 [00:06<00:08, 60.61it/s]
+Processing batches:  43%|████▎     | 379/886 [00:06<00:08, 60.27it/s]
+Processing batches:  44%|████▎     | 386/886 [00:06<00:08, 60.12it/s]
+Processing batches:  44%|████▍     | 393/886 [00:06<00:08, 60.38it/s]
+Processing batches:  45%|████▌     | 400/886 [00:06<00:08, 60.43it/s]
+Processing batches:  46%|████▌     | 407/886 [00:06<00:07, 60.57it/s]
+Processing batches:  47%|████▋     | 414/886 [00:06<00:07, 60.74it/s]
+Processing batches:  48%|████▊     | 421/886 [00:06<00:07, 60.66it/s]
+Processing batches:  48%|████▊     | 428/886 [00:07<00:07, 60.25it/s]
+Processing batches:  49%|████▉     | 435/886 [00:07<00:07, 60.34it/s]
+Processing batches:  50%|████▉     | 442/886 [00:07<00:07, 60.17it/s]
+Processing batches:  51%|█████     | 449/886 [00:07<00:07, 59.55it/s]
+Processing batches:  51%|█████▏    | 455/886 [00:07<00:07, 59.24it/s]
+Processing batches:  52%|█████▏    | 461/886 [00:07<00:07, 59.27it/s]
+Processing batches:  53%|█████▎    | 467/886 [00:07<00:07, 59.36it/s]
+Processing batches:  53%|█████▎    | 474/886 [00:07<00:06, 59.64it/s]
+Processing batches:  54%|█████▍    | 480/886 [00:07<00:06, 59.63it/s]
+Processing batches:  55%|█████▍    | 487/886 [00:08<00:06, 59.80it/s]
+Processing batches:  56%|█████▌    | 493/886 [00:08<00:06, 59.78it/s]
+Processing batches:  56%|█████▋    | 499/886 [00:08<00:06, 59.72it/s]
+Processing batches:  57%|█████▋    | 505/886 [00:08<00:06, 59.56it/s]
+Processing batches:  58%|█████▊    | 512/886 [00:08<00:06, 59.85it/s]
+Processing batches:  59%|█████▊    | 519/886 [00:08<00:06, 60.06it/s]
+Processing batches:  59%|█████▉    | 526/886 [00:08<00:05, 60.18it/s]
+Processing batches:  60%|██████    | 533/886 [00:08<00:05, 60.05it/s]
+Processing batches:  61%|██████    | 540/886 [00:08<00:05, 59.96it/s]
+Processing batches:  62%|██████▏   | 546/886 [00:09<00:05, 59.87it/s]
+Processing batches:  62%|██████▏   | 553/886 [00:09<00:05, 60.29it/s]
+Processing batches:  63%|██████▎   | 560/886 [00:09<00:05, 60.61it/s]
+Processing batches:  64%|██████▍   | 567/886 [00:09<00:05, 60.56it/s]
+Processing batches:  65%|██████▍   | 574/886 [00:09<00:05, 60.39it/s]
+Processing batches:  66%|██████▌   | 581/886 [00:09<00:05, 60.28it/s]
+Processing batches:  66%|██████▋   | 588/886 [00:09<00:04, 60.31it/s]
+Processing batches:  67%|██████▋   | 595/886 [00:09<00:04, 60.47it/s]
+Processing batches:  68%|██████▊   | 602/886 [00:10<00:04, 60.69it/s]
+Processing batches:  69%|██████▊   | 609/886 [00:10<00:04, 60.73it/s]
+Processing batches:  70%|██████▉   | 616/886 [00:10<00:04, 60.52it/s]
+Processing batches:  70%|███████   | 623/886 [00:10<00:04, 60.34it/s]
+Processing batches:  71%|███████   | 630/886 [00:10<00:04, 60.41it/s]
+Processing batches:  72%|███████▏  | 637/886 [00:10<00:04, 60.33it/s]
+Processing batches:  73%|███████▎  | 644/886 [00:10<00:03, 60.52it/s]
+Processing batches:  73%|███████▎  | 651/886 [00:10<00:03, 60.49it/s]
+Processing batches:  74%|███████▍  | 658/886 [00:10<00:03, 60.23it/s]
+Processing batches:  75%|███████▌  | 665/886 [00:11<00:03, 60.54it/s]
+Processing batches:  76%|███████▌  | 672/886 [00:11<00:03, 60.78it/s]
+Processing batches:  77%|███████▋  | 679/886 [00:11<00:03, 60.70it/s]
+Processing batches:  77%|███████▋  | 686/886 [00:11<00:03, 60.28it/s]
+Processing batches:  78%|███████▊  | 693/886 [00:11<00:03, 60.41it/s]
+Processing batches:  79%|███████▉  | 700/886 [00:11<00:03, 60.30it/s]
+Processing batches:  80%|███████▉  | 707/886 [00:11<00:02, 60.40it/s]
+Processing batches:  81%|████████  | 714/886 [00:11<00:02, 60.60it/s]
+Processing batches:  81%|████████▏ | 721/886 [00:11<00:02, 60.58it/s]
+Processing batches:  82%|████████▏ | 728/886 [00:12<00:02, 60.83it/s]
+Processing batches:  83%|████████▎ | 735/886 [00:12<00:02, 60.68it/s]
+Processing batches:  84%|████████▎ | 742/886 [00:12<00:02, 60.31it/s]
+Processing batches:  85%|████████▍ | 749/886 [00:12<00:02, 60.40it/s]
+Processing batches:  85%|████████▌ | 756/886 [00:12<00:02, 60.46it/s]
+Processing batches:  86%|████████▌ | 763/886 [00:12<00:02, 60.41it/s]
+Processing batches:  87%|████████▋ | 770/886 [00:12<00:01, 60.34it/s]
+Processing batches:  88%|████████▊ | 777/886 [00:12<00:01, 60.11it/s]
+Processing batches:  88%|████████▊ | 784/886 [00:13<00:01, 60.34it/s]
+Processing batches:  89%|████████▉ | 791/886 [00:13<00:01, 60.25it/s]
+Processing batches:  90%|█████████ | 798/886 [00:13<00:01, 60.41it/s]
+Processing batches:  91%|█████████ | 805/886 [00:13<00:01, 60.40it/s]
+Processing batches:  92%|█████████▏| 812/886 [00:13<00:01, 60.17it/s]
+Processing batches:  92%|█████████▏| 819/886 [00:13<00:01, 60.12it/s]
+Processing batches:  93%|█████████▎| 826/886 [00:13<00:00, 60.33it/s]
+Processing batches:  94%|█████████▍| 833/886 [00:13<00:00, 60.26it/s]
+Processing batches:  95%|█████████▍| 840/886 [00:13<00:00, 60.36it/s]
+Processing batches:  96%|█████████▌| 847/886 [00:14<00:00, 60.15it/s]
+Processing batches:  96%|█████████▋| 854/886 [00:14<00:00, 59.92it/s]
+Processing batches:  97%|█████████▋| 861/886 [00:14<00:00, 60.20it/s]
+Processing batches:  98%|█████████▊| 868/886 [00:14<00:00, 60.15it/s]
+Processing batches:  99%|█████████▉| 875/886 [00:14<00:00, 60.24it/s]
+Processing batches: 100%|█████████▉| 882/886 [00:14<00:00, 60.24it/s]
+Processing batches: 100%|██████████| 886/886 [00:14<00:00, 60.29it/s]
+# writing ./shards/webdataset/benchmark-train-000001.tar 3820 0.1 GB 3820
+# writing ./shards/webdataset/benchmark-train-000002.tar 3905 0.1 GB 7725
+# writing ./shards/webdataset/benchmark-train-000003.tar 3882 0.1 GB 11607
+# writing ./shards/webdataset/benchmark-train-000004.tar 3932 0.1 GB 15539
+# writing ./shards/webdataset/benchmark-train-000005.tar 3808 0.1 GB 19347
+# writing ./shards/webdataset/benchmark-train-000006.tar 3777 0.1 GB 23124
+# writing ./shards/webdataset/benchmark-train-000007.tar 3862 0.1 GB 26986
+# writing ./shards/webdataset/benchmark-train-000008.tar 3844 0.1 GB 30830
+# writing ./shards/webdataset/benchmark-train-000009.tar 3850 0.1 GB 34680
+# writing ./shards/webdataset/benchmark-train-000010.tar 3876 0.1 GB 38556
+# writing ./shards/webdataset/benchmark-train-000011.tar 3909 0.1 GB 42465
+# writing ./shards/webdataset/benchmark-train-000012.tar 3791 0.1 GB 46256
+# writing ./shards/webdataset/benchmark-train-000013.tar 3846 0.1 GB 50102
+# writing ./shards/webdataset/benchmark-train-000014.tar 3863 0.1 GB 53965
+# writing ./shards/webdataset/benchmark-train-000015.tar 3848 0.1 GB 57813
+# writing ./shards/webdataset/benchmark-train-000016.tar 3967 0.1 GB 61780
+# writing ./shards/webdataset/benchmark-train-000017.tar 3888 0.1 GB 65668
+# writing ./shards/webdataset/benchmark-train-000018.tar 3955 0.1 GB 69623
+# writing ./shards/webdataset/benchmark-train-000019.tar 3906 0.1 GB 73529
+# writing ./shards/webdataset/benchmark-train-000020.tar 3828 0.1 GB 77357
+# writing ./shards/webdataset/benchmark-train-000021.tar 3860 0.1 GB 81217
+# writing ./shards/webdataset/benchmark-train-000022.tar 3881 0.1 GB 85098
+Successfully processed and wrote 88514 samples
+Dataset processed. Output in ./shards/webdataset/
+Dataset write time: 16.66 seconds
+Total script execution time: 20.74 seconds
+Converting ./data/benchmark_dataset.parquet to WebDataset format in ./shards/webdataset
+Running: /home/ec2-user/benchmark-dataloader/.venv/bin/python prepare_data/webdataset_converter.py --data ./data/benchmark_dataset.parquet --shards ./shards/webdataset --prefix benchmark --num_workers 1
+
+Timing Summary:
+  Converter execution time: 22.93 seconds
+  Total script time: 22.93 seconds

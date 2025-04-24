@@ -1,0 +1,12 @@
+BENCHMARK SUMMARY
+Date: 2025-04-24 07:10:44
+CPU Count: 16
+
+| Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files | Peak RAM (MB) |
+| --- | --- | --- | --- | --- | --- |
+| LitData (PL) | 24.08 | 19.54 | 2.78 | 53 | 19943.6 |
+| WebDataset (WDS) | 30.53 | 24.03 | 3.17 | 23 | 39262.1 |
+| MosaicML Dataset (MDS) | 21.04 | 12.90 | 2.86 | 47 | 7609.8 |
+| Energon (WDS+) | 38.08 | 48.06 | 3.18 | 51 | 39262.1 |
+
+Total benchmark time: 84.29 seconds

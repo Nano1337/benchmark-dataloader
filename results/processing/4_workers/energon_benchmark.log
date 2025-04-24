@@ -1,0 +1,62 @@
+Starting Energon conversion at 1745478546.345078
+CPU count: 16
+
+==========================================
+   ENERGON BENCHMARK
+   1745478546.3451312
+==========================================
+
+Converting ./shards/webdataset to Energon format in ./shards/energon
+Copying 23 files from ./shards/webdataset to ./shards/energon
+Copying ./shards/webdataset/benchmark-train-000000.tar to ./shards/energon/benchmark-train-000000.tar
+Copying ./shards/webdataset/benchmark-train-000001.tar to ./shards/energon/benchmark-train-000001.tar
+Copying ./shards/webdataset/benchmark-train-000002.tar to ./shards/energon/benchmark-train-000002.tar
+Copying ./shards/webdataset/benchmark-train-000003.tar to ./shards/energon/benchmark-train-000003.tar
+Copying ./shards/webdataset/benchmark-train-000004.tar to ./shards/energon/benchmark-train-000004.tar
+Copying ./shards/webdataset/benchmark-train-000005.tar to ./shards/energon/benchmark-train-000005.tar
+Copying ./shards/webdataset/benchmark-train-000006.tar to ./shards/energon/benchmark-train-000006.tar
+Copying ./shards/webdataset/benchmark-train-000007.tar to ./shards/energon/benchmark-train-000007.tar
+Copying ./shards/webdataset/benchmark-train-000008.tar to ./shards/energon/benchmark-train-000008.tar
+Copying ./shards/webdataset/benchmark-train-000009.tar to ./shards/energon/benchmark-train-000009.tar
+Copying ./shards/webdataset/benchmark-train-000010.tar to ./shards/energon/benchmark-train-000010.tar
+Copying ./shards/webdataset/benchmark-train-000011.tar to ./shards/energon/benchmark-train-000011.tar
+Copying ./shards/webdataset/benchmark-train-000012.tar to ./shards/energon/benchmark-train-000012.tar
+Copying ./shards/webdataset/benchmark-train-000013.tar to ./shards/energon/benchmark-train-000013.tar
+Copying ./shards/webdataset/benchmark-train-000014.tar to ./shards/energon/benchmark-train-000014.tar
+Copying ./shards/webdataset/benchmark-train-000015.tar to ./shards/energon/benchmark-train-000015.tar
+Copying ./shards/webdataset/benchmark-train-000016.tar to ./shards/energon/benchmark-train-000016.tar
+Copying ./shards/webdataset/benchmark-train-000017.tar to ./shards/energon/benchmark-train-000017.tar
+Copying ./shards/webdataset/benchmark-train-000018.tar to ./shards/energon/benchmark-train-000018.tar
+Copying ./shards/webdataset/benchmark-train-000019.tar to ./shards/energon/benchmark-train-000019.tar
+Copying ./shards/webdataset/benchmark-train-000020.tar to ./shards/energon/benchmark-train-000020.tar
+Copying ./shards/webdataset/benchmark-train-000021.tar to ./shards/energon/benchmark-train-000021.tar
+Copying ./shards/webdataset/benchmark-train-000022.tar to ./shards/energon/benchmark-train-000022.tar
+Running: energon prepare ./
+Automatically sending inputs: '1,0,0' and 'n'
+Output: Found 23 tar files in total. The first and last ones are:
+- benchmark-train-000000.tar
+- benchmark-train-000022.tar
+If you want to exclude some of them, cancel with ctrl+c and specify an exclude filter in the command line.
+Please enter a desired train/val/test split like "0.5, 0.2, 0.3" or "8,1,1": Saving info to /home/ec2-user/benchmark-dataloader/shards/energon/.nv-meta/.info.yaml
+Sample 0, keys:
+ - jpg
+ - txt
+Sample 1, keys:
+ - jpg
+ - txt
+Found the following part types in the dataset: txt, jpg
+Do you want to create a dataset.yaml interactively? [Y/n]: You will have to add a dataset.yaml manually.
+Done
+
+
+Timing Summary:
+WebDataset preparation time: 30.19 seconds
+WebDataset write time: 23.69 seconds
+Energon converter execution time: 5.26 seconds
+Energon dataset write time: 5.26 seconds
+Energon script time: 7.73 seconds
+
+Combined Metrics:
+Converter execution time: 5.26 seconds
+Dataset write time: 28.95 seconds
+Total script time: 37.93 seconds
