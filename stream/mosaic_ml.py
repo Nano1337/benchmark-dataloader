@@ -11,61 +11,24 @@ import os
 import sys
 import argparse
 from time import time
-import torchvision.transforms.v2 as T
 from tqdm import tqdm
 from pytorch_lightning import seed_everything
 from streaming import StreamingDataset
 from torch.utils.data import DataLoader
 from dotenv import load_dotenv
 import torch
-import shutil
+
+# Import shared utilities
+from utils import create_transforms, parse_s3_path as utils_parse_s3_path
 
 # Load environment variables from .env file
 load_dotenv()
 
-# Configure AWS credentials using environment variables if needed
-# AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY should be set in the environment
-# or in ~/.aws/credentials
-
-
-def setup_cache(cache_dir):
-    """Set up cache directory for MosaicML Dataset"""
-    if os.path.isdir(cache_dir):
-        shutil.rmtree(cache_dir)
-    os.makedirs(cache_dir, exist_ok=True)
-    print(f"Cache directory: {cache_dir}")
-    return cache_dir
-
 
 def parse_s3_path(s3_path, mds_subdir="mds"):
     """Parse S3 path into local and remote paths for MosaicML Dataset"""
-    # Ensure path has proper format
-    if not s3_path:
-        print("S3 path is not set. Please check your environment variables.")
-        sys.exit(1)
-    
-    # For MosaicML, we need to convert the S3 path to the format they expect
-    # Remove s3:// prefix if present
-    if s3_path.startswith('s3://'):
-        path = s3_path[5:]
-    else:
-        path = s3_path
-        
-    # Ensure path ends with a slash for consistent joining
-    if not path.endswith('/'):
-        path += '/'
-    
-    # Split into bucket and prefix
-    parts = path.split('/')
-    bucket = parts[0]
-    
-    # Create the MDS path
-    rest_parts = [part for part in parts[1:] if part]  # Skip empty parts
-    mds_path = '/'.join(rest_parts + [mds_subdir])
-    
-    # Combine into full S3 path
-    remote_path = f"s3://{bucket}/{mds_path}"
-    
+    # Use the imported function from utils
+    remote_path, _, _ = utils_parse_s3_path(s3_path, mds_subdir)
     return remote_path
 
 
@@ -73,16 +36,9 @@ def parse_s3_path(s3_path, mds_subdir="mds"):
 class ImageTextStreamingDataset(StreamingDataset):
     """MosaicML streaming dataset for image-text data"""
     
-    def __init__(self, local, remote, batch_size, image_size=224, shuffle=True):
-        super().__init__(local=local, remote=remote, shuffle=shuffle, batch_size=batch_size)
-        self.transform = T.Compose([
-            T.RandomResizedCrop(image_size, antialias=True),
-            T.RandomHorizontalFlip(),
-            T.ToImage(),
-            # Ensure all images have 3 channels (RGB)
-            T.Lambda(lambda x: x if x.shape[0] == 3 else torch.cat([x]*3, dim=0) if x.shape[0] == 1 else x[:3]),
-            T.ToDtype(torch.float16, scale=True),
-        ])
+    def __init__(self, remote, batch_size, image_size=224, shuffle=True):
+        super().__init__(remote=remote, shuffle=shuffle, batch_size=batch_size)
+        self.transform = create_transforms(image_size, torch.float16)
 
     def __getitem__(self, index):
         """
@@ -120,11 +76,10 @@ class ImageTextStreamingDataset(StreamingDataset):
         return image, text
 
 
-def create_dataset(remote_path, cache_dir, batch_size, image_size=224, shuffle=True):
+def create_dataset(remote_path, batch_size, image_size=224, shuffle=True):
     """Create MosaicML streaming dataset"""
     try:
         dataset = ImageTextStreamingDataset(
-            local=cache_dir,
             remote=remote_path,
             batch_size=batch_size,
             image_size=image_size,
@@ -192,19 +147,18 @@ def parse_args():
     parser.add_argument("--s3_path", type=str, help="S3 path for MosaicML Dataset (will use S3_BENCHMARK_DATA_PATH env var if not specified)")
     parser.add_argument("--split", type=str, default="train", help="Data split to use (default: train)")
     parser.add_argument("--mds_subdir", type=str, default="mds", help="Subdirectory name for MosaicML Dataset (default: mds)")
-    parser.add_argument("--cache_dir", type=str, help="Cache directory for MosaicML Dataset (default: ./cache/mds_benchmark)")
     
     # Performance parameters
     parser.add_argument("--batch_size", type=int, default=256, help="Batch size for training (default: 256)")
     parser.add_argument("--num_workers", type=int, default=8, help="Number of worker threads for data loading (default: 8)")
-    
+    parser.add_argument("--prefetch_factor", type=int, default=2, help="Number of batches to prefetch (default: 2)")
+
     # Image processing parameters
     parser.add_argument("--image_size", type=int, default=224, help="Size of images after preprocessing (default: 224)")
     
     # Benchmark parameters
     parser.add_argument("--epochs", type=int, default=2, help="Number of epochs for benchmark (default: 2)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
-    parser.add_argument("--keep_cache", action="store_true", help="Don't delete cache directory after benchmark")
     
     return parser.parse_args()
 
@@ -218,12 +172,6 @@ def main():
     seed_everything(args.seed)
     print(f"Seed set to {args.seed}")
     
-    # Set up cache directory
-    cache_dir = args.cache_dir
-    if not cache_dir:
-        cache_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache/mds_benchmark")
-    cache_dir = setup_cache(cache_dir)
-    
     # Get S3 path from args or environment
     s3_path = args.s3_path or os.environ.get('S3_BENCHMARK_DATA_PATH')
     if not s3_path:
@@ -234,31 +182,25 @@ def main():
     remote_path = parse_s3_path(s3_path, args.mds_subdir)
     
     # Create dataset and dataloader
-    try:
-        dataset = create_dataset(
-            remote_path=remote_path,
-            cache_dir=cache_dir,
-            batch_size=args.batch_size,
-            image_size=args.image_size,
-            shuffle=True
-        )
+    dataset = create_dataset(
+        remote_path=remote_path,
+        batch_size=args.batch_size,
+        image_size=args.image_size,
+        shuffle=True
+    )
         
-        dataloader = create_dataloader(
-            dataset, 
-            batch_size=args.batch_size,
-            num_workers=args.num_workers
-        )
+    dataloader = create_dataloader(
+        dataset, 
+        prefetch_factor=args.prefetch_factor,
+        batch_size=args.batch_size,
+        num_workers=args.num_workers
+    )
         
-        print(f"Using {args.num_workers} worker threads for data loading")
+    print(f"Using {args.num_workers} worker threads for data loading")
         
-        # Run benchmark
-        results = run_benchmark(dataloader, args.batch_size, args.epochs)
-        print("Benchmark complete")
-    finally:
-        # Clean up cache unless --keep_cache was specified
-        if not args.keep_cache and os.path.exists(cache_dir):
-            print(f"Cleaning up cache directory: {cache_dir}")
-            shutil.rmtree(cache_dir)
+    # Run benchmark
+    results = run_benchmark(dataloader, args.batch_size, args.epochs)
+    print("Benchmark complete")
     
     return results
 

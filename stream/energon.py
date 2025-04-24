@@ -10,27 +10,31 @@ The Energon shards are expected to have the following structure:
 - __key__: document_id or generated index
 - jpg: Raw image bytes
 - txt: Caption text (encoded as UTF-8)
-
-TODO: You'll need to export the env var export MSC_CONFIG="" to the output path
 """
 
 import os
 import sys
 import argparse
 from time import time
-import torchvision.transforms.v2 as T
 from tqdm import tqdm
 from pytorch_lightning import seed_everything
 import boto3
-import webdataset as wds
-import shutil
 import torch
-from PIL import Image
-import io
 from dotenv import load_dotenv
+
+# Import shared utilities
+from utils import create_transforms, parse_s3_path as utils_parse_s3_path
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Check if MSC_CONFIG is set from .env or environment
+msc_config = os.environ.get('MSC_CONFIG')
+if msc_config:
+    print(f"Using MSC_CONFIG: {msc_config}")
+    os.environ['MSC_CONFIG'] = msc_config
+else:
+    raise ValueError("MSC_CONFIG environment variable is not set. Energon benchmark will fail.")
 
 try:
     from megatron.energon import get_train_dataset, get_loader, WorkerConfig
@@ -38,33 +42,7 @@ except ImportError:
     print("Please install megatron-energon with extras like [s3] to stream remote datasets.")
     sys.exit(1)
 
-def process_image(img_bytes):
-    """Process image data from Energon format and ensure consistent channels"""
-    if isinstance(img_bytes, bytes):
-        img = Image.open(io.BytesIO(img_bytes))
-        # Convert grayscale images to RGB to ensure consistent channels
-        if img.mode == 'L':
-            img = img.convert('RGB')
-        return img
-    return img_bytes
-
-
-def process_text(text):
-    """Process text data from Energon format"""
-    if isinstance(text, bytes):
-        return text.decode('utf-8')
-    return text
-
-def create_transforms(image_size=224, to_dtype=torch.float16):
-    """Create image transforms for preprocessing"""
-    return T.Compose([
-        T.RandomResizedCrop(image_size, antialias=True),
-        T.RandomHorizontalFlip(),
-        T.ToImage(),
-        # Ensure all images have 3 channels (RGB)
-        T.Lambda(lambda x: x if x.shape[0] == 3 else torch.cat([x]*3, dim=0) if x.shape[0] == 1 else x[:3]),
-        T.ToDtype(to_dtype, scale=True),
-    ])
+# These functions are now imported from utils.py
 
 
 def run_benchmark(dataloader, batch_size, num_epochs=2):
@@ -142,16 +120,12 @@ def main():
         print("No S3 path specified. Please use --s3_path or set S3_BENCHMARK_DATA_PATH environment variable.")
         sys.exit(1)
         
-    # Ensure s3_base ends with a slash for consistent joining
-    if not s3_base.endswith('/'):
-        s3_base += '/'
-        
-    # Construct the path to the energon dataset
-    energon_dataset_path = f"{s3_base}energon"
+    # Use our standardized utility to parse the S3 path
+    remote_path, _, _ = utils_parse_s3_path(s3_base, "energon")
     
     # Extract the path portion (after the bucket) if any
-    if energon_dataset_path.startswith('s3://'):
-        parts = energon_dataset_path[5:].split('/', 1)
+    if remote_path.startswith('s3://'):
+        parts = remote_path[5:].split('/', 1)
         if len(parts) > 1:
             # We have a path after the bucket
             relative_path = parts[1]
@@ -172,7 +146,7 @@ def main():
         batch_size=args.batch_size,
         shuffle_buffer_size=args.shuffle_buffer,
         max_samples_per_sequence=args.max_seq_len,
-        virtual_epoch_length=352,
+        virtual_epoch_length=352, # Energon dataset size
         worker_config=worker_config,
     )
     loader = get_loader(
