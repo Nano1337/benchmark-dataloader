@@ -52,7 +52,7 @@ The `image.content` contains the raw bytes of the image while `text.content` con
 
 ### Data Preparation
 
-1. Run `python prepare_datasets.py` to run the dataset preparation benchmarking. The output datasets will be found in `./shards`. You can view the resource usage plots in `./results/processing/plots`.
+1. Run `python prepare_datasets.py --sweep --profile` to run the dataset preparation benchmarking. The output datasets will be found in `./shards`. You can view the resource usage plots in `./results/processing/plots`.
 
 2. Please upload `./shards` to your respective cloud storage provider. Here's an example for s3: 
 ```bash
@@ -63,18 +63,56 @@ aws s3 cp ./shards s3://<your-bucket>/shards --recursive
 
 Note that we benchmark only using 3GB worth of data for dataset preparation (representing potentially one data shard in the worst case) as the RAM overhead growth is not linear in some cases (e.g. LitData) but can be easily scaled up using spark distributed data processing. 
 
-The results can be found here: 
-
-CPU Count: 16
+Running on 16 CPUs:
 
 | Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files | Peak RAM (MB) |
 | --- | --- | --- | --- | --- | --- |
-| LitData (PL) | 34.69 | 30.14 | 2.78 | 60 | 33225.6 |
-| WebDataset (WDS) | 30.91 | 24.43 | 3.17 | 23 | 72140.9 |
-| MosaicML Dataset (MDS) | 21.07 | 12.82 | 2.86 | 47 | 7745.4 |
-| Energon (WDS+) | 37.60 | 48.86 | 3.18 | 51 | 72140.9 |
+| LitData (PL) | 34.72 | 30.16 | 2.78 | 60 | 32913.5 |
+| WebDataset (WDS) | 31.03 | 24.51 | 3.17 | 23 | 73030.6 |
+| MosaicML Dataset (MDS) | 21.14 | 12.90 | 2.86 | 47 | 7575.9 |
+| Energon (WDS+) | 37.70 | 49.02 | 3.18 | 51 | 73030.6 |
 
-Total benchmark time: 94.56 seconds
+We can also see the RAM and CPU utilization profiling results in `results/processing/plots`. An example on 16 workers: 
+
+![sweep_summary](./results/processing/plots/resource_usage_16_workers_20250424_071226.png)
+
+Here's a summary of sweeping across different num workers: 
+
+LITDATA RESULTS:
+| Workers | Total Time (s) | Dataset Write (s) | Peak RAM (MB) |
+| --- | --- | --- | --- |
+| 1 | 34.40 | 29.82 | 3439.2 |
+| 2 | 24.35 | 19.80 | 6171.2 |
+| 4 | 21.50 | 16.89 | 11390.6 |
+| 8 | 24.08 | 19.54 | 19943.6 |
+| 16 | 34.72 | 30.16 | 32913.5 |
+
+WEBDATASET RESULTS:
+| Workers | Total Time (s) | Dataset Write (s) | Peak RAM (MB) |
+| --- | --- | --- | --- |
+| 1 | 22.97 | 16.66 | 6413.8 |
+| 2 | 29.90 | 23.41 | 15389.6 |
+| 4 | 30.19 | 23.69 | 23385.4 |
+| 8 | 30.53 | 24.03 | 39262.1 |
+| 16 | 31.03 | 24.51 | 73030.6 |
+
+MDS RESULTS:
+| Workers | Total Time (s) | Dataset Write (s) | Peak RAM (MB) |
+| --- | --- | --- | --- |
+| 1 | 20.98 | 12.80 | 7657.3 |
+| 2 | 21.08 | 12.91 | 7570.0 |
+| 4 | 21.10 | 12.91 | 7513.1 |
+| 8 | 21.04 | 12.90 | 7609.8 |
+| 16 | 21.14 | 12.90 | 7575.9 |
+
+ENERGON RESULTS:
+| Workers | Total Time (s) | Dataset Write (s) | Peak RAM (MB) |
+| --- | --- | --- | --- |
+| 1 | 6.57 | 16.66 | 4610.2 |
+| 2 | 6.73 | 23.41 | 4615.1 |
+| 4 | 7.77 | 23.69 | 4661.0 |
+| 8 | 7.54 | 24.03 | 4731.2 |
+| 16 | 6.68 | 24.51 | 4657.8 |
 
 ### Streaming
 
