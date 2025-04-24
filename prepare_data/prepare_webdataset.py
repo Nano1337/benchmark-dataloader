@@ -20,6 +20,12 @@ def parse_args():
         default="benchmark",
         help="Prefix for the output shard files"
     )
+    parser.add_argument(
+        "--num_workers", 
+        type=int,
+        default=None,
+        help="Number of worker processes. Default: uses all available CPUs"
+    )
     return parser.parse_args()
 
 
@@ -43,6 +49,10 @@ def main():
         "--shards", args.output_dir,
         "--prefix", args.prefix
     ]
+    
+    # Add num_workers if specified
+    if args.num_workers is not None:
+        cmd.extend(["--num_workers", str(args.num_workers)])
     
     print(f"Running: {' '.join(cmd)}")
     

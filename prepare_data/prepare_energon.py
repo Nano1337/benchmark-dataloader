@@ -39,6 +39,12 @@ def parse_args():
         default=0.0,
         help="Write time taken by WebDataset preparation (seconds)"
     )
+    parser.add_argument(
+        "--num_workers", 
+        type=int,
+        default=None,
+        help="Number of worker processes. Default: uses all available CPUs"
+    )
     return parser.parse_args()
 
 

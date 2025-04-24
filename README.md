@@ -1,6 +1,6 @@
 # Benchmark Multimodal Dataloaders
 
-Original code taken from the [Lightning AI Blogpost](https://lightning.ai/lightning-ai/studios/benchmark-cloud-data-loading-libraries?view=public&section=featured&tab=overview) benchmarking using the ImageNet Dataset
+Benchmarking inspired by [Lightning AI Blogpost](https://lightning.ai/lightning-ai/studios/benchmark-cloud-data-loading-libraries?view=public&section=featured&tab=overview) originally benchmarking using the ImageNet Dataset
 
 ## Setup
 
@@ -65,14 +65,17 @@ Note that we benchmark only using 3GB worth of data for dataset preparation (rep
 
 The results can be found here: 
 
+BENCHMARK SUMMARY
+Date: 2025-04-24 05:34:09
 CPU Count: 16
 
 | Format | Total Time (s) | Dataset Write (s) | Size (GB) | # Files |
 | --- | --- | --- | --- | --- |
-| LitData (PL) | 36.00 | 31.49 | 2.77 | 60 |
-| WebDataset (WDS) | 26.00 | 19.33 | 3.17 | 23 |
-| MosaicML Dataset (MDS) | 21.00 | 13.03 | 2.86 | 47 |
-| Energon (WDS+) | 14.00 | 19.33 | 3.17 | 51 |
+| LitData (PL) | 34.64 | 30.10 | 2.78 | 60 |
+| WebDataset (WDS) | 30.96 | 24.50 | 3.17 | 23 |
+| MosaicML Dataset (MDS) | 20.90 | 12.79 | 2.86 | 47 |
+| Energon (WDS+) | 37.64 | 49.00 | 3.18 | 51 |
+
 
 ### Streaming
 
