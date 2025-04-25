@@ -9,6 +9,7 @@ import os
 import sys
 import io
 import shutil
+import time
 from PIL import Image
 import torch
 import torchvision.transforms.v2 as T
@@ -127,3 +128,56 @@ def to_rgb(img):
         if img.mode == "L":
             img = img.convert('RGB')
     return img
+
+
+def get_default_cache_dir(dataset_name):
+    """Get the default cache directory for a specific dataset format
+    
+    Args:
+        dataset_name: Name of the dataset format (e.g., 'webdataset', 'mds', 'litdata', 'energon')
+        
+    Returns:
+        Default path to the cache directory
+    """
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(script_dir, f"cache/{dataset_name}_benchmark")
+
+
+def setup_cache(cache_dir, clear_existing=True):
+    """Set up cache directory for dataset streaming
+    
+    Args:
+        cache_dir: Path to cache directory
+        clear_existing: Whether to clear the existing cache directory if it exists (default: True)
+        
+    Returns:
+        Path to the cache directory
+    """
+    # Remove the directory if it exists and clear_existing is True
+    if clear_existing and os.path.exists(cache_dir):
+        print(f"Cleaning existing cache directory: {cache_dir}")
+        shutil.rmtree(cache_dir)
+        
+    # Create the directory
+    os.makedirs(cache_dir, exist_ok=True)
+    print(f"Cache directory: {cache_dir}")
+    return cache_dir
+
+
+def cleanup_cache(cache_dir, keep_cache=False):
+    """Clean up a cache directory after benchmark
+    
+    Args:
+        cache_dir: Path to cache directory
+        keep_cache: Whether to keep the cache (default: False)
+        
+    Returns:
+        None
+    """
+    if not keep_cache and os.path.exists(cache_dir):
+        print(f"Cleaning up cache directory: {cache_dir}")
+        shutil.rmtree(cache_dir)
+    elif keep_cache and os.path.exists(cache_dir):
+        print(f"Keeping cache directory: {cache_dir}")
+    else:
+        print(f"Cache directory not found: {cache_dir}")

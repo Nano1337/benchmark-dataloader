@@ -23,7 +23,7 @@ import torch
 from dotenv import load_dotenv
 
 # Import shared utilities
-from utils import create_transforms, parse_s3_path as utils_parse_s3_path
+from utils import create_transforms, process_image, process_text, parse_s3_path as utils_parse_s3_path
 
 # Load environment variables from .env file
 load_dotenv()
@@ -37,12 +37,25 @@ else:
     raise ValueError("MSC_CONFIG environment variable is not set. Energon benchmark will fail.")
 
 try:
-    from megatron.energon import get_train_dataset, get_loader, WorkerConfig
+    from megatron.energon import get_train_dataset, get_loader, WorkerConfig, DefaultTaskEncoder
 except ImportError:
     print("Please install megatron-energon with extras like [s3] to stream remote datasets.")
     sys.exit(1)
 
-# These functions are now imported from utils.py
+class CaptioningTaskEncoder(DefaultTaskEncoder):
+    """A simple task encoder for captioning."""
+
+    def __init__(
+        self,
+        image_size=224,
+    ):
+        super().__init__()
+        self.image_transform = create_transforms(image_size, torch.float16)
+
+    def encode_sample(self, sample):
+        sample.image = self.image_transform(process_image(sample.image))
+        sample.caption = process_text(sample.caption)
+        return sample
 
 
 def run_benchmark(dataloader, batch_size, num_epochs=2):
@@ -50,35 +63,54 @@ def run_benchmark(dataloader, batch_size, num_epochs=2):
     print(f"Starting benchmark with batch size {batch_size}")
     
     total_samples = 0
-    total_time = 0
+    time_to_first_batch = None
+    epoch_metrics = []
+    wall_time_start = time()
     
     for epoch in range(num_epochs):
         num_samples = 0
         t0 = time()
         
-        for batch in tqdm(dataloader, desc=f"Epoch {epoch+1}/{num_epochs}", smoothing=0, mininterval=1):
+        for i, batch in enumerate(tqdm(dataloader, desc=f"Epoch {epoch+1}/{num_epochs}", smoothing=0, mininterval=1)):
+            # Record time to first batch (only on first epoch)
+            if epoch == 0 and i == 0:
+                time_to_first_batch = time() - t0
+                print(f"Time to first batch: {time_to_first_batch:.4f}s")
+                
             # batch is a CaptioningSample dataclass with image and caption attributes
-            batch_images = batch.image
+            batch_images, batch_text = batch.image, batch.caption
             num_samples += batch_images.shape[0]
         
         elapsed = time() - t0
         throughput = num_samples / elapsed
         print(f'Epoch {epoch+1}: Processed {num_samples} samples in {elapsed:.2f}s ({throughput:.2f} images/sec)')
         
+        # Store metrics for this epoch
+        epoch_metrics.append({
+            "samples": num_samples,
+            "time": elapsed,
+            "throughput": throughput
+        })
+        
         total_samples += num_samples
-        total_time += elapsed
+    
+    wall_time = time() - wall_time_start
+    
+    # Get second epoch throughput (if available)
+    second_epoch_throughput = epoch_metrics[1]["throughput"] if len(epoch_metrics) > 1 else 0
     
     # Report overall statistics
-    avg_throughput = total_samples / total_time
     print(f"\nBenchmark Summary:")
     print(f"  Total samples: {total_samples}")
-    print(f"  Total time: {total_time:.2f}s")
-    print(f"  Average throughput: {avg_throughput:.2f} images/sec")
+    print(f"  Wall time: {wall_time:.2f}s")
+    print(f"  Throughput: {second_epoch_throughput:.2f} images/sec")
+    print(f"  Time to first batch: {time_to_first_batch:.4f}s")
     
     return {
-        "total_samples": total_samples,
-        "total_time": total_time,
-        "avg_throughput": avg_throughput
+        "samples": total_samples,
+        "wall_time": wall_time,
+        "throughput": second_epoch_throughput,  # Using second epoch throughput
+        "time_to_first_batch": time_to_first_batch
     }
 
 
@@ -140,18 +172,25 @@ def main():
     worker_config = WorkerConfig.default_worker_config()
     worker_config.num_workers = args.num_workers
 
+    data_size = 88514
+    num_steps = (data_size // args.batch_size) + 1
+
     # Create remote Energon dataset via MSC
     ds = get_train_dataset(
         dataset_name,
         batch_size=args.batch_size,
-        shuffle_buffer_size=args.shuffle_buffer,
         max_samples_per_sequence=args.max_seq_len,
-        virtual_epoch_length=352, # Energon dataset size
+        shuffle_buffer_size=args.shuffle_buffer,
+        virtual_epoch_length=num_steps, # Energon dataset size
         worker_config=worker_config,
+        task_encoder=CaptioningTaskEncoder(image_size=args.image_size),
     )
+    
+    # Create dataloader
     loader = get_loader(
         ds,
         prefetch_factor=args.prefetch_factor,
+        worker_config=worker_config,
     )
     
     # Run benchmark

@@ -97,6 +97,12 @@ def extract_time(log_content):
     
     return value
 
+
+def extract_time_to_first_batch(log_content):
+    """Extract time to first batch from log content"""
+    pattern = r"Time to first batch: ([0-9.]+)s"
+    return extract_metric(log_content, pattern)
+
 def extract_epoch_times(log_content):
     """Extract epoch times from log content"""
     pattern = r"Epoch ([0-9]+): Processed [0-9]+ samples in ([0-9.]+)s"
@@ -128,12 +134,6 @@ def check_prerequisites():
         sys.exit(1)
     
     return results_dir
-
-def cleanup_cache(cache_dir):
-    """Clean up a specific cache directory"""
-    if os.path.isdir(cache_dir):
-        print(f"Cleaning up cache directory: {cache_dir}")
-        shutil.rmtree(cache_dir)
 
 class ResourceMonitor:
     """Monitor system resource usage over time"""
@@ -239,28 +239,27 @@ class ResourceMonitor:
         print(f"Resource monitoring for {self.name} complete. Peak RAM: {self.peak_ram:.1f} MB")
 
 
-def run_benchmark(script_path, benchmark_name, batch_size, num_workers, prefetch_factor, epochs=2, 
-                  image_size=224, additional_args=None, enable_profiling=True):
-    """Run a streaming benchmark and capture its output"""
+def run_benchmark(script_path, benchmark_name, batch_size, num_workers, prefetch_factor, enable_profiling=True, **kwargs):
+    """Run a streaming benchmark and capture its output
+    
+    Args:
+        script_path: Path to the benchmark script
+        benchmark_name: Name of the benchmark for display
+        batch_size: Batch size for dataloader
+        num_workers: Number of worker threads
+        prefetch_factor: Number of batches to prefetch
+        **kwargs: Additional arguments passed to the script
+    """
     print_header(f"{benchmark_name} Streaming Benchmark")
     print(f"Configuration: batch_size={batch_size}, num_workers={num_workers}, prefetch_factor={prefetch_factor}")
     
-    # Common arguments for all benchmarks
+    # Start with common args all dataloaders should support
     cmd = [
         "python", script_path,
         "--batch_size", str(batch_size),
         "--num_workers", str(num_workers),
-        "--epochs", str(epochs),
-        "--image_size", str(image_size)
+        "--prefetch_factor", str(prefetch_factor)
     ]
-    
-    # Add prefetch_factor if the script supports it
-    if script_path != "stream/lightning_data.py":  # LitData doesn't use prefetch_factor
-        cmd.extend(["--prefetch_factor", str(prefetch_factor)])
-    
-    # Add any additional arguments
-    if additional_args:
-        cmd.extend(additional_args)
     
     start_time = time.time()
     
@@ -316,15 +315,14 @@ def run_benchmark(script_path, benchmark_name, batch_size, num_workers, prefetch
     # Extract metrics from the output
     throughput = extract_throughput(output)
     samples = extract_samples(output)
-    benchmark_time = extract_time(output)
-    epoch1, epoch2 = extract_epoch_times(output)
+    time_to_first_batch = extract_time_to_first_batch(output)
     
     # Print a summary
     print("")
     print(f"Results for {benchmark_name}:")
     print(f"  Throughput: {throughput} images/sec")
     print(f"  Total samples processed: {samples}")
-    print(f"  Benchmark time: {benchmark_time} seconds")
+    print(f"  Time to first batch: {time_to_first_batch} seconds")
     print(f"  Wall clock time: {format_number(total_time)} seconds")
     
     # Return the metrics
@@ -332,10 +330,8 @@ def run_benchmark(script_path, benchmark_name, batch_size, num_workers, prefetch
         "name": benchmark_name,
         "throughput": float(throughput),
         "samples": int(samples),
-        "benchmark_time": float(benchmark_time),
+        "time_to_first_batch": float(time_to_first_batch),
         "wall_time": total_time,
-        "epoch1": epoch1,
-        "epoch2": epoch2,
         "output": output
     }
     
@@ -376,13 +372,14 @@ def run_litdata_benchmark(batch_size, num_workers, prefetch_factor, enable_profi
         benchmark_name="LitData",
         batch_size=batch_size,
         num_workers=num_workers,
-        prefetch_factor=prefetch_factor,  # This will be ignored by run_benchmark for LitData
+        prefetch_factor=prefetch_factor,
         enable_profiling=enable_profiling,
         **kwargs
     )
 
 def run_energon_benchmark(batch_size, num_workers, prefetch_factor, enable_profiling=True, **kwargs):
     """Run Energon streaming benchmark"""
+    # Note: Energon has its own cache dir handling, so keep_cache is not relevant
     return run_benchmark(
         script_path="stream/energon.py",
         benchmark_name="Energon",
@@ -493,17 +490,16 @@ def generate_summary(results, results_file, summary_file, batch_size, num_worker
         f.write(f"CPU Count: {os.cpu_count()}\n")
         f.write(f"Configuration: Batch Size = {batch_size}, Workers = {num_workers}, Prefetch Factor = {prefetch_factor}\n\n")
         
-        f.write("| Dataset | Throughput (img/s) | Samples | Epoch 1 (s) | Epoch 2 (s) | Processing Time (s) | Wall Time (s) |\n")
-        f.write("| --- | --- | --- | --- | --- | --- | --- |\n")
+        f.write("| Dataset | Throughput (img/s) | Time to First Batch (s) | # Samples | Wall Time (s) |\n")
+        f.write("| --- | --- | --- | --- | --- |\n")
         
         for result in results:
+            # All benchmark scripts now standardized to use "throughput" directly
             throughput_fmt = format_number(result["throughput"])
-            epoch1_fmt = format_number(result["epoch1"])
-            epoch2_fmt = format_number(result["epoch2"])
-            proc_time_fmt = format_number(result["benchmark_time"])
+            time_to_first_batch_fmt = format_number(result["time_to_first_batch"])
             wall_time_fmt = format_number(result["wall_time"])
             
-            f.write(f"| {result['name']} | {throughput_fmt} | {result['samples']} | {epoch1_fmt} | {epoch2_fmt} | {proc_time_fmt} | {wall_time_fmt} |\n")
+            f.write(f"| {result['name']} | {throughput_fmt} | {time_to_first_batch_fmt} | {result['samples']} | {wall_time_fmt} |\n")
         
         f.write(f"\nTotal benchmark time: {format_number(total_time)} seconds\n")
     
@@ -516,6 +512,94 @@ def generate_summary(results, results_file, summary_file, batch_size, num_worker
     print(f"Streaming benchmarks complete! Summary saved to {summary_file}")
     print(f"Full logs available at {results_file}")
 
+def check_if_completed(results_csv, dataset, num_workers, prefetch_factor, batch_size):
+    """Check if a specific configuration has already been successfully completed"""
+    if not os.path.exists(results_csv):
+        return False
+        
+    try:
+        with open(results_csv, 'r') as f:
+            for line in f:
+                if line.startswith("dataset,"):
+                    continue  # Skip header
+                    
+                parts = line.strip().split(',')
+                if len(parts) >= 5:  # Ensure we have enough fields
+                    if (parts[0] == dataset and 
+                        int(parts[1]) == num_workers and 
+                        int(parts[2]) == prefetch_factor and 
+                        int(parts[3]) == batch_size):
+                        return True
+    except Exception as e:
+        print(f"Error reading results CSV: {e}")
+    
+    return False
+
+
+def append_result_to_csv(results_csv, dataset, num_workers, prefetch_factor, batch_size, throughput, ttfb):
+    """Append a benchmark result to the CSV file"""
+    # Create the file with header if it doesn't exist
+    if not os.path.exists(results_csv):
+        with open(results_csv, 'w') as f:
+            f.write("dataset,num_workers,prefetch_factor,batch_size,throughput,TTFB\n")
+    
+    # Append the result
+    with open(results_csv, 'a') as f:
+        f.write(f"{dataset},{num_workers},{prefetch_factor},{batch_size},{throughput},{ttfb}\n")
+
+
+def run_single_benchmark(dataset_name, batch_size, num_workers, prefetch_factor, 
+                          enable_profiling=True, image_size=224, shuffle_buffer=100, 
+                          config_dir=None, results_csv=None):
+    """Run a single benchmark with specific configuration"""
+    # Create unique directory for this configuration
+    if config_dir is None:
+        config_dir = f"results/streaming/w{num_workers}_p{prefetch_factor}_b{batch_size}"
+    os.makedirs(config_dir, exist_ok=True)
+    
+    # Set up results files
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    results_file = f"{config_dir}/benchmark_{dataset_name}_{timestamp}.log"
+    summary_file = f"{config_dir}/summary_{dataset_name}_{timestamp}.txt"
+    
+    # Run the appropriate benchmark
+    if dataset_name == "WebDataset":
+        runner_func = run_webdataset_benchmark
+    elif dataset_name == "MosaicML MDS":
+        runner_func = run_mds_benchmark
+    elif dataset_name == "LitData":
+        runner_func = run_litdata_benchmark
+    elif dataset_name == "Energon":
+        runner_func = run_energon_benchmark
+    else:
+        raise ValueError(f"Unknown dataset: {dataset_name}")
+    
+    # Run the benchmark
+    print(f"\n\nRunning {dataset_name} benchmark with workers={num_workers}, prefetch={prefetch_factor}, batch_size={batch_size}...\n")
+    result = runner_func(
+        batch_size=batch_size, 
+        num_workers=num_workers,
+        prefetch_factor=prefetch_factor,
+        enable_profiling=enable_profiling,
+        shuffle_buffer=shuffle_buffer, 
+        image_size=image_size,
+    )
+    
+    # If we have a CSV file, append the result
+    if results_csv and result:
+        append_result_to_csv(
+            results_csv,
+            dataset_name,
+            num_workers,
+            prefetch_factor,
+            batch_size,
+            result.get("throughput", 0),
+            result.get("time_to_first_batch", 0)
+        )
+    
+    return result
+
+
 def main():
     """Main entry point for benchmark script"""
     parser = argparse.ArgumentParser(description="Run dataset streaming benchmarks")
@@ -525,8 +609,24 @@ def main():
                         help="Number of batches to prefetch (default: 2)")
     parser.add_argument("--batch_size", type=int, default=256,
                         help="Batch size for dataloader (default: 256)")
+    parser.add_argument("--image_size", type=int, default=224,
+                        help="Image size for preprocessing (default: 224)")
+    parser.add_argument("--epochs", type=int, default=2,
+                        help="Number of epochs for benchmarking (default: 2)")
+    parser.add_argument("--keep_cache", action="store_true",
+                        help="Keep cache after benchmark (default: False)")
     parser.add_argument("--disable_profiling", action="store_true",
                         help="Disable resource profiling (CPU and RAM monitoring)")
+    parser.add_argument("--shuffle_buffer", type=int, default=100,
+                        help="Size of shuffle buffer where applicable (default: 100)")
+    parser.add_argument("--sweep", action="store_true",
+                        help="Run a sweep across worker counts, prefetch factors, and batch sizes")
+    parser.add_argument("--sweep_workers", type=str, default="1,2,4,8,16",
+                        help="Comma-separated list of worker counts for sweep (default: 1,2,4,8,16)")
+    parser.add_argument("--sweep_prefetch", type=str, default="1,2,4",
+                        help="Comma-separated list of prefetch factors for sweep (default: 1,2,4)")
+    parser.add_argument("--sweep_batch_sizes", type=str, default="128,256,512,1024",
+                        help="Comma-separated list of batch sizes for sweep (default: 128,256,512,1024)")
     args = parser.parse_args()
     
     # Whether to enable resource profiling
@@ -538,6 +638,65 @@ def main():
     # Check prerequisites and set up results directory
     results_dir = check_prerequisites()
     
+    # If we're doing a sweep, run all combinations
+    if args.sweep:
+        # Parse sweep parameters
+        worker_counts = [int(w) for w in args.sweep_workers.split(',')]
+        prefetch_factors = [int(p) for p in args.sweep_prefetch.split(',')]
+        batch_sizes = [int(b) for b in args.sweep_batch_sizes.split(',')]
+        
+        # CSV file for all results
+        sweep_results_csv = f"results/streaming/sweep_results.csv"
+        
+        # Dataset names
+        dataset_names = ["WebDataset", "MosaicML MDS", "LitData", "Energon"]
+        
+        # Sweep across all combinations
+        print(f"Running sweep with:")
+        print(f"  Workers: {worker_counts}")
+        print(f"  Prefetch factors: {prefetch_factors}")
+        print(f"  Batch sizes: {batch_sizes}")
+        print(f"  Datasets: {dataset_names}")
+        print(f"\nResults will be saved to: {sweep_results_csv}")
+        
+        total_combos = len(worker_counts) * len(prefetch_factors) * len(batch_sizes) * len(dataset_names)
+        completed = 0
+        
+        for dataset_name in dataset_names:
+            for batch_size in batch_sizes:
+                for num_workers in worker_counts:
+                    for prefetch_factor in prefetch_factors:
+                        # Check if this configuration has already been completed
+                        if check_if_completed(sweep_results_csv, dataset_name, num_workers, prefetch_factor, batch_size):
+                            print(f"Skipping {dataset_name} with workers={num_workers}, prefetch={prefetch_factor}, batch_size={batch_size} (already completed)")
+                            completed += 1
+                            continue
+                            
+                        # Create a unique directory for this configuration
+                        config_dir = f"results/streaming/w{num_workers}_p{prefetch_factor}_b{batch_size}"
+                        
+                        # Run the benchmark
+                        try:
+                            result = run_single_benchmark(
+                                dataset_name=dataset_name,
+                                batch_size=batch_size,
+                                num_workers=num_workers,
+                                prefetch_factor=prefetch_factor,
+                                enable_profiling=enable_profiling,
+                                image_size=args.image_size,
+                                shuffle_buffer=args.shuffle_buffer,
+                                config_dir=config_dir,
+                                results_csv=sweep_results_csv
+                            )
+                            completed += 1
+                            print(f"Progress: {completed}/{total_combos} ({completed/total_combos*100:.1f}%)")
+                        except Exception as e:
+                            print(f"Error running {dataset_name} with workers={num_workers}, prefetch={prefetch_factor}, batch_size={batch_size}: {e}")
+                            
+        print(f"\nSweep complete! Results saved to: {sweep_results_csv}")
+        return
+    
+    # If no sweep, run a single benchmark with the specified parameters
     # Set up results files
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     results_file = f"{results_dir}/benchmark_stream_{timestamp}.log"
@@ -560,35 +719,35 @@ def main():
         batch_size=args.batch_size, 
         num_workers=args.num_workers,
         prefetch_factor=args.prefetch_factor,
-        epochs=2, 
-        image_size=224, 
-        enable_profiling=enable_profiling
+        enable_profiling=enable_profiling,
+        shuffle_buffer=args.shuffle_buffer, 
+        image_size=args.image_size, 
     )
     results.append(wds_result)
     
-    # Run MosaicML benchmark
-    print("\n\nRunning MosaicML Dataset benchmark...\n")
+    # Run MosaicML MDS benchmark
+    print("\n\nRunning MosaicML MDS benchmark...\n")
     mds_result = run_mds_benchmark(
         batch_size=args.batch_size, 
         num_workers=args.num_workers,
         prefetch_factor=args.prefetch_factor,
-        epochs=2, 
-        image_size=224, 
-        enable_profiling=enable_profiling
+        enable_profiling=enable_profiling,
+        shuffle_buffer=args.shuffle_buffer, 
+        image_size=args.image_size, 
     )
     results.append(mds_result)
     
     # Run LitData benchmark
     print("\n\nRunning LitData benchmark...\n")
-    lit_result = run_litdata_benchmark(
+    litdata_result = run_litdata_benchmark(
         batch_size=args.batch_size, 
         num_workers=args.num_workers,
         prefetch_factor=args.prefetch_factor,
-        epochs=2, 
-        image_size=224, 
-        enable_profiling=enable_profiling
+        enable_profiling=enable_profiling,
+        max_cache_size="25GB", 
+        image_size=args.image_size, 
     )
-    results.append(lit_result)
+    results.append(litdata_result)
     
     # Run Energon benchmark
     print("\n\nRunning Energon benchmark...\n")
@@ -596,9 +755,9 @@ def main():
         batch_size=args.batch_size, 
         num_workers=args.num_workers,
         prefetch_factor=args.prefetch_factor,
-        epochs=2, 
-        image_size=224, 
-        enable_profiling=enable_profiling
+        enable_profiling=enable_profiling,
+        shuffle_buffer=args.shuffle_buffer, 
+        image_size=args.image_size, 
     )
     results.append(energon_result)
     

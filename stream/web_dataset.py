@@ -24,7 +24,8 @@ import torch
 from dotenv import load_dotenv
 
 # Import shared utilities
-from utils import create_transforms, process_image, process_text, parse_s3_path as utils_parse_s3_path
+from utils import (create_transforms, process_image, process_text, parse_s3_path as utils_parse_s3_path,
+                 get_default_cache_dir, setup_cache, cleanup_cache)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -87,12 +88,23 @@ def prepare_urls(bucket, prefix, split="train", file_prefix="dataset"):
     return [f"pipe:aws s3 cp s3://{os.path.join(bucket, key)} -" for key in filtered_keys]
 
 
-def create_dataset(urls, batch_size, shuffle_buffer=1000, image_size=224):
-    """Create WebDataset pipeline"""
+def create_dataset(urls, batch_size, shuffle_buffer=1000, image_size=224, cache_dir=None):
+    """Create WebDataset pipeline with optional cache directory
+    
+    Args:
+        urls: List of WebDataset shard URLs
+        batch_size: Batch size for the dataset
+        shuffle_buffer: Size of the shuffle buffer
+        image_size: Target image size for preprocessing
+        cache_dir: Directory to cache downloaded shards
+        
+    Returns:
+        WebDataset pipeline ready for dataloader
+    """
     transforms = create_transforms(image_size)
     
     dataset = (
-        wds.WebDataset(urls)
+        wds.WebDataset(urls, cache_dir=cache_dir)
         .shuffle(shuffle_buffer)  # Shuffle with a buffer
         .map(lambda sample: {
             "__key__": sample["__key__"], 
@@ -115,7 +127,7 @@ def create_dataloader(dataset, num_workers, prefetch_factor=2):
     loader = wds.WebLoader(
         dataset,
         num_workers=num_workers,
-        batch_size=None,       # We're already batching in the dataset
+        batch_size=None, 
         prefetch_factor=prefetch_factor,
     )
     
@@ -127,13 +139,20 @@ def run_benchmark(dataloader, batch_size, num_epochs=2):
     print(f"Starting benchmark with batch size {batch_size}")
     
     total_samples = 0
-    total_time = 0
+    time_to_first_batch = None
+    epoch_metrics = []
+    wall_time_start = time()
     
     for epoch in range(num_epochs):
         num_samples = 0
         t0 = time()
         
-        for batch in tqdm(dataloader, desc=f"Epoch {epoch+1}/{num_epochs}", smoothing=0, mininterval=1):
+        for i, batch in enumerate(tqdm(dataloader, desc=f"Epoch {epoch+1}/{num_epochs}", smoothing=0, mininterval=1)):
+            # Record time to first batch (only on first epoch)
+            if epoch == 0 and i == 0:
+                time_to_first_batch = time() - t0
+                print(f"Time to first batch: {time_to_first_batch:.4f}s")
+                
             images, text = batch['image'], batch['text']
             num_samples += images.shape[0]
         
@@ -141,20 +160,32 @@ def run_benchmark(dataloader, batch_size, num_epochs=2):
         throughput = num_samples / elapsed
         print(f'Epoch {epoch+1}: Processed {num_samples} samples in {elapsed:.2f}s ({throughput:.2f} images/sec)')
         
+        # Store metrics for this epoch
+        epoch_metrics.append({
+            "samples": num_samples,
+            "time": elapsed,
+            "throughput": throughput
+        })
+        
         total_samples += num_samples
-        total_time += elapsed
+    
+    wall_time = time() - wall_time_start
+    
+    # Get second epoch throughput (if available)
+    second_epoch_throughput = epoch_metrics[1]["throughput"] if len(epoch_metrics) > 1 else 0
     
     # Report overall statistics
-    avg_throughput = total_samples / total_time
     print(f"\nBenchmark Summary:")
     print(f"  Total samples: {total_samples}")
-    print(f"  Total time: {total_time:.2f}s")
-    print(f"  Average throughput: {avg_throughput:.2f} images/sec")
+    print(f"  Wall time: {wall_time:.2f}s")
+    print(f"  Throughput: {second_epoch_throughput:.2f} images/sec")
+    print(f"  Time to first batch: {time_to_first_batch:.4f}s")
     
     return {
-        "total_samples": total_samples,
-        "total_time": total_time,
-        "avg_throughput": avg_throughput
+        "samples": total_samples,
+        "wall_time": wall_time,
+        "throughput": second_epoch_throughput,  # Using second epoch throughput
+        "time_to_first_batch": time_to_first_batch
     }
 
 
@@ -180,6 +211,9 @@ def parse_args():
     # Benchmark parameters
     parser.add_argument("--epochs", type=int, default=2, help="Number of epochs for benchmark (default: 2)")
     parser.add_argument("--seed", type=int, default=42, help="Random seed (default: 42)")
+    
+    # Cache parameters
+    parser.add_argument("--cache_dir", type=str, help="Directory to use for caching dataset files (default: stream/cache/webdataset_benchmark)")
     
     return parser.parse_args()
 
@@ -218,6 +252,11 @@ def main():
         print("No WebDataset tar files found in S3. Please check your S3 bucket and prefix.")
         sys.exit(1)
     
+    # Setup cache directory
+    cache_dir = args.cache_dir or get_default_cache_dir('webdataset')
+    setup_cache(cache_dir, clear_existing=True)
+    print(f"Using cache directory: {cache_dir}")
+    
     # Limit num_workers to avoid errors when there are fewer shards than workers
     num_workers = min(args.num_workers, len(urls), os.cpu_count() or 1)
     
@@ -226,7 +265,8 @@ def main():
         urls, 
         batch_size=args.batch_size,
         shuffle_buffer=args.shuffle_buffer,
-        image_size=args.image_size
+        image_size=args.image_size,
+        cache_dir=cache_dir
     )
     
     dataloader = create_dataloader(
@@ -237,9 +277,13 @@ def main():
     
     print(f"Using {num_workers} worker threads for data loading")
     
-    # Run benchmark
-    results = run_benchmark(dataloader, args.batch_size, args.epochs)
-    print("Benchmark complete")
+    try:
+        # Run benchmark
+        results = run_benchmark(dataloader, args.batch_size, args.epochs)
+        print("Benchmark complete")
+    finally:
+        # Clean up cache
+        cleanup_cache(cache_dir)
     
     return results
 

@@ -122,6 +122,18 @@ ENERGON RESULTS:
 
 3. Then, run `python stream_datasets.py`.
 
-FAQ:
+Results: 
 
+Configuration: Batch Size = 256, Workers = 8, Prefetch Factor = 2
+
+| Dataset | Throughput (img/s) | Time to First Batch (s) | # Samples | Wall Time (s) |
+| --- | --- | --- | --- | --- |
+| WebDataset | 2614.48 | 3.10 | 177028 | 79.31 |
+| MosaicML MDS | 2642.40 | 16.96 | 177028 | 88.38 |
+| LitData | 3040.25 | 0.98 | 177028 | 63.63 |
+| Energon | 1432.81 | 18.83 | 177152 | 148.51 |
+
+Total benchmark time: 379.82 seconds
+
+FAQ:
 1. `ValueError: Profile s3-iad-webdataset not found; available profiles: ['default']`. You should set `MSC_CONFIG` env var to the path of the MSC config file.
