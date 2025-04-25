@@ -120,7 +120,7 @@ ENERGON RESULTS:
 
 2. Set the env var `MSC_CONFIG` to the path of the MSC config file.
 
-3. Then, run `python stream_datasets.py`.
+3. Then, run `python stream_datasets.py`. You can also run a sweep by adding the `--sweep` flag, which is resumable. 
 
 Results: 
 

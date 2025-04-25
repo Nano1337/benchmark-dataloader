@@ -661,37 +661,123 @@ def main():
         
         total_combos = len(worker_counts) * len(prefetch_factors) * len(batch_sizes) * len(dataset_names)
         completed = 0
+        config_count = 0
+        total_configs = len(worker_counts) * len(prefetch_factors) * len(batch_sizes)
         
-        for dataset_name in dataset_names:
-            for batch_size in batch_sizes:
-                for num_workers in worker_counts:
-                    for prefetch_factor in prefetch_factors:
-                        # Check if this configuration has already been completed
+        # Run all benchmarks for each configuration
+        for batch_size in batch_sizes:
+            for num_workers in worker_counts:
+                for prefetch_factor in prefetch_factors:
+                    config_count += 1
+                    # Create a unique directory for this configuration
+                    config_dir = f"results/streaming/w{num_workers}_p{prefetch_factor}_b{batch_size}"
+                    os.makedirs(config_dir, exist_ok=True)
+                    
+                    print(f"\n\n==========================================")
+                    print(f"Configuration {config_count}/{total_configs}: workers={num_workers}, prefetch={prefetch_factor}, batch_size={batch_size}")
+                    print(f"==========================================")
+                    
+                    # Store results for all datasets with this configuration
+                    config_results = []
+                    config_start_time = time.time()
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    
+                    # Run all datasets with this configuration
+                    for dataset_name in dataset_names:
+                        # Check if this dataset+configuration has already been completed
                         if check_if_completed(sweep_results_csv, dataset_name, num_workers, prefetch_factor, batch_size):
-                            print(f"Skipping {dataset_name} with workers={num_workers}, prefetch={prefetch_factor}, batch_size={batch_size} (already completed)")
+                            print(f"Skipping {dataset_name} (already completed)")
                             completed += 1
                             continue
-                            
-                        # Create a unique directory for this configuration
-                        config_dir = f"results/streaming/w{num_workers}_p{prefetch_factor}_b{batch_size}"
                         
                         # Run the benchmark
                         try:
-                            result = run_single_benchmark(
-                                dataset_name=dataset_name,
-                                batch_size=batch_size,
+                            print(f"\n\nRunning {dataset_name} benchmark...\n")
+                            if dataset_name == "WebDataset":
+                                runner_func = run_webdataset_benchmark
+                            elif dataset_name == "MosaicML MDS":
+                                runner_func = run_mds_benchmark
+                            elif dataset_name == "LitData":
+                                runner_func = run_litdata_benchmark
+                            elif dataset_name == "Energon":
+                                runner_func = run_energon_benchmark
+                                
+                            result = runner_func(
+                                batch_size=batch_size, 
                                 num_workers=num_workers,
                                 prefetch_factor=prefetch_factor,
                                 enable_profiling=enable_profiling,
+                                shuffle_buffer=args.shuffle_buffer, 
                                 image_size=args.image_size,
-                                shuffle_buffer=args.shuffle_buffer,
-                                config_dir=config_dir,
-                                results_csv=sweep_results_csv
                             )
+                            
+                            # Add name to the result
+                            if result and not "name" in result:
+                                result["name"] = dataset_name
+                                
+                            config_results.append(result)
+                            
+                            # Append to CSV file
+                            if result:
+                                append_result_to_csv(
+                                    sweep_results_csv,
+                                    dataset_name,
+                                    num_workers,
+                                    prefetch_factor,
+                                    batch_size,
+                                    result.get("throughput", 0),
+                                    result.get("time_to_first_batch", 0)
+                                )
+                                
                             completed += 1
-                            print(f"Progress: {completed}/{total_combos} ({completed/total_combos*100:.1f}%)")
+                            print(f"Progress: {completed}/{total_combos} combinations ({completed/total_combos*100:.1f}%)")
                         except Exception as e:
-                            print(f"Error running {dataset_name} with workers={num_workers}, prefetch={prefetch_factor}, batch_size={batch_size}: {e}")
+                            print(f"Error running {dataset_name}: {e}")
+                    
+                    # Calculate total time for this configuration
+                    config_time = time.time() - config_start_time
+                    
+                    # If we have results, write them to a summary file
+                    if config_results:
+                        results_file = f"{config_dir}/benchmark_results_{timestamp}.log"
+                        summary_file = f"{config_dir}/summary_{timestamp}.txt"
+                        
+                        # Write all outputs to the log file
+                        with open(results_file, 'w') as f:
+                            f.write(f"DATASET STREAMING BENCHMARKS\n")
+                            f.write(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                            f.write(f"Configuration: batch_size={batch_size}, num_workers={num_workers}, prefetch_factor={prefetch_factor}\n\n")
+                            
+                            for result in config_results:
+                                f.write(f"\n\n========== {result['name']} ==========\n")
+                                if 'output' in result:
+                                    f.write(result['output'])
+                        
+                        # Convert results list to a dictionary keyed by benchmark name
+                        results_dict = {result["name"]: result for result in config_results}
+                        
+                        # Generate resource usage plots if profiling was enabled
+                        if enable_profiling:
+                            generate_resource_plots(
+                                results_dict, 
+                                timestamp, 
+                                worker_count=num_workers,
+                                prefetch_factor=prefetch_factor,
+                                batch_size=batch_size
+                            )
+                        
+                        # Generate summary
+                        generate_summary(
+                            config_results, 
+                            results_file, 
+                            summary_file, 
+                            batch_size, 
+                            num_workers,
+                            prefetch_factor,
+                            config_time
+                        )
+                        
+                        print(f"\nCompleted configuration {config_count}/{total_configs}")
                             
         print(f"\nSweep complete! Results saved to: {sweep_results_csv}")
         return
