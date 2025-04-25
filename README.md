@@ -1,5 +1,8 @@
 # Benchmark Multimodal Dataloaders
 
+[![Wiki](https://img.shields.io/badge/Wiki-DeepWiki-blue)](https://deepwiki.com/Nano1337/benchmark-dataloader)
+
+
 Benchmarking inspired by [Lightning AI Blogpost](https://lightning.ai/lightning-ai/studios/benchmark-cloud-data-loading-libraries?view=public&section=featured&tab=overview) originally benchmarking using the ImageNet Dataset
 
 ## Setup
