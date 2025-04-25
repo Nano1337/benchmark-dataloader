@@ -1,0 +1,221 @@
+DATASET STREAMING BENCHMARKS
+Started at: 2025-04-25 07:53:01
+Configuration: batch_size=1024, num_workers=8, prefetch_factor=4
+
+
+
+========== WebDataset ==========
+Seed set to 42
+/home/ec2-user/benchmark-dataloader/.venv/lib/python3.13/site-packages/webdataset/compat.py:389: UserWarning: WebDataset(shardshuffle=...) is None; set explicitly to False or a number
+  warnings.warn(
+Seed set to 42
+Using remote path: s3://datology-assets-dev/users/haoli/shards/webdataset
+Using remote path: s3://datology-assets-dev/users/haoli/shards/webdataset
+Listing objects...
+Found 23 objects in S3
+Found 23 train tar files matching pattern 'benchmark-train-'
+Cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/webdataset_benchmark
+Using cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/webdataset_benchmark
+Using 8 worker threads for data loading
+Starting benchmark with batch size 1024
+
+Epoch 1/2: 0it [00:00, ?it/s]
+Epoch 1/2: 1it [00:04,  5.00s/it]
+Epoch 1/2: 9it [00:08,  1.11it/s]
+Epoch 1/2: 17it [00:11,  1.53it/s]
+Epoch 1/2: 25it [00:15,  1.59it/s]
+Epoch 1/2: 33it [00:18,  1.78it/s]
+Epoch 1/2: 41it [00:21,  1.90it/s]
+Epoch 1/2: 49it [00:24,  1.99it/s]
+Epoch 1/2: 57it [00:29,  1.93it/s]
+Epoch 1/2: 65it [00:32,  2.01it/s]
+Epoch 1/2: 73it [00:35,  2.08it/s]
+Epoch 1/2: 81it [00:37,  2.14it/s]
+Epoch 1/2: 91it [00:38,  2.36it/s]
+Time to first batch: 5.0000s
+Epoch 1: Processed 88514 samples in 38.53s (2297.04 images/sec)
+
+Epoch 2/2: 0it [00:00, ?it/s]
+Epoch 2/2: 1it [00:03,  3.30s/it]
+Epoch 2/2: 9it [00:06,  1.43it/s]
+Epoch 2/2: 17it [00:09,  1.76it/s]
+Epoch 2/2: 25it [00:12,  2.00it/s]
+Epoch 2/2: 33it [00:15,  2.13it/s]
+Epoch 2/2: 41it [00:18,  2.23it/s]
+Epoch 2/2: 49it [00:21,  2.30it/s]
+Epoch 2/2: 57it [00:24,  2.34it/s]
+Epoch 2/2: 65it [00:27,  2.40it/s]
+Epoch 2/2: 73it [00:29,  2.44it/s]
+Epoch 2/2: 81it [00:32,  2.49it/s]
+Epoch 2/2: 91it [00:33,  2.71it/s]
+Epoch 2: Processed 88514 samples in 33.53s (2640.20 images/sec)
+
+Benchmark Summary:
+  Total samples: 177028
+  Wall time: 72.06s
+  Throughput: 2640.20 images/sec
+  Time to first batch: 5.0000s
+Benchmark complete
+Cleaning up cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/webdataset_benchmark
+
+
+========== MosaicML MDS ==========
+Seed set to 42
+Seed set to 42
+Using remote path: s3://datology-assets-dev/users/haoli/shards/mds
+Cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/mds_benchmark
+Using cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/mds_benchmark
+Using 8 worker threads for data loading
+Starting benchmark with batch size 1024
+
+Epoch 1/2:   0%|          | 0/87 [00:00<?, ?it/s]
+Epoch 1/2:   1%|          | 1/87 [00:13<19:07, 13.35s/it]
+Epoch 1/2:  10%|█         | 9/87 [00:16<02:24,  1.85s/it]
+Epoch 1/2:  20%|█▉        | 17/87 [00:20<01:23,  1.19s/it]
+Epoch 1/2:  29%|██▊       | 25/87 [00:22<00:56,  1.10it/s]
+Epoch 1/2:  38%|███▊      | 33/87 [00:25<00:41,  1.29it/s]
+Epoch 1/2:  47%|████▋     | 41/87 [00:28<00:31,  1.46it/s]
+Epoch 1/2:  56%|█████▋    | 49/87 [00:30<00:23,  1.59it/s]
+Epoch 1/2:  66%|██████▌   | 57/87 [00:33<00:17,  1.71it/s]
+Epoch 1/2:  75%|███████▍  | 65/87 [00:35<00:12,  1.81it/s]
+Epoch 1/2:  84%|████████▍ | 73/87 [00:38<00:07,  1.90it/s]
+Epoch 1/2:  93%|█████████▎| 81/87 [00:41<00:03,  1.97it/s]
+Epoch 1/2: 100%|██████████| 87/87 [00:41<00:00,  2.11it/s]
+Time to first batch: 13.3490s
+Epoch 1: Processed 88514 samples in 41.24s (2146.10 images/sec)
+
+Epoch 2/2:   0%|          | 0/87 [00:00<?, ?it/s]
+Epoch 2/2:   1%|          | 1/87 [00:03<05:43,  4.00s/it]
+Epoch 2/2:  10%|█         | 9/87 [00:07<01:04,  1.20it/s]
+Epoch 2/2:  20%|█▉        | 17/87 [00:10<00:43,  1.61it/s]
+Epoch 2/2:  29%|██▊       | 25/87 [00:13<00:32,  1.90it/s]
+Epoch 2/2:  38%|███▊      | 33/87 [00:15<00:25,  2.09it/s]
+Epoch 2/2:  47%|████▋     | 41/87 [00:18<00:20,  2.23it/s]
+Epoch 2/2:  56%|█████▋    | 49/87 [00:21<00:16,  2.33it/s]
+Epoch 2/2:  66%|██████▌   | 57/87 [00:23<00:12,  2.41it/s]
+Epoch 2/2:  75%|███████▍  | 65/87 [00:26<00:08,  2.48it/s]
+Epoch 2/2:  84%|████████▍ | 73/87 [00:28<00:05,  2.54it/s]
+Epoch 2/2:  93%|█████████▎| 81/87 [00:31<00:02,  2.59it/s]
+Epoch 2/2: 100%|██████████| 87/87 [00:31<00:00,  2.76it/s]
+Epoch 2: Processed 88514 samples in 31.51s (2809.35 images/sec)
+
+Benchmark Summary:
+  Total samples: 177028
+  Wall time: 72.75s
+  Throughput: 2809.35 images/sec
+  Time to first batch: 13.3490s
+Benchmark complete
+Cleaning up cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/mds_benchmark
+
+
+========== LitData ==========
+Seed set to 42
+/home/ec2-user/benchmark-dataloader/stream/lightning_data.py:77: A newer version of litdata is available (0.2.45). Please consider upgrading with `pip install -U litdata`. Not all functionalities of the platform can be guaranteed to work with the current version.
+Seed set to 42
+Using S3 path from environment...
+Using remote path: s3://datology-assets-dev/users/haoli/shards/litdata
+Using remote path: s3://datology-assets-dev/users/haoli/shards/litdata
+Cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/litdata_benchmark
+Using cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/litdata_benchmark
+Using 8 worker threads for data loading
+Starting benchmark with batch size 1024
+
+Epoch 1/2:   0%|          | 0/87 [00:00<?, ?it/s]
+Epoch 1/2:   1%|          | 1/87 [00:02<04:05,  2.86s/it]
+Epoch 1/2:  10%|█         | 9/87 [00:05<00:47,  1.63it/s]
+Epoch 1/2:  20%|█▉        | 17/87 [00:08<00:33,  2.09it/s]
+Epoch 1/2:  29%|██▊       | 25/87 [00:10<00:26,  2.31it/s]
+Epoch 1/2:  38%|███▊      | 33/87 [00:13<00:21,  2.46it/s]
+Epoch 1/2:  47%|████▋     | 41/87 [00:16<00:17,  2.56it/s]
+Epoch 1/2:  56%|█████▋    | 49/87 [00:18<00:14,  2.63it/s]
+Epoch 1/2:  66%|██████▌   | 57/87 [00:21<00:11,  2.69it/s]
+Epoch 1/2:  75%|███████▍  | 65/87 [00:23<00:08,  2.73it/s]
+Epoch 1/2:  84%|████████▍ | 73/87 [00:26<00:05,  2.77it/s]
+Epoch 1/2:  93%|█████████▎| 81/87 [00:28<00:02,  2.80it/s]
+Epoch 1/2: 100%|██████████| 87/87 [00:29<00:00,  2.96it/s]
+Time to first batch: 2.8652s
+Epoch 1: Processed 88514 samples in 29.38s (3012.79 images/sec)
+
+Epoch 2/2:   0%|          | 0/87 [00:00<?, ?it/s]
+Epoch 2/2:   1%|          | 1/87 [00:02<04:09,  2.90s/it]
+Epoch 2/2:  10%|█         | 9/87 [00:05<00:48,  1.59it/s]
+Epoch 2/2:  20%|█▉        | 17/87 [00:08<00:34,  2.05it/s]
+Epoch 2/2:  29%|██▊       | 25/87 [00:10<00:27,  2.29it/s]
+Epoch 2/2:  38%|███▊      | 33/87 [00:13<00:22,  2.43it/s]
+Epoch 2/2:  47%|████▋     | 41/87 [00:16<00:18,  2.54it/s]
+Epoch 2/2:  56%|█████▋    | 49/87 [00:18<00:14,  2.61it/s]
+Epoch 2/2:  66%|██████▌   | 57/87 [00:21<00:11,  2.66it/s]
+Epoch 2/2:  75%|███████▍  | 65/87 [00:24<00:08,  2.70it/s]
+Epoch 2/2:  84%|████████▍ | 73/87 [00:26<00:05,  2.74it/s]
+Epoch 2/2:  93%|█████████▎| 81/87 [00:29<00:02,  2.77it/s]
+Epoch 2/2: 100%|██████████| 87/87 [00:29<00:00,  2.96it/s]
+Epoch 2: Processed 88514 samples in 29.41s (3009.66 images/sec)
+
+Benchmark Summary:
+  Total samples: 177028
+  Wall time: 58.79s
+  Throughput: 3009.66 images/sec
+  Time to first batch: 2.8652s
+Benchmark complete
+Benchmark complete
+Cleaning up cache directory: /home/ec2-user/benchmark-dataloader/stream/cache/litdata_benchmark
+
+
+========== Energon ==========
+Seed set to 42
+/home/ec2-user/benchmark-dataloader/.venv/lib/python3.13/site-packages/megatron/energon/loader.py:89: FutureWarning: Passing a worker_config to get_loader() is deprecated and will have no effect.
+  warn_deprecated(
+Using MSC_CONFIG: /home/ec2-user/benchmark-dataloader/stream/.msc_config.yaml
+Using remote path: s3://datology-assets-dev/users/haoli/shards/energon
+rank=0, worker=0: sample_range=[0, 11065] in 110 slices, sum(count)=11065: indexes=[0, 100, 201 ...<105> 10862, 10963, 11065] slices=[benchmark-train-000000.tar[0(start), 100], benchmark-train-000000.tar[100, 201], benchmark-train-000000.tar[201, 301] ...<105> benchmark-train-000002.tar[3034, 3135], benchmark-train-000002.tar[3135, 3236], benchmark-train-000002.tar[3236, 3338]]
+rank=0, worker=1: sample_range=[11065, 22129] in 110 slices, sum(count)=11064: indexes=[11065, 11174, 11283 ...<105> 21930, 22029, 22129] slices=[benchmark-train-000002.tar[3338, 3447], benchmark-train-000002.tar[3447, 3556], benchmark-train-000002.tar[3556, 3665] ...<105> benchmark-train-000005.tar[2483, 2583], benchmark-train-000005.tar[2583, 2682], benchmark-train-000005.tar[2682, 2782]]
+rank=0, worker=2: sample_range=[22129, 33193] in 111 slices, sum(count)=11064: indexes=[22129, 22228, 22328 ...<106> 32996, 33094, 33193] slices=[benchmark-train-000005.tar[2782, 2881], benchmark-train-000005.tar[2881, 2981], benchmark-train-000005.tar[2981, 3080] ...<106> benchmark-train-000008.tar[2067, 2166], benchmark-train-000008.tar[2166, 2264], benchmark-train-000008.tar[2264, 2363]]
+rank=0, worker=3: sample_range=[33193, 44257] in 111 slices, sum(count)=11064: indexes=[33193, 33292, 33391 ...<106> 44057, 44157, 44257] slices=[benchmark-train-000008.tar[2363, 2462], benchmark-train-000008.tar[2462, 2561], benchmark-train-000008.tar[2561, 2660] ...<106> benchmark-train-000011.tar[1493, 1592], benchmark-train-000011.tar[1592, 1692], benchmark-train-000011.tar[1692, 1792]]
+rank=0, worker=4: sample_range=[44257, 55322] in 111 slices, sum(count)=11065: indexes=[44257, 44356, 44456 ...<106> 55128, 55225, 55322] slices=[benchmark-train-000011.tar[1792, 1891], benchmark-train-000011.tar[1891, 1991], benchmark-train-000011.tar[1991, 2091] ...<106> benchmark-train-000014.tar[1066, 1163], benchmark-train-000014.tar[1163, 1260], benchmark-train-000014.tar[1260, 1357]]
+rank=0, worker=5: sample_range=[55322, 66386] in 111 slices, sum(count)=11064: indexes=[55322, 55421, 55521 ...<106> 66180, 66283, 66386] slices=[benchmark-train-000014.tar[1357, 1456], benchmark-train-000014.tar[1456, 1556], benchmark-train-000014.tar[1556, 1655] ...<106> benchmark-train-000017.tar[410, 512], benchmark-train-000017.tar[512, 615], benchmark-train-000017.tar[615, 718]]
+rank=0, worker=6: sample_range=[66386, 77450] in 110 slices, sum(count)=11064: indexes=[66386, 66487, 66588 ...<105> 77254, 77355, 77450] slices=[benchmark-train-000017.tar[718, 819], benchmark-train-000017.tar[819, 920], benchmark-train-000017.tar[920, 1021] ...<105> benchmark-train-000019.tar[3628, 3729], benchmark-train-000019.tar[3729, 3830(end)], benchmark-train-000020.tar[0(start), 95]]
+rank=0, worker=7: sample_range=[77450, 88514] in 111 slices, sum(count)=11064: indexes=[77450, 77549, 77648 ...<106> 88313, 88413, 88514] slices=[benchmark-train-000020.tar[95, 194], benchmark-train-000020.tar[194, 293], benchmark-train-000020.tar[293, 392] ...<106> benchmark-train-000022.tar[3114, 3215], benchmark-train-000022.tar[3215, 3315], benchmark-train-000022.tar[3315, 3416(end)]]
+Starting benchmark with batch size 1024
+
+Epoch 1/2:   0%|          | 0/87 [00:00<?, ?it/s]
+Epoch 1/2:   1%|          | 1/87 [00:14<20:56, 14.61s/it]
+Epoch 1/2:   3%|▎         | 3/87 [00:17<08:05,  5.78s/it]
+Epoch 1/2:  10%|█         | 9/87 [00:20<03:00,  2.32s/it]
+Epoch 1/2:  17%|█▋        | 15/87 [00:24<01:57,  1.64s/it]
+Epoch 1/2:  24%|██▍       | 21/87 [00:28<01:29,  1.36s/it]
+Epoch 1/2:  31%|███       | 27/87 [00:34<01:15,  1.27s/it]
+Epoch 1/2:  38%|███▊      | 33/87 [00:37<01:01,  1.13s/it]
+Epoch 1/2:  45%|████▍     | 39/87 [00:40<00:50,  1.05s/it]
+Epoch 1/2:  52%|█████▏    | 45/87 [00:45<00:42,  1.01s/it]
+Epoch 1/2:  59%|█████▊    | 51/87 [00:51<00:36,  1.00s/it]
+Epoch 1/2:  66%|██████▌   | 57/87 [00:54<00:28,  1.04it/s]
+Epoch 1/2:  72%|███████▏  | 63/87 [00:57<00:21,  1.09it/s]
+Epoch 1/2:  79%|███████▉  | 69/87 [01:02<00:16,  1.11it/s]
+Epoch 1/2:  86%|████████▌ | 75/87 [01:08<00:10,  1.10it/s]
+Epoch 1/2:  93%|█████████▎| 81/87 [01:11<00:05,  1.14it/s]
+Epoch 1/2: 100%|██████████| 87/87 [01:13<00:00,  1.18it/s]
+Epoch 1/2: 100%|██████████| 87/87 [01:13<00:00,  1.18it/s]
+Time to first batch: 14.6082s
+Epoch 1: Processed 89088 samples in 73.53s (1211.58 images/sec)
+
+Epoch 2/2:   0%|          | 0/87 [00:00<?, ?it/s]
+Epoch 2/2:   1%|          | 1/87 [00:04<06:45,  4.72s/it]
+Epoch 2/2:  10%|█         | 9/87 [00:11<01:35,  1.23s/it]
+Epoch 2/2:  20%|█▉        | 17/87 [00:16<01:08,  1.03it/s]
+Epoch 2/2:  29%|██▊       | 25/87 [00:21<00:53,  1.15it/s]
+Epoch 2/2:  38%|███▊      | 33/87 [00:28<00:46,  1.17it/s]
+Epoch 2/2:  47%|████▋     | 41/87 [00:33<00:37,  1.23it/s]
+Epoch 2/2:  56%|█████▋    | 49/87 [00:39<00:30,  1.25it/s]
+Epoch 2/2:  66%|██████▌   | 57/87 [00:45<00:23,  1.26it/s]
+Epoch 2/2:  75%|███████▍  | 65/87 [00:50<00:17,  1.29it/s]
+Epoch 2/2:  84%|████████▍ | 73/87 [00:55<00:10,  1.30it/s]
+Epoch 2/2:  93%|█████████▎| 81/87 [01:00<00:04,  1.33it/s]
+Epoch 2/2: 100%|██████████| 87/87 [01:02<00:00,  1.38it/s]
+Epoch 2: Processed 89088 samples in 62.96s (1414.96 images/sec)
+
+Benchmark Summary:
+  Total samples: 178176
+  Wall time: 136.49s
+  Throughput: 1414.96 images/sec
+  Time to first batch: 14.6082s
+Benchmark complete

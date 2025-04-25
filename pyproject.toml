@@ -24,6 +24,7 @@ dependencies = [
     "pyarrow>=19.0.1",
     "pytorch-lightning>=2.5.1",
     "pyyaml>=6.0.2",
+    "seaborn>=0.13.2",
     "sortedcontainers>=2.4.0",
     "soundfile>=0.13.1",
     "torchvision>=0.21.0",

@@ -1,0 +1,13 @@
+DATASET STREAMING BENCHMARK SUMMARY
+Date: 2025-04-25 05:22:48
+CPU Count: 16
+Configuration: Batch Size = 256, Workers = 4, Prefetch Factor = 4
+
+| Dataset | Throughput (img/s) | Time to First Batch (s) | # Samples | Wall Time (s) |
+| --- | --- | --- | --- | --- |
+| WebDataset | 1453.99 | 2.74 | 177028 | 136.94 |
+| MosaicML MDS | 1550.52 | 27.00 | 177028 | 145.49 |
+| LitData | 1626.73 | 0.72 | 177028 | 114.41 |
+| Energon | 783.89 | 31.59 | 177152 | 262.21 |
+
+Total benchmark time: 659.05 seconds
