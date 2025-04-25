@@ -621,8 +621,8 @@ def main():
                         help="Size of shuffle buffer where applicable (default: 100)")
     parser.add_argument("--sweep", action="store_true",
                         help="Run a sweep across worker counts, prefetch factors, and batch sizes")
-    parser.add_argument("--sweep_workers", type=str, default="1,2,4,8,16",
-                        help="Comma-separated list of worker counts for sweep (default: 1,2,4,8,16)")
+    parser.add_argument("--sweep_workers", type=str, default="4,8,16",
+                        help="Comma-separated list of worker counts for sweep (default: 4,8,16)")
     parser.add_argument("--sweep_prefetch", type=str, default="1,2,4",
                         help="Comma-separated list of prefetch factors for sweep (default: 1,2,4)")
     parser.add_argument("--sweep_batch_sizes", type=str, default="128,256,512,1024",
