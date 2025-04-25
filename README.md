@@ -134,7 +134,7 @@ One example configuration: Batch Size = 256, Workers = 8, Prefetch Factor = 2
 | Energon | 1432.81 | 18.83 | 177152 | 148.51 |
 
 Relevant plots: 
-![Throughput Comparison](./results/visualizations/grouped_bar_chart.png)
+![Throughput Comparison](./results/visualizations/batch_size_worker_grid.png)
 ![Time to First Batch](./results/visualizations/ttfb_line_chart.png)
 
 FAQ:
