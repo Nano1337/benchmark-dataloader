@@ -124,7 +124,7 @@ ENERGON RESULTS:
 
 Results: 
 
-Configuration: Batch Size = 256, Workers = 8, Prefetch Factor = 2
+One example configuration: Batch Size = 256, Workers = 8, Prefetch Factor = 2
 
 | Dataset | Throughput (img/s) | Time to First Batch (s) | # Samples | Wall Time (s) |
 | --- | --- | --- | --- | --- |
@@ -133,7 +133,9 @@ Configuration: Batch Size = 256, Workers = 8, Prefetch Factor = 2
 | LitData | 3040.25 | 0.98 | 177028 | 63.63 |
 | Energon | 1432.81 | 18.83 | 177152 | 148.51 |
 
-Total benchmark time: 379.82 seconds
+Relevant plots: 
+![Throughput Comparison](./results/visualizations/grouped_bar_chart.png)
+![Time to First Batch](./results/visualizations/ttfb_line_chart.png)
 
 FAQ:
 1. `ValueError: Profile s3-iad-webdataset not found; available profiles: ['default']`. You should set `MSC_CONFIG` env var to the path of the MSC config file.
