@@ -30,17 +30,33 @@ def create_batch_size_bar_grid(df, output_dir):
     fig, axes = plt.subplots(2, 2, figsize=(16, 12), sharey=True)
     axes = axes.flatten()  # Flatten to make indexing easier
     
-    # Get the color palette used in the grouped_bar_chart for consistency
-    palette = sns.color_palette()
+    # Define custom colors for each dataset with lighter shades
+    # Using brand-specific colors but lightened
+    custom_colors = {
+        'WebDataset': '#4A90E2',  # Lighter blue
+        'litdata': '#9963F7',     # Lighter PyTorch Lightning purple
+        'LitData': '#9963F7',     # Lighter PyTorch Lightning purple (alternate capitalization)
+        'MosaicML': '#B25769',    # Lighter maroon red
+        'MosaicML MDS': '#B25769',# Lighter maroon red (alternate name)
+        'Energon': '#96D128'      # Lighter NVIDIA green
+    }
     
     # Create a bar plot for each worker count in the first 3 positions
     for i, workers in enumerate(target_workers):
         # Filter data for this worker count
         worker_df = agg_df[agg_df['num_workers'] == workers]
         
-        # Create bar plot on the appropriate subplot
+        # Create bar plot on the appropriate subplot with custom colors
         ax = axes[i]
-        bars = sns.barplot(x='batch_size', y='throughput', hue='dataset', data=worker_df, ax=ax, palette=palette)
+        
+        # Get the unique datasets in the current worker subset and create a color map
+        unique_datasets = worker_df['dataset'].unique()
+        colors = [custom_colors.get(d, '#333333') for d in unique_datasets]  # Default to dark gray if not found
+        
+        # Create the plot with custom colors
+        bars = sns.barplot(x='batch_size', y='throughput', hue='dataset', data=worker_df, ax=ax, palette=colors)
+        
+
         
         # Set titles and labels
         ax.set_title(f'Workers: {workers}', fontsize=14)
@@ -110,23 +126,48 @@ def create_line_chart(df, output_dir):
     # Calculate average TTFB across prefetch_factor and batch_size
     agg_df = df.groupby(['dataset', 'num_workers']).agg({'TTFB': 'mean'}).reset_index()
     
-    # Plot lines
-    sns.lineplot(
+    # Define the same custom colors used in the bar grid for consistency
+    custom_colors = {
+        'WebDataset': '#4A90E2',  # Lighter blue
+        'litdata': '#9963F7',     # Lighter PyTorch Lightning purple
+        'LitData': '#9963F7',     # Lighter PyTorch Lightning purple (alternate capitalization)
+        'MosaicML': '#B25769',    # Lighter maroon red
+        'MosaicML MDS': '#B25769',# Lighter maroon red (alternate name)
+        'Energon': '#96D128'      # Lighter NVIDIA green
+    }
+    
+    # Get unique datasets and create a color palette
+    unique_datasets = agg_df['dataset'].unique()
+    colors = [custom_colors.get(d, '#333333') for d in unique_datasets]
+    
+    # Plot lines with custom colors
+    ax = sns.lineplot(
         data=agg_df,
         x='num_workers',
         y='TTFB',
         hue='dataset',
         marker='o',
         linewidth=2.5,
-        markersize=10
+        markersize=10,
+        palette=colors
     )
+    
+    # Add white outlines to markers for better visibility
+    for line in ax.get_lines():
+        line.set_markerfacecolor(line.get_color())
+        line.set_markeredgecolor('white')
+        line.set_markeredgewidth(0.7)
     
     plt.title('Time To First Batch (TTFB) by Number of Workers', fontsize=16)
     plt.xlabel('Number of Workers', fontsize=14)
     plt.ylabel('Average TTFB (seconds)', fontsize=14)
     plt.xticks(df['num_workers'].unique())
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(title='Dataset', fontsize=12)
+    
+    # Create a more prominent legend
+    legend = plt.legend(title='Dataset', fontsize=12, frameon=True)
+    legend.get_frame().set_linewidth(1.0)
+    legend.get_frame().set_edgecolor('gray')
     
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, 'ttfb_line_chart.png'), dpi=300)
